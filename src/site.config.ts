@@ -35,10 +35,6 @@ export const siteConfig: SiteConfig = {
 				github: 'https://github.com/webzma/'
 			}
 		},
-		experience: {},
-		education: {},
-		projects: {},
-		certifications: {},
 		skills: {
 			languages: ['JavaScript', 'TypeScript'],
 			frontend: [
