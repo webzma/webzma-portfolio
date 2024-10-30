@@ -43,7 +43,7 @@ if (imagePath) {
 			/>
 		)
 	}
-	<div class={cn('flex gap-y-1.5', course && 'flex-row', !course && 'flex-col')}>
+	<div class={cn('flex gap-y-1.5', course && 'flex-col md:flex-row', !course && 'flex-col')}>
 		{
 			course && (
 				<div class='mr-4'>
