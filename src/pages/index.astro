@@ -8,14 +8,11 @@ import SkillLayout from '../components/SkillLayout.astro'
 import PostPreview from '@/components/blog/PostPreview.astro'
 
 import { Image } from 'astro:assets'
-import astro from '../assets/about-astro.png'
+import astro from '../assets/webzma-profile.jpeg'
 
 import { getAllPosts, sortMDByDate } from '@/utils'
 
-const languages = ['lorem', 'ipsum']
-const frontend = ['lorem', 'ipsum', 'lorem', 'ipsum', 'lorem', 'ipsum', 'lorem']
-const backend = ['lorem', 'ipsum', 'lorem', 'ipsum']
-const others = ['lorem', 'ipsum', 'lorem', 'ipsum', 'lorem']
+import { siteConfig } from '@/site-config'
 
 const MAX_POSTS = 10
 const allPosts = await getAllPosts()
@@ -28,14 +25,14 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 			<Image
 				src={astro}
 				alt='profile photo'
-				class='h-28 w-auto rounded-full bg-[#FFBE98] p-2'
+				class='h-28 w-28 rounded-full object-cover p-2'
 				loading='eager'
 			/>
 
 			<div class='flex flex-col items-center gap-y-4'>
-				<h1 class='text-3xl font-bold'>Lorem ipsum dolor</h1>
-				<a
-					href='https://github.com/srleom/astro-theme-resume.git'
+				<h1 class='text-3xl font-bold'>Wilberk Alejandro Ledezma</h1>
+
+				<div
 					class='flex flex-row items-center gap-x-3 rounded-3xl border border-input px-4 py-2 text-sm shadow-sm transition-all hover:shadow-md'
 				>
 					<span class='relative flex items-center justify-center'>
@@ -45,10 +42,11 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 						<span class='relative inline-flex h-2 w-2 rounded-full bg-green-400'></span>
 					</span>
 
-					<p class='font-medium'>Get free template</p>
-				</a>
+					<p class='font-medium'>Activo para trabajar</p>
+				</div>
+
 				<div class='flex flex-wrap justify-center gap-x-7 gap-y-3'>
-					<Label title='Lorem Ipsum'>
+					<Label title='Descarga mi CV'>
 						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' class='h-5 w-5' slot='icon'
 							><path
 								fill='currentColor'
@@ -56,7 +54,8 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 							></path></svg
 						>
 					</Label>
-					<Label title='Ipsum'>
+
+					<Label title='Venezuela'>
 						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' class='h-5 w-5' slot='icon'
 							><path
 								fill='currentColor'
@@ -64,10 +63,11 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 							></path></svg
 						>
 					</Label>
+
 					<Label
-						title='Connect on Linkedin'
+						title='Conectemos en LinkedIn'
 						as='a'
-						href='https://www.linkedin.com/in/example/'
+						href='https://www.linkedin.com/in/wilberk-ledezma-201378207/'
 						target='_blank'
 					>
 						<svg
@@ -85,15 +85,16 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 			</div>
 		</section>
 
-		<Section title='About'>
-			<p class='text-muted-foreground'>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis atque quia omnis
-				consectetur, voluptas praesentium veniam blanditiis ratione asperiores accusantium laborum
-				odit commodi quis deserunt incidunt et dolor iure ut! Lorem ipsum dolor sit, amet
-				consectetur adipisicing elit. Alias quia, doloribus ut beatae perspiciatis voluptatibus.
+		<Section title='Acerca'>
+			<p class='text-lg text-muted-foreground'>
+				Desarrollador Frontend Junior con 1 año de experiencia en desarrollo web. Habilidad
+				comprobada en la construcción de aplicaciones web escalables utilizando ReactJS, Next.js y
+				Astro. Constante aprendizaje y búsqueda de nuevas soluciones para mejorar la experiencia del
+				usuario en entornos reales.
 			</p>
 		</Section>
-		{
+
+		<!-- {
 			allPostsByDate.length > 0 && (
 				<Section title='Posts'>
 					<ul class='flex flex-col gap-y-2'>
@@ -105,65 +106,43 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 					</ul>
 				</Section>
 			)
-		}
+		} -->
 
-		<Section title='Experience'>
+		<Section title='Experiencia'>
 			<Card
-				heading='Lorem Ipsum'
-				subheading='Sit amet consectetur'
-				date='Dec 2022 - Nov 2023'
-				imagePath='/src/assets/about-astro.png'
+				heading='Frontend Developer'
+				subheading='Seriesly'
+				date='Feb 2024 - Ago 2024'
+				imagePath='/src/assets/seriesly.png'
 				altText='Lorem, ipsum dolor sit'
 				imageClass='h-12 w-auto md:-left-16'
 			>
-				<ul class='ml-4 list-disc text-muted-foreground'>
+				<ul class='ml-4 flex list-disc flex-col gap-y-2 text-muted-foreground'>
 					<li>
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore debitis recusandae, ut
-						molestiae laboriosam pariatur!
+						Maquetación: Implementación de la estructura y diseño visual del sitio web utilizando
+						HTML y CSS (TailwindCSS).
 
-						<li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur!</li>
+						<li>
+							Desarrollo frontend: Implementación de la estructura y diseño visual del sitio web
+							utilizando HTML y CSS (TailwindCSS). Se complementó para darle vida al proyecto con
+							Alpine.js
+						</li>
+
+						<li>
+							Optimización: Asegurar un rendimiento óptimo del sitio web en diferentes navegadores y
+							dispositivos.
+						</li>
+
+						<li>
+							Mantenimiento: Corrección de errores y actualización del código para garantizar el
+							buen funcionamiento del sitio web
+						</li>
 					</li>
 				</ul>
 			</Card>
-			<Card
-				heading='Lorem Ipsum'
-				subheading='Sit amet consectetur'
-				date='Dec 2022 - Nov 2023'
-				imagePath='/src/assets/about-astro.png'
-				altText='Lorem, ipsum dolor sit'
-				imageClass='h-12 w-auto md:-left-16'
-			/>
 		</Section>
 
-		<Section title='Education'>
-			<Card
-				heading='Lorem Ipsum'
-				subheading='Sit amet consectetur'
-				date='Dec 2022 - Nov 2023'
-				imagePath='/src/assets/about-astro.png'
-				altText='Lorem, ipsum dolor sit'
-				imageClass='h-12 w-auto md:-left-16'
-			>
-				<ul class='ml-4 list-disc text-muted-foreground'>
-					<li>
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore debitis recusandae, ut
-						molestiae laboriosam pariatur!
-
-						<li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur!</li>
-					</li>
-				</ul>
-			</Card>
-			<Card
-				heading='Lorem Ipsum'
-				subheading='Sit amet consectetur'
-				date='Dec 2022 - Nov 2023'
-				imagePath='/src/assets/about-astro.png'
-				altText='Lorem, ipsum dolor sit'
-				imageClass='h-12 w-auto md:-left-16'
-			/>
-		</Section>
-
-		<Section title='Projects'>
+		<Section title='Proyectos'>
 			<div class='flex flex-col gap-y-3 sm:flex-row sm:gap-x-3 sm:gap-y-0'>
 				<ProjectCard
 					href='https://www.google.com'
@@ -184,47 +163,51 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 			</div>
 		</Section>
 
-		<Section title='Certifications'>
+		<Section title='Educación'>
 			<Card
-				as='a'
-				heading='Lorem ipsum, dolor sit amet consectetur adipisicing.'
-				subheading='Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam dicta magni consequuntur corrupti.'
-				date='Mar 2024 - Mar 2024'
-				imagePath='/src/assets/about-astro.png'
+				heading='Universidad Politécnica Territorial "Aristides Bastidas"'
+				subheading='Ingeniero en informática'
+				date='Feb 2022 - Nov 2026'
+				imagePath='/src/assets/coming-soon.png'
 				altText='Lorem, ipsum dolor sit'
-				imageClass='h-11 w-auto md:-left-16'
-				href='https://www.google.com'
-			/>
-			<Card
-				as='a'
-				heading='Lorem ipsum, dolor sit amet'
-				subheading='Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam dicta.'
-				date='Mar 2029 - Mar 2032'
-				imagePath='/src/assets/about-astro.png'
-				altText='Lorem, ipsum dolor sit'
-				imageClass='h-11 w-auto md:-left-16'
-				href='https://www.google.com'
+				imageClass='h-12 w-auto md:-left-16'
 			/>
 		</Section>
 
-		<Section title='Skills'>
-			<SkillLayout title='Languages' skills={languages} />
-			<SkillLayout title='Frontend' skills={frontend} />
-			<SkillLayout title='Backend' skills={backend} />
-			<SkillLayout title='Others' skills={others} />
+		<Section title='Certificaciones'>
+			<Card
+				as='a'
+				heading='Curso de React Básico'
+				href='https://platzi.com/p/webzma/curso/1758-html-practico/diploma/detalle/'
+				course='true'
+				courseImagePath='/images/basic-react-course.webp'
+				date='20/05/2023'
+			/>
+
+			<Card
+				as='a'
+				heading='Curso de React.js: Patrones de Render y Composición'
+				href='https://platzi.com/p/webzma/curso/1758-html-practico/diploma/detalle/'
+				course='true'
+				courseImagePath='/images/render-patterns-react-course.webp'
+				date='20/05/2023'
+			/>
+
+			<Card
+				as='a'
+				heading='Pruba técnica: E-commerce Profesional con React.js'
+				href='https://platzi.com/p/webzma/curso/7397-laboratorio-react/diploma/detalle/'
+				course='true'
+				courseImagePath='/images/tailwind-react-course.webp'
+				date='20/05/2023'
+			/>
+		</Section>
+
+		<Section title='Tecnologías'>
+			<SkillLayout title='Languages' skills={siteConfig.info.skills.languages} />
+			<SkillLayout title='Frontend' skills={siteConfig.info.skills.frontend} />
+			<SkillLayout title='Backend' skills={siteConfig.info.skills.backend} />
+			<SkillLayout title='Others' skills={siteConfig.info.skills.others} />
 		</Section>
 	</div>
-	<a
-		href='https://github.com/srleom/astro-theme-resume.git'
-		class='mt-16 flex flex-row items-center gap-x-3 rounded-3xl border border-input px-4 py-2 text-sm shadow-sm transition-all hover:shadow-md'
-	>
-		<span class='relative flex items-center justify-center'>
-			<span
-				class='absolute inline-flex h-2 w-2 animate-ping rounded-full border border-green-400 bg-green-400 opacity-75'
-			></span>
-			<span class='relative inline-flex h-2 w-2 rounded-full bg-green-400'></span>
-		</span>
-
-		<p class='font-medium'>Get free template</p>
-	</a>
 </PageLayout>

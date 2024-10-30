@@ -8,6 +8,22 @@ export type SiteConfig = {
 		locale: string | string[] | undefined
 		options: Intl.DateTimeFormatOptions
 	}
+	info: {
+		profile: {
+			avatar: string
+			name: string
+			username: string
+			description: string
+			location: string
+			socials: {}
+		}
+		skills: {
+			languages: string[]
+			frontend: string[]
+			backend: string[]
+			others: string[]
+		}
+	}
 }
 
 export type PaginationLink = {

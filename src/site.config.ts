@@ -3,15 +3,15 @@ import type { AstroExpressiveCodeOptions } from 'astro-expressive-code'
 
 export const siteConfig: SiteConfig = {
 	// Used as both a meta property (src/components/BaseHead.astro L:31 + L:49) & the generated satori png (src/pages/og-image/[slug].png.ts)
-	author: 'SRLEOM',
+	author: 'webzma',
 	// Meta property used to construct the meta title property, found in src/components/BaseHead.astro L:11
 	title: 'astro-theme-resume',
 	// Meta property used as the default description meta property
 	description: 'The official Astro Resume Theme',
 	// HTML lang property, found in src/layouts/Base.astro L:18
-	lang: 'en-GB',
+	lang: 'es_ES',
 	// Meta property, found in src/components/BaseHead.astro L:42
-	ogLocale: 'en_GB',
+	ogLocale: 'en_ES',
 	// Date.prototype.toLocaleDateString() parameters, found in src/utils/date.ts.
 	date: {
 		locale: 'en-GB',
@@ -19,6 +19,41 @@ export const siteConfig: SiteConfig = {
 			day: 'numeric',
 			month: 'short',
 			year: 'numeric'
+		}
+	},
+
+	info: {
+		profile: {
+			avatar: '/avatar.jpg',
+			name: 'Wilberk Alejandro Ledezma',
+			username: 'webzma',
+			description:
+				'Desarrollador Frontend Junior con 1 año de experiencia en desarrollo web. Habilidad comprobada en la construcción de aplicaciones web escalables utilizando ReactJS, Next.js y Astro. Constante aprendizaje y búsqueda de nuevas soluciones para mejorar la experiencia del usuario en entornos reales.',
+			location: 'Venezuela',
+			socials: {
+				linkedin: 'https://www.linkedin.com/in/wilberk-ledezma-201378207/',
+				github: 'https://github.com/webzma/'
+			}
+		},
+		experience: {},
+		education: {},
+		projects: {},
+		certifications: {},
+		skills: {
+			languages: ['JavaScript', 'TypeScript'],
+			frontend: [
+				'HTML',
+				'CSS',
+				'JavaScript',
+				'React',
+				'TailwindCSS',
+				'NextJS',
+				'Astro',
+				'Shadcn',
+				'Alpine.js'
+			],
+			backend: ['Node.js', 'Express', 'MySQL', 'Postgres'],
+			others: ['Git', 'GitHub', 'GitLab', 'Jira', 'Figma']
 		}
 	}
 }
