@@ -8,11 +8,14 @@ import SkillLayout from '../components/SkillLayout.astro'
 import PostPreview from '@/components/blog/PostPreview.astro'
 
 import { Image } from 'astro:assets'
-import astro from '../assets/webzma-profile.jpeg'
+import profileImage from '../assets/webzma-profile.jpeg'
+import countriesAppImage from '../assets/countries-app-project.jpg'
+import todoAppImage from '../assets/todo-app-project.jpg'
 
 import { getAllPosts, sortMDByDate } from '@/utils'
 
 import { siteConfig } from '@/site-config'
+import Button from '@/components/Button.astro'
 
 const MAX_POSTS = 10
 const allPosts = await getAllPosts()
@@ -23,7 +26,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 	<div class='flex w-full flex-col gap-y-10'>
 		<section class='flex flex-col items-center gap-y-7'>
 			<Image
-				src={astro}
+				src={profileImage}
 				alt='profile photo'
 				class='h-28 w-28 rounded-full object-cover p-2'
 				loading='eager'
@@ -143,23 +146,38 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 		</Section>
 
 		<Section title='Proyectos'>
-			<div class='flex flex-col gap-y-3 sm:flex-row sm:gap-x-3 sm:gap-y-0'>
+			<div class='grid grid-cols-2 sm:gap-x-3 sm:gap-y-0'>
 				<ProjectCard
-					href='https://www.google.com'
-					heading='Consectetur'
-					subheading='Lorem ipsum dolor sit amet consectetur adipisicing elit.'
-					imagePath='/src/assets/coming-soon.png'
+					href='https://webzma.github.io/countries-app'
+					heading='Countries App'
+					subheading='App que te muestra información relevante de todos los países del mundo.'
+					imagePath={countriesAppImage}
 					altText='Example'
-					class='w-full sm:w-1/2'
-				/>
+					class='w-full'
+				>
+					<div class='flex flex-row gap-2 px-4'>
+						<Button as='button' title='HTML' style='pill' />
+						<Button as='button' title='CSS' style='pill' />
+						<Button as='button' title='JavaScript	' style='pill' />
+						<Button as='button' title='React	' style='pill' />
+					</div>
+				</ProjectCard>
+
 				<ProjectCard
-					as='div'
-					heading='Coming soon...'
-					subheading=''
-					imagePath='/src/assets/coming-soon.png'
-					altText='Lorem, ipsum dolor sit'
-					class='w-full sm:w-1/2'
-				/>
+					href='https://webzma.github.io/countries-app'
+					heading='Todo App'
+					subheading='Una app minimalista para registrar las tareas cotidianas.'
+					imagePath={todoAppImage}
+					altText='Example'
+					class='w-full'
+				>
+					<div class='flex flex-row gap-2 p-4'>
+						<Button as='button' title='HTML' style='pill' />
+						<Button as='button' title='CSS' style='pill' />
+						<Button as='button' title='JavaScript	' style='pill' />
+						<Button as='button' title='React	' style='pill' />
+					</div>
+				</ProjectCard>
 			</div>
 		</Section>
 
