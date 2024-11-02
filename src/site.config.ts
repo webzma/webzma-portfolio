@@ -5,9 +5,9 @@ export const siteConfig: SiteConfig = {
 	// Used as both a meta property (src/components/BaseHead.astro L:31 + L:49) & the generated satori png (src/pages/og-image/[slug].png.ts)
 	author: 'webzma',
 	// Meta property used to construct the meta title property, found in src/components/BaseHead.astro L:11
-	title: 'astro-theme-resume',
+	title: 'Wilberk Ledezma - Frontend Developer',
 	// Meta property used as the default description meta property
-	description: 'The official Astro Resume Theme',
+	description: 'Desarrollador Frontend Junior con 1 año de experiencia en desarrollo web.',
 	// HTML lang property, found in src/layouts/Base.astro L:18
 	lang: 'es_ES',
 	// Meta property, found in src/components/BaseHead.astro L:42
