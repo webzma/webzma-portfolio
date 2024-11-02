@@ -6,7 +6,7 @@ import Button from '@/components/Button.astro'
 const DESIGN = [
 	{
 		name: 'Figma',
-		description: 'Design Tool',
+		description: 'Herramienta de diseño',
 		href: 'https://www.figma.com/',
 		iconPath: 'figma',
 		iconBgColour: '#000001'
@@ -15,25 +15,18 @@ const DESIGN = [
 
 const PRODUCTIVITY = [
 	{
-		name: 'Arc',
-		description: 'Browser',
-		href: 'https://arc.net/',
-		iconPath: 'arc',
+		name: 'Brave',
+		description: 'Navegador',
+		href: 'https://brave.com/',
+		iconPath: 'brave',
 		iconBgColour: '#414350'
 	},
 	{
 		name: 'Notion',
-		description: 'Note Taking',
+		description: 'Organizacíon',
 		href: 'https://www.notion.so/product',
 		iconPath: 'notion',
 		iconBgColour: '#EFEFEE'
-	},
-	{
-		name: 'Obsidian',
-		description: 'Long-form Writing',
-		href: 'https://obsidian.md/',
-		iconPath: 'obsidian',
-		iconBgColour: '#7A3EE8'
 	}
 ]
 
@@ -76,12 +69,12 @@ const DEVELOPMENT = [
 		<div class='mt-5 flex w-full flex-col gap-y-10'>
 			<div>
 				<h1 class='mb-1 text-2xl font-bold'>Tools</h1>
-				<p>Tools and software I use daily</p>
+				<p>Software y herraminetas que utilizo en mi día a día</p>
 			</div>
 
-			<ToolSection title='Design' tools={DESIGN} />
-			<ToolSection title='Productivity' tools={PRODUCTIVITY} />
-			<ToolSection title='Development' tools={DEVELOPMENT} />
+			<ToolSection title='Diseño' tools={DESIGN} />
+			<ToolSection title='Productividad' tools={PRODUCTIVITY} />
+			<ToolSection title='Desarrollo' tools={DEVELOPMENT} />
 		</div>
 	</div>
 </PageLayout>
