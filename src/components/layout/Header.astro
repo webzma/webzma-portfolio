@@ -191,8 +191,8 @@
 
 	document.addEventListener('click', (event) => {
 		const menuMobile = document.getElementById('menuMobile')
-		const isClickInsideMenuButton = mobileMenuButton?.contains(event.target)
-		const isClickInsideMenu = menuMobile?.contains(event.target)
+		const isClickInsideMenuButton = mobileMenuButton?.contains(event.target as Node)
+		const isClickInsideMenu = menuMobile?.contains(event.target as Node)
 
 		if (
 			!isClickInsideMenuButton &&
