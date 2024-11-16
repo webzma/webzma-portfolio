@@ -188,4 +188,18 @@
 		const menuMobile = document.getElementById('menuMobile')
 		menuMobile?.classList.toggle('hidden')
 	}
+
+	document.addEventListener('click', (event) => {
+		const menuMobile = document.getElementById('menuMobile')
+		const isClickInsideMenuButton = mobileMenuButton?.contains(event.target)
+		const isClickInsideMenu = menuMobile?.contains(event.target)
+
+		if (
+			!isClickInsideMenuButton &&
+			!isClickInsideMenu &&
+			!menuMobile?.classList.contains('hidden')
+		) {
+			menuMobile?.classList.add('hidden')
+		}
+	})
 </script>
