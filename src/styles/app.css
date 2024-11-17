@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@import url('https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;700&display=swap');
 @font-face {
 	font-family: 'Satoshi';
 	src: url('/fonts/Satoshi-Variable.ttf');
@@ -17,6 +17,10 @@
 }
 
 @layer base {
+	code {
+		font-family: 'Cascadia Code', monospace;
+	}
+
 	:root {
 		--background: 210 33% 99%;
 		--foreground: 240 10% 3.9%;
