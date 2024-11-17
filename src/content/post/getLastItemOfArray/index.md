@@ -22,7 +22,7 @@ console.log(lastElement) // 5
 
 ### Usando el método `findLast`
 
-Otra forma muy interesante de obtener el último elemento de un array es utilizando el método finLast de los arrays, este método transforma el array en orden de reversa y retorna el elemento según la condición.
+Otra forma muy interesante de obtener el último elemento de un array es utilizando el método findLast de los arrays, este método transforma el array en orden de reversa y retorna el elemento según la condición.
 
 ```javascript
 const array = [1, 2, 3, 4, 5]
@@ -32,7 +32,7 @@ console.log(lastElement) // 5
 
 ### Usando el método `at()`, mi forma favorita 😀
 
-Una de las formas más pro y actualizadas es utilizando el método `at()`, este método recibe como parámetro el índice y te devolverá el elemento correspondiente, para obtener el último solo le pasamos `-1` 🪄.
+Una de las formas más pro y actualizadas es utilizando el método `at()`, este método recibe como parámetro el índice, te devolverá el elemento correspondiente a ese índice, para obtener el último solo le pasamos como parámetro el valor `-1` 🪄.
 
 ```javascript
 const array = [1, 2, 3, 4, 5]
