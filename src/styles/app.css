@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;700&display=swap');
-
 @font-face {
 	font-family: 'Satoshi';
 	src: url('/fonts/Satoshi-Variable.ttf');
