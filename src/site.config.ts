@@ -36,20 +36,55 @@ export const siteConfig: SiteConfig = {
 			}
 		},
 		skills: {
-			languages: ['JavaScript', 'TypeScript'],
+			languages: ['JavaScript', 'TypeScript', 'HTML5', 'CSS3', 'SQL'],
 			frontend: [
 				'HTML',
 				'CSS',
+				'SCSS',
 				'JavaScript',
+				'TypeScript',
 				'React',
-				'TailwindCSS',
-				'NextJS',
+				'Next.js',
 				'Astro',
-				'Shadcn',
-				'Alpine.js'
+				'TailwindCSS',
+				'Shadcn/ui',
+				'Alpine.js',
+				'Vite',
+				'Redux',
+				'React Query',
+				'Vitest',
+				'Jest'
 			],
-			backend: ['Node.js', 'Express', 'MySQL', 'Postgres'],
-			others: ['Git', 'GitHub', 'GitLab', 'Jira', 'Figma']
+			backend: [
+				'Node.js',
+				'Express',
+				'NestJS',
+				'FastAPI',
+				'MySQL',
+				'PostgreSQL',
+				'MongoDB',
+				'Redis',
+				'Prisma',
+				'Docker',
+				'Payload CMS'
+			],
+			others: [
+				'Git',
+				'GitHub',
+				'GitLab',
+				'Vercel',
+				'Netlify',
+				'AWS',
+				'Cloudflare',
+				'Jira',
+				'Slack',
+				'Figma',
+				'VS Code',
+				'Postman',
+				'Chrome DevTools',
+				'ESLint',
+				'Prettier'
+			]
 		}
 	}
 }

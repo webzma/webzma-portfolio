@@ -6,44 +6,168 @@ import Button from '@/components/Button.astro'
 const DESIGN = [
 	{
 		name: 'Figma',
-		description: 'Herramienta de diseño',
+		description: 'Diseño de interfaces',
 		href: 'https://www.figma.com/',
 		iconPath: 'figma',
-		iconBgColour: '#000001'
+		iconBgColour: '#F24E1E'
 	}
 ]
 
 const PRODUCTIVITY = [
 	{
-		name: 'Brave',
-		description: 'Navegador',
-		href: 'https://brave.com/',
-		iconPath: 'brave',
-		iconBgColour: '#414350'
-	},
-	{
 		name: 'Notion',
-		description: 'Organizacíon',
+		description: 'Organización y notas',
 		href: 'https://www.notion.so/product',
 		iconPath: 'notion',
 		iconBgColour: '#EFEFEE'
+	},
+	{
+		name: 'Slack',
+		description: 'Comunicación en equipo',
+		href: 'https://slack.com/',
+		iconPath: 'slack',
+		iconBgColour: '#4A154B'
 	}
 ]
 
 const DEVELOPMENT = [
 	{
 		name: 'VS Code',
-		description: 'IDE',
+		description: 'Editor de código',
 		href: 'https://code.visualstudio.com/',
 		iconPath: 'vscode',
-		iconBgColour: '#2C2C32'
+		iconBgColour: '#007ACC'
 	},
 	{
+		name: 'GitHub',
+		description: 'Control de versiones',
+		href: 'https://github.com/',
+		iconPath: 'github',
+		iconBgColour: '#181717'
+	},
+	{
+		name: 'Payload',
+		description: 'CMS',
+		href: 'https://payloadcms.com/',
+		iconPath: 'payload',
+		iconBgColour: '#000000'
+	},
+	{
+		name: 'Strapi',
+		description: 'CMS',
+		href: 'https://strapi.io/',
+		iconPath: 'strapi',
+		iconBgColour: '#2F2E88'
+	},
+	{
+		name: 'Postman',
+		description: 'Testing APIs',
+		href: 'https://www.postman.com/',
+		iconPath: 'postman',
+		iconBgColour: '#FF6C37'
+	},
+	{
+		name: 'Shopify',
+		description: 'CMS',
+		href: 'https://www.shopify.com/',
+		iconPath: 'shopify',
+		iconBgColour: '#95BF46'
+	},
+	{
+		name: 'Docker',
+		description: 'Contenedores',
+		href: 'https://www.docker.com/',
+		iconPath: 'docker',
+		iconBgColour: '#2496ED'
+	},
+	{
+		name: 'Vite',
+		description: 'Vite',
+		href: 'https://vitejs.dev/',
+		iconPath: 'vite',
+		iconBgColour: '#646CFF'
+	},
+	{
+		name: 'FastAPI',
+		description: 'FastAPI',
+		href: 'https://fastapi.tiangolo.com/',
+		iconPath: 'fastapi',
+		iconBgColour: '#009688'
+	},
+	{
+		name: 'Turborepo',
+		description: 'Turborepo',
+		href: 'https://turborepo.com/',
+		iconPath: 'turborepo',
+		iconBgColour: '#000000'
+	},
+	{
+		name: 'Vercel',
+		description: 'Deploy frontend',
+		href: 'https://vercel.com/',
+		iconPath: 'vercel',
+		iconBgColour: '#000000'
+	},
+
+	{
 		name: 'ChatGPT',
-		description: 'AI',
+		description: 'Asistente IA',
 		href: 'https://chat.openai.com/',
 		iconPath: 'chatgpt',
 		iconBgColour: '#06A67F'
+	},
+
+	{
+		name: 'Git',
+		description: 'Control de versiones',
+		href: 'https://git-scm.com/',
+		iconPath: 'git',
+		iconBgColour: '#F05032'
+	}
+]
+
+const FRAMEWORKS = [
+	{
+		name: 'React',
+		description: 'Librería UI',
+		href: 'https://react.dev/',
+		iconPath: 'react',
+		iconBgColour: '#61DAFB'
+	},
+	{
+		name: 'Next.js',
+		description: 'Framework React',
+		href: 'https://nextjs.org/',
+		iconPath: 'nextjs',
+		iconBgColour: '#000000'
+	},
+	{
+		name: 'Astro',
+		description: 'Framework web',
+		href: 'https://astro.build/',
+		iconPath: 'astro',
+		iconBgColour: '#FF5D01'
+	},
+	{
+		name: 'TailwindCSS',
+		description: 'Framework CSS',
+		href: 'https://tailwindcss.com/',
+		iconPath: 'tailwindcss',
+		iconBgColour: '#06B6D4'
+	},
+	{
+		name: 'TypeScript',
+		description: 'JavaScript tipado',
+		href: 'https://www.typescriptlang.org/',
+		iconPath: 'typescript',
+		iconBgColour: '#3178C6'
+	},
+	{
+		name: 'Node.js',
+		description: 'Runtime JavaScript',
+		href: 'https://nodejs.org/',
+		iconPath: 'nodejs',
+		iconBgColour: '#339933'
 	}
 ]
 ---
@@ -72,9 +196,10 @@ const DEVELOPMENT = [
 				<p>Software y herraminetas que utilizo en mi día a día</p>
 			</div>
 
+			<ToolSection title='Frameworks y Lenguajes' tools={FRAMEWORKS} />
+			<ToolSection title='Desarrollo' tools={DEVELOPMENT} />
 			<ToolSection title='Diseño' tools={DESIGN} />
 			<ToolSection title='Productividad' tools={PRODUCTIVITY} />
-			<ToolSection title='Desarrollo' tools={DEVELOPMENT} />
 		</div>
 	</div>
 </PageLayout>

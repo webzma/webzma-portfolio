@@ -7,9 +7,7 @@ import Label from '../components/Label.astro'
 import SkillLayout from '../components/SkillLayout.astro'
 
 import { Image } from 'astro:assets'
-import profileImage from '../assets/webzma-profile.jpeg'
-import countriesAppImage from '../assets/countries-app-project.jpg'
-import todoAppImage from '../assets/todo-app-project.jpg'
+import profileImage from '../assets/webzma.png'
 
 import { getAllPosts, sortMDByDate } from '@/utils'
 
@@ -18,33 +16,41 @@ import Button from '@/components/Button.astro'
 
 const MAX_POSTS = 10
 const allPosts = await getAllPosts()
-const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 ---
 
 <PageLayout meta={{ title: 'Home' }}>
 	<div class='flex w-full flex-col gap-y-10'>
-		<section class='flex flex-col items-center gap-y-7'>
-			<Image
-				src={profileImage}
-				alt='profile photo'
-				class='h-28 w-28 rounded-full object-cover p-2'
-				loading='eager'
-			/>
+		<section class='animate-fade-in-up flex flex-col items-center gap-y-7'>
+			<div class='group relative'>
+				<div
+					class='0 absolute -inset-1 animate-pulse rounded-full transition-opacity duration-500 group-hover:opacity-100'
+				>
+				</div>
+				<Image
+					src={profileImage}
+					alt='profile photo'
+					class='relative h-32 w-32 rounded-full object-cover shadow-2xl ring-4 ring-background'
+					loading='eager'
+				/>
+			</div>
 
 			<div class='flex flex-col items-center gap-y-4'>
-				<h1 class='text-center text-3xl font-bold'>Wilberk Alejandro Ledezma</h1>
+				<div class='space-y-2 text-center'>
+					<h1 class='text-4xl font-bold tracking-tight sm:text-5xl'>Wilberk Alejandro Ledezma</h1>
+					<p class='text-xl font-medium text-muted-foreground'>Frontend Developer</p>
+				</div>
 
 				<div
-					class='flex flex-row items-center gap-x-3 rounded-3xl border border-input px-4 py-2 text-sm shadow-sm transition-all hover:shadow-md'
+					class='flex flex-row items-center gap-x-3 rounded-full border border-green-500/30 bg-green-500/10 px-4 py-2 text-sm shadow-sm transition-all hover:bg-green-500/20 hover:shadow-md'
 				>
 					<span class='relative flex items-center justify-center'>
 						<span
-							class='absolute inline-flex h-2 w-2 animate-ping rounded-full border border-green-400 bg-green-400 opacity-75'
+							class='absolute inline-flex h-2.5 w-2.5 animate-ping rounded-full bg-green-500 opacity-75'
 						></span>
-						<span class='relative inline-flex h-2 w-2 rounded-full bg-green-400'></span>
+						<span class='relative inline-flex h-2.5 w-2.5 rounded-full bg-green-500'></span>
 					</span>
 
-					<p class='font-medium'>Disponible para trabajar</p>
+					<p class='font-medium text-green-700 dark:text-green-400'>Disponible para trabajar</p>
 				</div>
 
 				<div class='flex flex-wrap justify-center gap-x-7 gap-y-3'>
@@ -99,37 +105,63 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 			</p>
 		</Section>
 
-		<Section title='Experiencia'>
+		<Section title='Experiencia' id='experiencia'>
+			<Card
+				heading='Full Stack Engineer'
+				subheading='StudioPrime · Full-time · Remoto'
+				date='Oct 2024 - Feb 2025'
+			>
+				<ul class='ml-4 flex list-disc flex-col gap-y-2 text-muted-foreground'>
+					<li>Desarrollo de aplicaciones web full stack con Next.js y Payload CMS</li>
+					<li>Integración de sistemas y APIs para soluciones de sitios web de marketing</li>
+					<li>Implementación de arquitecturas escalables y mantenibles</li>
+				</ul>
+				<div class='mt-3 flex flex-wrap gap-2'>
+					<Button as='button' title='Next.js' style='pill' />
+					<Button as='button' title='Payload CMS' style='pill' />
+					<Button as='button' title='TypeScript' style='pill' />
+					<Button as='button' title='React' style='pill' />
+				</div>
+			</Card>
+
 			<Card
 				heading='Frontend Developer'
-				subheading='Seriesly'
+				subheading='Houston IT Developers LLC · Full-time · Remoto'
+				date='May 2024 - Nov 2024'
+			>
+				<ul class='ml-4 flex list-disc flex-col gap-y-2 text-muted-foreground'>
+					<li>Creación de soluciones digitales a medida para clientes diversos</li>
+					<li>Desarrollo de CRMs personalizados y landing pages de alto impacto</li>
+					<li>Optimización de interfaces de usuario para mejorar la gestión de datos</li>
+					<li>Maximización de tasas de conversión para instituciones y empresas privadas</li>
+				</ul>
+				<div class='mt-3 flex flex-wrap gap-2'>
+					<Button as='button' title='React' style='pill' />
+					<Button as='button' title='Next.js' style='pill' />
+					<Button as='button' title='TailwindCSS' style='pill' />
+					<Button as='button' title='TypeScript' style='pill' />
+				</div>
+			</Card>
+
+			<Card
+				heading='Frontend Developer'
+				subheading='Seriesly · Full-time'
 				date='Feb 2024 - Ago 2024'
 				imagePath='/src/assets/seriesly.png'
-				altText='Lorem, ipsum dolor sit'
+				altText='Seriesly logo'
 				imageClass='h-12 w-auto md:-left-16'
 			>
 				<ul class='ml-4 flex list-disc flex-col gap-y-2 text-muted-foreground'>
-					<li>
-						Maquetación: Implementación de la estructura y diseño visual del sitio web utilizando
-						HTML y CSS (TailwindCSS).
-
-						<li>
-							Desarrollo frontend: Implementación de la estructura y diseño visual del sitio web
-							utilizando HTML y CSS (TailwindCSS). Se complementó para darle vida al proyecto con
-							Alpine.js
-						</li>
-
-						<li>
-							Optimización: Asegurar un rendimiento óptimo del sitio web en diferentes navegadores y
-							dispositivos.
-						</li>
-
-						<li>
-							Mantenimiento: Corrección de errores y actualización del código para garantizar el
-							buen funcionamiento del sitio web
-						</li>
-					</li>
+					<li>Maquetación e implementación del diseño visual con HTML y TailwindCSS</li>
+					<li>Desarrollo frontend con Alpine.js para interactividad</li>
+					<li>Optimización del rendimiento en diferentes navegadores y dispositivos</li>
+					<li>Mantenimiento y corrección de errores del sitio web</li>
 				</ul>
+				<div class='mt-3 flex flex-wrap gap-2'>
+					<Button as='button' title='HTML' style='pill' />
+					<Button as='button' title='TailwindCSS' style='pill' />
+					<Button as='button' title='Alpine.js' style='pill' />
+				</div>
 			</Card>
 		</Section>
 
@@ -139,15 +171,15 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 					href='https://webzma.github.io/countries-app'
 					heading='Countries App'
 					subheading='App que te muestra información relevante de todos los países del mundo.'
-					imagePath={countriesAppImage}
+					imagePath='/images/countries.webp'
 					altText='Example'
 					class='w-full'
 				>
 					<div class='flex flex-row gap-2 p-4'>
 						<Button as='button' title='HTML' style='pill' />
 						<Button as='button' title='CSS' style='pill' />
-						<Button as='button' title='JavaScript	' style='pill' />
-						<Button as='button' title='React	' style='pill' />
+						<Button as='button' title='JavaScript' style='pill' />
+						<Button as='button' title='React' style='pill' />
 					</div>
 				</ProjectCard>
 
@@ -155,21 +187,69 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 					href='https://webzma-todoapp.vercel.app/'
 					heading='Todo App'
 					subheading='Una app minimalista para llevar el control de lo que haces.'
-					imagePath={todoAppImage}
+					imagePath='/images/todoapp.webp'
 					altText='Example'
 					class='w-full'
 				>
-					<div class='flex flex-row gap-2 p-4'>
+					<div class='flex flex-wrap gap-2 p-4'>
 						<Button as='button' title='HTML' style='pill' />
 						<Button as='button' title='CSS' style='pill' />
-						<Button as='button' title='JavaScript	' style='pill' />
-						<Button as='button' title='React	' style='pill' />
+						<Button as='button' title='JavaScript' style='pill' />
+						<Button as='button' title='React' style='pill' />
+					</div>
+				</ProjectCard>
+
+				<ProjectCard
+					href='https://zellarotile.com'
+					heading='Zellarotile'
+					subheading='Una tienda online de tiles'
+					imagePath='/images/zellarotile-project.jpeg'
+					altText='Example'
+					class='w-full'
+				>
+					<div class='flex flex-wrap gap-2 p-4'>
+						<Button as='button' title='Next.js' style='pill' />
+						<Button as='button' title='TailwindCSS' style='pill' />
+						<Button as='button' title='Shadcn' style='pill' />
+						<Button as='button' title='Shopify' style='pill' />
+					</div>
+				</ProjectCard>
+
+				<ProjectCard
+					href='https://lafreskafiesta.es'
+					heading='Lafreska Fiesta'
+					subheading='Sitio web para la fiesta de Lafreska'
+					imagePath='/images/lafreskafiesta.jpeg'
+					altText='Example'
+					class='w-full'
+				>
+					<div class='flex flex-wrap gap-2 p-4'>
+						<Button as='button' title='Next.js' style='pill' />
+						<Button as='button' title='TailwindCSS' style='pill' />
+						<Button as='button' title='Shadcn' style='pill' />
+						<Button as='button' title='Payload CMS' style='pill' />
+					</div>
+				</ProjectCard>
+
+				<ProjectCard
+					href='https://gummylife.mx'
+					heading='GummyLife'
+					subheading='Sitio web para tienda en línea de gomitas vitamínicas deliciosas y efectivas'
+					imagePath='/images/gummylife.png'
+					altText='Example'
+					class='w-full'
+				>
+					<div class='flex flex-wrap gap-2 p-4'>
+						<Button as='button' title='Next.js' style='pill' />
+						<Button as='button' title='TailwindCSS' style='pill' />
+						<Button as='button' title='Shadcn' style='pill' />
+						<Button as='button' title='Shopify' style='pill' />
 					</div>
 				</ProjectCard>
 
 				<ProjectCard
 					href='https://pokedex-webzma.vercel.app/'
-					heading='Todo App'
+					heading='Pokedex'
 					subheading='Una app minimalista para registrar las tareas cotidianas.'
 					imagePath='/images/pokedex.jpeg'
 					altText='Pokedex App'
@@ -178,11 +258,11 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 					<div class='flex h-auto flex-wrap gap-2 p-4'>
 						<Button as='button' title='HTML' style='pill' />
 						<Button as='button' title='CSS' style='pill' />
-						<Button as='button' title='JavaScript	' style='pill' />
-						<Button as='button' title='React	' style='pill' />
-						<Button as='button' title='NextJS	' style='pill' />
-						<Button as='button' title='Tailwind	' style='pill' />
-						<Button as='button' title='Shadcn	' style='pill' />
+						<Button as='button' title='JavaScript' style='pill' />
+						<Button as='button' title='React' style='pill' />
+						<Button as='button' title='NextJS' style='pill' />
+						<Button as='button' title='Tailwind' style='pill' />
+						<Button as='button' title='Shadcn' style='pill' />
 					</div>
 				</ProjectCard>
 			</div>
