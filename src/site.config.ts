@@ -7,7 +7,8 @@ export const siteConfig: SiteConfig = {
 	// Meta property used to construct the meta title property, found in src/components/BaseHead.astro L:11
 	title: 'Wilberk Ledezma - Frontend Developer',
 	// Meta property used as the default description meta property
-	description: 'Desarrollador Frontend Junior con 1 año de experiencia en desarrollo web.',
+	description:
+		'Desarrollador Full Stack especializado en React, Next.js y Astro. Creador de experiencias web modernas, escalables y optimizadas con enfoque en rendimiento y experiencia de usuario.',
 	// HTML lang property, found in src/layouts/Base.astro L:18
 	lang: 'es_ES',
 	// Meta property, found in src/components/BaseHead.astro L:42
@@ -28,7 +29,7 @@ export const siteConfig: SiteConfig = {
 			name: 'Wilberk Alejandro Ledezma',
 			username: 'webzma',
 			description:
-				'Desarrollador Frontend Junior con 1 año de experiencia en desarrollo web. Habilidad comprobada en la construcción de aplicaciones web escalables utilizando ReactJS, Next.js y Astro. Constante aprendizaje y búsqueda de nuevas soluciones para mejorar la experiencia del usuario en entornos reales.',
+				'Desarrollador Frontend con sólida experiencia en la construcción de aplicaciones web modernas y escalables. Especializado en React, Next.js y Astro, con un enfoque en crear interfaces intuitivas y de alto rendimiento. Apasionado por las mejores prácticas de desarrollo, la optimización web y la entrega de experiencias de usuario excepcionales. Comprometido con el aprendizaje continuo y la implementación de soluciones innovadoras que generen impacto real.',
 			location: 'Venezuela',
 			socials: {
 				linkedin: 'https://www.linkedin.com/in/wilberk-ledezma-201378207/',
