@@ -109,8 +109,8 @@ const allPosts = await getAllPosts()
 
 		<Section title='Acerca'>
 			<p class='text-lg text-muted-foreground'>
-				Desarrollador Frontend Junior con experiencia en desarrollo web. Habilidad comprobada en la
-				construcción de aplicaciones web escalables utilizando ReactJS, Next.js y Astro.
+				Desarrollador Full Stack con experiencia en desarrollo web. Habilidad comprobada en la
+				construcción de aplicaciones web escalables utilizando ReactJS, Next.js, Astro y Node.js.
 			</p>
 
 			<p class='text-lg text-muted-foreground'>
@@ -349,14 +349,14 @@ const allPosts = await getAllPosts()
 	</div>
 </PageLayout>
 
-<script>
+<script define:vars={{ cvPdf }}>
 	document.addEventListener('DOMContentLoaded', () => {
 		const downloadButton = document.getElementById('download-cv')
 
 		if (downloadButton) {
 			downloadButton.addEventListener('click', () => {
 				const link = document.createElement('a')
-				link.href = '/src/assets/cv-2026.pdf'
+				link.href = cvPdf
 				link.download = 'Wilberk_Ledezma_CV.pdf'
 				document.body.appendChild(link)
 				link.click()
