@@ -13,7 +13,7 @@ const { articleDate, description, ogImage, title } = Astro.props
 const titleSeparator = '•'
 const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
-const socialImageURL = new URL(ogImage ? ogImage : '/webzma.png', Astro.url).href
+const socialImageURL = new URL('/webzma.png', Astro.url).href
 ---
 
 <meta charset='utf-8' />
@@ -73,11 +73,11 @@ const socialImageURL = new URL(ogImage ? ogImage : '/webzma.png', Astro.url).hre
 }
 
 {/* Twitter */}
-<meta content='summary_large_image' property='twitter:card' />
-<meta content={canonicalURL} property='twitter:url' />
-<meta content={title} property='twitter:title' />
-<meta content={description} property='twitter:description' />
-<meta content={socialImageURL} property='twitter:image' />
+<meta content='summary_large_image' property='linkedin:card' />
+<meta content={canonicalURL} property='linkedin:url' />
+<meta content={title} property='linkedin:title' />
+<meta content={description} property='linkedin:description' />
+<meta content={socialImageURL} property='linkedin:image' />
 
 {/* Sitemap */}
 <link href='/sitemap-index.xml' rel='sitemap' />
