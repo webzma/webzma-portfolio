@@ -13,7 +13,7 @@ import vercel from '@astrojs/vercel'
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://example.me',
+	site: 'https://webzma.vercel.app',
 	i18n: {
 		defaultLocale: 'es',
 		locales: ['es', 'en'],
