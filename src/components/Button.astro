@@ -6,9 +6,10 @@ const { as: Tag = 'a', class: className, title, href, style = 'button' } = Astro
 <Tag
 	class={cn(
 		className,
-		'inline-flex items-center gap-x-1 rounded-lg bg-primary-foreground border border-border px-2 py-1 text-sm transition-all hover:bg-input',
+		'inline-flex items-center gap-x-1.5 rounded-lg bg-primary-foreground border border-border px-3 py-1.5 text-sm font-medium transition-all duration-200',
 		!href && 'cursor-default',
-		style === 'pill' && 'rounded-xl'
+		style === 'pill' && 'rounded-full bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/20 hover:border-purple-500/40 hover:from-purple-500/20 hover:to-pink-500/20',
+		style !== 'pill' && 'hover:bg-muted hover:border-foreground/20'
 	)}
 	href={href}
 	data-astro-prefetch

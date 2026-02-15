@@ -16,23 +16,32 @@ const {
 <Tag
 	class={cn(
 		className,
-		'flex flex-col gap-y-3 rounded-2xl border border-border bg-primary-foreground ',
-		href && 'transition-all hover:border-foreground/25 hover:shadow-sm'
+		'group flex flex-col gap-y-3 rounded-2xl border border-border bg-primary-foreground overflow-hidden hover-lift card-shine',
+		href && 'cursor-pointer'
 	)}
 	href={href}
 	target='_blank'
 >
-	<Image
-		src={imagePath}
-		alt={altText}
-		class='h-48 w-full rounded-2xl rounded-bl-none rounded-br-none object-cover'
-		loading='eager'
-		height={600}
-		width={600}
-		quality={100}
-	/>
-	<div class='flex flex-col gap-y-0.5 px-5 py-4'>
-		<h1 class='text-lg font-medium'>{heading}</h1>
+	<div class='relative overflow-hidden'>
+		<Image
+			src={imagePath}
+			alt={altText}
+			class='h-52 w-full object-cover transition-transform duration-500 group-hover:scale-110'
+			loading='eager'
+			height={600}
+			width={600}
+			quality={100}
+		/>
+		<div class='absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300'></div>
+		<div class='absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0'>
+			<span class='inline-flex items-center gap-1 rounded-full bg-white/90 dark:bg-black/70 px-3 py-1.5 text-xs font-medium backdrop-blur-sm'>
+				Ver proyecto
+				<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M7 17L17 7'/><path d='M7 7h10v10'/></svg>
+			</span>
+		</div>
+	</div>
+	<div class='flex flex-col gap-y-1 px-5 py-4'>
+		<h1 class='text-lg font-semibold group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors'>{heading}</h1>
 		<h2 class='text-muted-foreground'>{subheading}</h2>
 	</div>
 	<slot />

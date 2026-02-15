@@ -2,39 +2,39 @@
 
 ---
 
-<header class='mb-12 flex w-full flex-wrap pb-3 text-sm sm:flex-nowrap sm:justify-start'>
+<header class='mb-12 flex w-full flex-wrap pb-3 text-sm sm:flex-nowrap sm:justify-start animate-fade-in'>
 	<nav
 		class='relative mx-auto flex w-full items-center justify-between sm:flex sm:items-center'
 		aria-label='global'
 	>
-		<a class='flex-none text-xl font-semibold' href='/' aria-label='Brand'>webzma</a>
+		<a class='flex-none text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent hover:from-purple-500 hover:to-pink-400 transition-all duration-300' href='/' aria-label='Brand'>webzma</a>
 
-		<div class='hidden flex-row items-center justify-center gap-x-5 sm:gap-x-7 md:flex'>
+		<div class='hidden flex-row items-center justify-center gap-x-6 sm:gap-x-8 md:flex'>
 			<a
 				href='/blog'
-				class='flex-none text-[1.05rem] font-medium hover:text-foreground/75'
+				class='relative flex-none text-[1rem] font-medium text-foreground/80 hover:text-foreground transition-colors after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-purple-500 after:to-pink-500 after:transition-all after:duration-300 hover:after:w-full'
 				aria-label='Nav Menu Item'
 				>Blog
 			</a>
 			<a
 				href='/tools'
-				class='flex-none text-[1.05rem] font-medium hover:text-foreground/75'
+				class='relative flex-none text-[1rem] font-medium text-foreground/80 hover:text-foreground transition-colors after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-purple-500 after:to-pink-500 after:transition-all after:duration-300 hover:after:w-full'
 				aria-label='Nav Menu Item'
 			>
 				Herramientas
 			</a>
 
 			<a
-				href='/tools'
-				class='flex-none text-[1.05rem] font-medium hover:text-foreground/75'
+				href='#proyectos'
+				class='relative flex-none text-[1rem] font-medium text-foreground/80 hover:text-foreground transition-colors after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-purple-500 after:to-pink-500 after:transition-all after:duration-300 hover:after:w-full'
 				aria-label='Nav Menu Item'
 			>
 				Proyectos
 			</a>
 
 			<a
-				href='/tools'
-				class='flex-none text-[1.05rem] font-medium hover:text-foreground/75'
+				href='#certificaciones'
+				class='relative flex-none text-[1rem] font-medium text-foreground/80 hover:text-foreground transition-colors after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-purple-500 after:to-pink-500 after:transition-all after:duration-300 hover:after:w-full'
 				aria-label='Nav Menu Item'
 			>
 				Certificaciones
@@ -42,7 +42,7 @@
 
 			<button
 				id='toggleDarkMode'
-				class='relative rounded-md border border-border p-1.5 transition-all hover:bg-border'
+				class='relative rounded-full border border-border p-2 transition-all hover:bg-muted hover:border-purple-500/30 hover:shadow-md hover:shadow-purple-500/10'
 			>
 				<span class='sr-only'>Dark Theme</span>
 				<svg

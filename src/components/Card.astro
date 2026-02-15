@@ -27,8 +27,8 @@ if (imagePath) {
 <Tag
 	class={cn(
 		className,
-		'relative rounded-2xl border border-border bg-primary-foreground px-5 py-3',
-		href && 'transition-all hover:border-foreground/25 hover:shadow-sm'
+		'group relative rounded-2xl border border-border bg-primary-foreground px-5 py-4 hover-lift card-shine',
+		href && 'cursor-pointer hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/5'
 	)}
 	href={href}
 	target='_blank'
@@ -51,10 +51,10 @@ if (imagePath) {
 				</div>
 			)
 		}
-		<div class='flex flex-col gap-y-0.5'>
-			<h1 class='text-lg font-medium'>{heading}</h1>
+		<div class='flex flex-col gap-y-1'>
+			<h1 class='text-lg font-semibold group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors'>{heading}</h1>
 			<h2 class='text-base text-muted-foreground'>{subheading}</h2>
-			<h2 class='text-muted-foreground'>{date}</h2>
+			<h2 class='text-sm text-muted-foreground/80'>{date}</h2>
 		</div>
 		<slot />
 	</div>
