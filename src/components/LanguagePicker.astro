@@ -1,0 +1,101 @@
+---
+import { languages } from '../i18n/ui'
+import { getLangFromUrl, useTranslatedPath } from '../i18n/utils'
+
+const lang = getLangFromUrl(Astro.url)
+const translatePath = useTranslatedPath(lang)
+---
+
+<div class='relative inline-block'>
+	<button
+		id='language-toggle'
+		class='flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground shadow-sm transition-all hover:bg-accent hover:shadow-md'
+		aria-label='Change language'
+	>
+		<svg
+			xmlns='http://www.w3.org/2000/svg'
+			class='h-5 w-5'
+			viewBox='0 0 24 24'
+			fill='none'
+			stroke='currentColor'
+			stroke-width='2'
+			stroke-linecap='round'
+			stroke-linejoin='round'
+		>
+			<circle cx='12' cy='12' r='10'></circle>
+			<line x1='2' y1='12' x2='22' y2='12'></line>
+			<path
+				d='M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z'
+			></path>
+		</svg>
+		<span>{lang.toUpperCase()}</span>
+		<svg
+			class='h-4 w-4 transition-transform duration-200'
+			id='chevron-icon'
+			xmlns='http://www.w3.org/2000/svg'
+			viewBox='0 0 24 24'
+			fill='none'
+			stroke='currentColor'
+			stroke-width='2'
+			stroke-linecap='round'
+			stroke-linejoin='round'
+		>
+			<polyline points='6 9 12 15 18 9'></polyline>
+		</svg>
+	</button>
+
+	<div
+		id='language-menu'
+		class='absolute right-0 z-50 mt-2 hidden w-32 origin-top-right rounded-lg border border-border bg-background shadow-lg ring-1 ring-black ring-opacity-5'
+	>
+		<div class='py-1' role='menu' aria-orientation='vertical'>
+			{
+				Object.entries(languages).map(([locale, name]) => (
+					<a
+						href={translatePath('/', locale)}
+						class:list={[
+							'block px-4 py-2 text-sm transition-colors hover:bg-accent',
+							locale === lang ? 'bg-accent font-semibold text-foreground' : 'text-muted-foreground'
+						]}
+						role='menuitem'
+					>
+						{name}
+					</a>
+				))
+			}
+		</div>
+	</div>
+</div>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const toggle = document.getElementById('language-toggle')
+		const menu = document.getElementById('language-menu')
+		const chevron = document.getElementById('chevron-icon')
+
+		if (toggle && menu && chevron) {
+			toggle.addEventListener('click', () => {
+				const isHidden = menu.classList.contains('hidden')
+
+				if (isHidden) {
+					menu.classList.remove('hidden')
+					menu.classList.add('animate-fade-in')
+					chevron.style.transform = 'rotate(180deg)'
+				} else {
+					menu.classList.add('hidden')
+					menu.classList.remove('animate-fade-in')
+					chevron.style.transform = 'rotate(0deg)'
+				}
+			})
+
+			// Close menu when clicking outside
+			document.addEventListener('click', (e) => {
+				if (!toggle.contains(e.target as Node) && !menu.contains(e.target as Node)) {
+					menu.classList.add('hidden')
+					menu.classList.remove('animate-fade-in')
+					chevron.style.transform = 'rotate(0deg)'
+				}
+			})
+		}
+	})
+</script>

@@ -14,6 +14,13 @@ import vercel from '@astrojs/vercel'
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://example.me',
+	i18n: {
+		defaultLocale: 'es',
+		locales: ['es', 'en'],
+		routing: {
+			prefixDefaultLocale: false
+		}
+	},
 	integrations: [
 		expressiveCode(expressiveCodeOptions),
 		tailwind({
