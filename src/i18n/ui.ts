@@ -529,7 +529,7 @@ export const now: Record<keyof typeof ui, NowEntry> = {
 /* ⚠ Revisa esta dirección antes de desplegar: es la que quedará pública y
    copiable desde el índice. Si prefieres una de dominio propio, cámbiala. */
 export const contact = {
-	email: 'wilberkledezma51@gmail.com',
+	email: 'ledezma.wilberk@gmail.com',
 	/* El repo de este sitio, para el colofón. Ajusta si el nombre no coincide. */
 	source: 'https://github.com/webzma/webzma-portfolio'
 }
