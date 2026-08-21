@@ -1,193 +1,1373 @@
+/* Hallmark · genre: modern-minimal · macrostructure: Split Studio · theme: Cobalt
+ * enrichment: none (typography only) · nav: N9 edge-aligned · footer: Ft5 statement
+ * H2 diptych knobs: ratio=7/5, right=proof column, divider=negative space
+ * F3 spec-sheet knobs: columns=3, rules=every row, numbers=tabular
+ * S3 section-head knobs: sticky at md+, aside=label + tabular count
+ * C3 link knobs: underline=drawn-on-hover, hover=grow, arrow=↗
+ * N9 knobs: wordmark=monospace, CTA=filled 6px, padding-block=tight
+ * Ft5 knobs: sentence=38ch, wordmark=under, rule-above-meta=hairline
+ * tone: precise-engineered · anchor hue: 250–258 (cool) · accent: cobalt 256, < 5% per view
+ * pre-emit critique: P5 H5 E5 S4 R5 V5
+ * contrast: pass (40–41) · slop: pass (42–45) · honest: pass (46) · chrome: pass (47)
+ * tokens: pass (48) · responsive: pass (49) · mobile: pass (34, 50–57) · icons: pass (30)
+ * typography: pass (37, 38a) · gate 38 waived — mono is Cobalt's declared label
+ * register (theme signature 7), not an outlier flourish.
+ */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-	font-family: 'Satoshi';
-	src: url('/fonts/Satoshi-Variable.ttf');
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'Satoshi';
-	src: url('/fonts/Satoshi-VariableItalic.ttf');
-	font-style: italic;
-	font-display: swap;
-}
-
 @layer base {
-	.code {
-		font-family: 'Cascadia Code', monospace;
-	}
-
 	:root {
-		--background: 210 33% 99%;
-		--foreground: 240 10% 3.9%;
-		--card: 0 0% 100%;
-		--card-foreground: 240 10% 3.9%;
-		--popover: 0 0% 100%;
-		--popover-foreground: 240 10% 3.9%;
-		--primary: 240 5.9% 10%;
-		--primary-foreground: 0 0% 98%;
-		--secondary: 240 4.8% 95.9%;
-		--secondary-foreground: 240 5.9% 10%;
-		--muted: 240 4.8% 95.9%;
-		--muted-foreground: 240 3.8% 10.1%;
-		--accent: 240 4.8% 95.9%;
-		--accent-foreground: 240 5.9% 10%;
-		--destructive: 0 72.22% 50.59%;
-		--destructive-foreground: 0 0% 98%;
-		--border: 240 5.9% 90%;
-		--input: 240 5.9% 90%;
-		--ring: 240 5.9% 10%;
-		--radius: 0.5rem;
+		/* ── Colour · OKLCH components (Tailwind reads these for <alpha-value>) ──
+		   Cobalt: a cool engineered near-white, cool charcoal ink, and exactly
+		   ONE electric cobalt signal. Never #fff, never #000. */
+		--ok-paper: 98.5% 0.004 250;
+		--ok-paper-2: 96.4% 0.005 252; /* row hover / inset surface */
+		--ok-rule: 91% 0.006 252; /* the hairline that does all the work */
+		--ok-rule-2: 85% 0.008 253; /* a hairline that needs to be seen */
+		--ok-muted: 45% 0.016 257; /* 5.1:1 on paper */
+		--ok-ink-2: 34% 0.018 257; /* running body — 8.0:1 on paper */
+		--ok-ink: 24% 0.02 258; /* display + titles — 11.7:1 on paper */
+
+		--ok-accent: 58% 0.2 256; /* signal only: ticks, dots, drawn underlines */
+		--ok-accent-ink: 46% 0.19 257; /* accent as TEXT + as button fill — 4.95:1 */
+		--ok-accent-fg: 99% 0.004 250; /* ink on the cobalt fill — 5.1:1 */
+		--ok-focus: 46% 0.19 257;
+		--ok-destructive: 51% 0.19 27;
+
+		/* The page's one dark beat. Fixed in light mode, re-cut in dark. */
+		--ok-band: 20% 0.016 260;
+		--ok-band-2: 26% 0.016 259;
+		--ok-band-rule: 32% 0.014 258;
+		--ok-band-muted: 72% 0.012 253; /* 6.6:1 on band */
+		--ok-band-ink: 96% 0.005 250; /* 12.5:1 on band */
+		--ok-band-accent: 72% 0.15 253; /* 6.6:1 on band */
+
+		/* Full values — every hand-written rule references these, never a raw colour */
+		--color-paper: oklch(var(--ok-paper));
+		--color-paper-2: oklch(var(--ok-paper-2));
+		--color-rule: oklch(var(--ok-rule));
+		--color-rule-2: oklch(var(--ok-rule-2));
+		--color-muted: oklch(var(--ok-muted));
+		--color-ink-2: oklch(var(--ok-ink-2));
+		--color-ink: oklch(var(--ok-ink));
+		--color-accent: oklch(var(--ok-accent));
+		--color-accent-ink: oklch(var(--ok-accent-ink));
+		--color-accent-fg: oklch(var(--ok-accent-fg));
+		--color-focus: oklch(var(--ok-focus));
+		--color-band: oklch(var(--ok-band));
+		--color-band-2: oklch(var(--ok-band-2));
+		--color-band-rule: oklch(var(--ok-band-rule));
+		--color-band-muted: oklch(var(--ok-band-muted));
+		--color-band-ink: oklch(var(--ok-band-ink));
+		--color-band-accent: oklch(var(--ok-band-accent));
+		/* Named, not inlined: the nav's translucent ground. Re-resolves in
+		   .dark automatically because --ok-paper does. (gate 48) */
+		--color-paper-blur: oklch(var(--ok-paper) / 0.82);
+
+		/* ── Type · 3 families. Grotesk display, neutral body, mono readout ── */
+		--font-display: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+		--font-body: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+		--font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, monospace;
+
+		--text-xs: 0.75rem;
+		--text-sm: 0.875rem;
+		--text-base: 1rem;
+		--text-md: 1.125rem;
+		--text-lg: 1.375rem;
+		--text-xl: 1.75rem;
+		--text-2xl: 2.25rem;
+		--text-display: clamp(2.5rem, 5vw + 0.5rem, 4.5rem);
+
+		/* ── Space · 4pt scale ── */
+		--space-3xs: 0.125rem;
+		--space-2xs: 0.25rem;
+		--space-xs: 0.5rem;
+		--space-sm: 0.75rem;
+		--space-md: 1rem;
+		--space-lg: 1.5rem;
+		--space-xl: 2.5rem;
+		--space-2xl: 4rem;
+		--space-3xl: 6rem;
+		--space-4xl: 9rem;
+
+		/* ── Motion ── */
+		--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+		--ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+		--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+		--dur-micro: 120ms;
+		--dur-short: 220ms;
+		--dur-long: 420ms;
+
+		/* ── Structure ── */
+		--rule-hairline: 1px;
+		--radius: 6px; /* drawn with a ruler, never a pill */
+		--radius-lg: 10px;
+		--nav-h: 3.5rem;
+
+		/* Split so the top nav always out-paints an in-page sticky (gate 56). */
+		--z-sticky: 20;
+		--z-sticky-nav: 40;
 	}
+
 	.dark {
-		--background: 240 10% 3.9%;
-		--foreground: 0 0% 98%;
-		--card: 240 10% 3.9%;
-		--card-foreground: 0 0% 98%;
-		--popover: 240 10% 3.9%;
-		--popover-foreground: 0 0% 98%;
-		--primary: 0 0% 98%;
-		--primary-foreground: 240 5.9% 10%;
-		--secondary: 240 3.7% 15.9%;
-		--secondary-foreground: 0 0% 98%;
-		--muted: 240 3.7% 15.9%;
-		--muted-foreground: 240 5% 64.9%;
-		--accent: 240 3.7% 15.9%;
-		--accent-foreground: 0 0% 98%;
-		--destructive: 0 62.8% 30.6%;
-		--destructive-foreground: 0 0% 98%;
-		--border: 240 3.7% 15.9%;
-		--input: 240 3.7% 15.9%;
-		--ring: 240 4.9% 83.9%;
+		/* The same cool hue family, inverted. Paper stays chromatic — never #000. */
+		--ok-paper: 16% 0.014 258;
+		--ok-paper-2: 20% 0.014 258;
+		--ok-rule: 27% 0.014 258;
+		--ok-rule-2: 34% 0.014 258;
+		--ok-muted: 70% 0.012 253; /* 7.3:1 on paper */
+		--ok-ink-2: 87% 0.008 252;
+		--ok-ink: 96% 0.005 250;
+
+		--ok-accent: 70% 0.16 254;
+		--ok-accent-ink: 74% 0.15 253; /* 7.7:1 on paper; also the fill */
+		--ok-accent-fg: 14% 0.014 258; /* ink on the fill — 8.0:1 */
+		--ok-focus: 74% 0.15 253;
+		--ok-destructive: 62% 0.16 27;
+
+		/* Inverted: on a dark canvas a *darker* band disappears, so the closing
+		   beat elevates by lightness instead — the rhythm survives the flip. */
+		--ok-band: 21% 0.014 258;
+		--ok-band-2: 26% 0.014 258;
+		--ok-band-rule: 32% 0.014 258;
+		--ok-band-muted: 72% 0.012 253;
+		--ok-band-ink: 96% 0.005 250;
+		--ok-band-accent: 74% 0.15 253;
 	}
 }
 
 @layer base {
+	html {
+		overflow-x: clip;
+		scroll-behavior: smooth;
+	}
+
+	body {
+		overflow-x: clip;
+		@apply bg-background text-foreground;
+		font-family: var(--font-body);
+		font-weight: 400;
+		font-size: var(--text-base);
+		-webkit-font-smoothing: antialiased;
+	}
+
 	* {
 		@apply border-border;
 	}
-	body {
-		@apply bg-background text-foreground;
+
+	:focus-visible {
+		outline: 2px solid var(--color-focus);
+		outline-offset: 3px;
+		border-radius: 2px;
+		/* Never transitioned — the ring must be there the instant focus lands. */
+	}
+
+	::selection {
+		background: var(--color-accent-ink);
+		color: var(--color-accent-fg);
+	}
+
+	h1,
+	h2,
+	h3 {
+		font-style: normal; /* headers are roman, always */
+		overflow-wrap: anywhere;
+		min-width: 0;
+	}
+
+	:target {
+		scroll-margin-top: calc(var(--nav-h) + var(--space-xl));
+	}
+}
+
+@layer components {
+	/* ── The machine-readout voice. Mono, uppercase, tracked. ───────────── */
+	.mono-label {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		font-weight: 500;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		font-variant-numeric: tabular-nums;
+	}
+
+	/* The one measure. Nav, main and the closing band all re-centre on it, so
+	   the band can be full-bleed while its content stays in the column. */
+	.shell {
+		width: 100%;
+		max-width: 68rem;
+		margin-inline: auto;
+		padding-inline: var(--space-lg);
+	}
+
+	@media (min-width: 640px) {
+		.shell {
+			padding-inline: var(--space-xl);
+		}
+	}
+
+	/* ── N9 · Edge-aligned nav. Wordmark hard-left, controls hard-right,
+	      nothing in between. The absence is the design. ─────────────────── */
+	.nav {
+		position: sticky;
+		top: 0;
+		z-index: var(--z-sticky-nav);
+		border-bottom: var(--rule-hairline) solid var(--color-rule);
+		background: var(--color-paper-blur);
+		backdrop-filter: blur(10px) saturate(1.4);
+		-webkit-backdrop-filter: blur(10px) saturate(1.4);
+	}
+
+	.nav__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-md);
+		min-height: var(--nav-h);
+	}
+
+	.nav__mark {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		letter-spacing: -0.01em;
+		color: var(--color-ink);
+		white-space: nowrap;
+	}
+
+	.nav__mark::before {
+		content: '';
+		display: inline-block;
+		width: 0.375rem;
+		height: 0.375rem;
+		margin-right: 0.5rem;
+		vertical-align: 0.05em;
+		border-radius: 1px;
+		background: var(--color-accent);
+	}
+
+	.nav__side {
+		display: flex;
+		align-items: center;
+		gap: var(--space-sm);
+	}
+
+	/* ── Buttons. One solid cobalt fill per page; everything else is
+	      hairline-bordered or typographic. 6px radius, never a pill. ────── */
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-xs);
+		white-space: nowrap; /* gate 49 — clickable text never wraps to two lines */
+		border-radius: var(--radius);
+		padding: var(--space-xs) var(--space-sm);
+		font-size: var(--text-sm);
+		font-weight: 500;
+		line-height: 1.2;
+		border: var(--rule-hairline) solid transparent;
+		transition:
+			background-color var(--dur-micro) var(--ease-out),
+			border-color var(--dur-micro) var(--ease-out),
+			color var(--dur-micro) var(--ease-out);
+	}
+
+	.btn--primary {
+		background: var(--color-accent-ink);
+		color: var(--color-accent-fg);
+	}
+
+	.btn--primary:hover {
+		background: var(--color-ink);
+	}
+
+	.btn--primary:active {
+		background: var(--color-ink);
+		transform: translateY(0.5px);
+	}
+
+	.btn--ghost {
+		border-color: var(--color-rule-2);
+		color: var(--color-ink-2);
+		background: transparent;
+	}
+
+	.btn--ghost:hover {
+		border-color: var(--color-accent);
+		color: var(--color-accent-ink);
+	}
+
+	.btn--ghost:active {
+		background: var(--color-paper-2);
+	}
+
+	.btn:disabled,
+	.btn[aria-disabled='true'] {
+		opacity: 0.5;
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+
+	/* ── C3 · Typographic link. A word, an arrow, a drawn underline that
+	      grows from the left on hover. No box, no fill. ────────────────── */
+	.link {
+		color: var(--color-ink-2);
+		text-decoration: none;
+		background-image: linear-gradient(var(--color-accent), var(--color-accent));
+		background-repeat: no-repeat;
+		background-position: 0 calc(100% - 0.08em);
+		background-size: 0% var(--rule-hairline);
+		transition:
+			background-size var(--dur-short) var(--ease-out),
+			color var(--dur-micro) var(--ease-out);
+	}
+
+	.link:hover,
+	.link:focus-visible {
+		color: var(--color-ink);
+		background-size: 100% var(--rule-hairline);
+	}
+
+	.link:active {
+		color: var(--color-accent-ink);
+	}
+
+	.link[aria-disabled='true'] {
+		opacity: 0.5;
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+
+	/* ── Locale toggle. Two locales, so it's a switch, not a menu. ──────── */
+	.lang {
+		padding-inline: var(--space-2xs);
+		border-radius: var(--radius);
+		transition: color var(--dur-micro) var(--ease-out);
+	}
+
+	.lang:hover {
+		color: var(--color-ink);
+	}
+
+	.lang:active {
+		color: var(--color-accent-ink);
+	}
+
+	.lang[aria-disabled='true'] {
+		opacity: 0.5;
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+
+	/* ── Icon control (theme toggle). ───────────────────────────────────── */
+	.icon-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.75rem;
+		height: 1.75rem;
+		border-radius: var(--radius);
+		color: var(--color-muted);
+		background: none;
+		cursor: pointer;
+		transition:
+			color var(--dur-micro) var(--ease-out),
+			background-color var(--dur-micro) var(--ease-out);
+	}
+
+	.icon-btn:hover {
+		color: var(--color-ink);
+		background: var(--color-paper-2);
+	}
+
+	.icon-btn:active {
+		color: var(--color-accent-ink);
+	}
+
+	.icon-btn:disabled,
+	.icon-btn[aria-disabled='true'] {
+		opacity: 0.5;
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+
+	/* ── H2 · The diptych. Text 7, proof column 5. Divided by negative
+	      space, not a rule — the gutter is the divider. ─────────────────── */
+	.diptych {
+		display: grid;
+		gap: var(--space-xl);
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	@media (min-width: 900px) {
+		.diptych {
+			grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+			gap: var(--space-3xl);
+			align-items: start;
+		}
+	}
+
+	.hero__eyebrow {
+		display: flex;
+		align-items: center;
+		gap: var(--space-xs);
+	}
+
+	.hero__tick {
+		width: 1.25rem;
+		height: var(--rule-hairline);
+		background: var(--color-accent);
+	}
+
+	.hero__title {
+		margin-top: var(--space-md);
+		font-family: var(--font-display);
+		font-weight: 600;
+		font-size: var(--text-display);
+		line-height: 1.02;
+		letter-spacing: -0.035em;
+		color: var(--color-ink);
+	}
+
+	.hero__lede {
+		margin-top: var(--space-lg);
+		max-width: 54ch;
+		font-size: var(--text-md);
+		line-height: 1.6;
+		color: var(--color-ink-2);
+	}
+
+	.hero__sub {
+		margin-top: var(--space-md);
+		max-width: 54ch;
+		font-size: var(--text-sm);
+		line-height: 1.65;
+		color: var(--color-muted);
+	}
+
+	/* ── F3 · Spec sheet. Key left, value right, hairline every row. ────── */
+	.spec {
+		border-top: var(--rule-hairline) solid var(--color-rule);
+	}
+
+	.spec__row {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--space-2xs);
+		padding-block: var(--space-sm);
+		border-bottom: var(--rule-hairline) solid var(--color-rule);
+	}
+
+	@media (min-width: 400px) {
+		.spec__row {
+			grid-template-columns: minmax(0, 8rem) minmax(0, 1fr);
+			gap: var(--space-md);
+			align-items: baseline;
+		}
+	}
+
+	.spec__value {
+		font-size: var(--text-sm);
+		line-height: 1.5;
+		color: var(--color-ink-2);
+	}
+
+	.spec__dot {
+		display: inline-block;
+		width: 0.375rem;
+		height: 0.375rem;
+		margin-right: var(--space-xs);
+		border-radius: 999px;
+		background: var(--color-accent);
+		vertical-align: 0.08em;
+	}
+
+	.spec__links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2xs) var(--space-md);
+	}
+
+	/* ── S3 · Sticky section head. Label + count pin to the left half while
+	      the rows scroll past. Collapses to a stacked head under 768px. ── */
+	.section {
+		display: grid;
+		gap: var(--space-md);
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	@media (min-width: 768px) {
+		.section {
+			grid-template-columns: minmax(0, 11rem) minmax(0, 1fr);
+			gap: var(--space-2xl);
+		}
+
+		.section__aside {
+			position: sticky;
+			/* Docks BENEATH the nav, never at top: 0 alongside it (gate 56). */
+			top: calc(var(--nav-h) + var(--space-xl));
+			z-index: var(--z-sticky);
+			align-self: start;
+		}
+	}
+
+	/* Single column, always: the count sits UNDER the heading, never beside it.
+	   A label/number in a column next to a heading is gate 54's auto-fail. */
+	.section__aside {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--space-3xs);
+		padding-bottom: var(--space-xs);
+		border-bottom: var(--rule-hairline) solid var(--color-rule-2);
+	}
+
+	.section__label {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		font-weight: 600;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-ink);
+	}
+
+	.section__count {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-muted);
+		font-variant-numeric: tabular-nums;
+	}
+
+	/* ── The row. A project, a role and a degree are one shape. Hairlines
+	      only — no cards, no shadows, no side stripes. ─────────────────── */
+	.row {
+		display: block;
+		padding-block: var(--space-lg);
+		border-top: var(--rule-hairline) solid var(--color-rule);
+		transition:
+			background-color var(--dur-short) var(--ease-out),
+			border-color var(--dur-short) var(--ease-out);
+	}
+
+	.row:first-child {
+		border-top-color: transparent;
+	}
+
+	@media (min-width: 768px) {
+		.row:first-child {
+			border-top-color: var(--color-rule);
+		}
+	}
+
+	.row__head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-3xs) var(--space-md);
+	}
+
+	.row__title {
+		font-family: var(--font-display);
+		font-weight: 500;
+		font-size: var(--text-md);
+		line-height: 1.25;
+		letter-spacing: -0.02em;
+		color: var(--color-ink);
+		background-image: linear-gradient(var(--color-accent), var(--color-accent));
+		background-repeat: no-repeat;
+		background-position: 0 calc(100% - 0.1em);
+		background-size: 0% var(--rule-hairline);
+		transition: background-size var(--dur-short) var(--ease-out);
+	}
+
+	.row__meta {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-muted);
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+	}
+
+	.row__sub {
+		margin-top: var(--space-2xs);
+		font-size: var(--text-sm);
+		color: var(--color-ink-2);
+	}
+
+	.row__body {
+		margin-top: var(--space-xs);
+		max-width: 64ch;
+		font-size: var(--text-sm);
+		line-height: 1.6;
+		color: var(--color-muted);
+	}
+
+	.row__stack {
+		margin-top: var(--space-sm);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		letter-spacing: 0.01em;
+		color: var(--color-muted);
+	}
+
+	.row__arrow {
+		display: inline-block;
+		color: var(--color-accent);
+		/* Belt-and-braces with the U+FE0E in the markup: keep ↗ as a text
+		   glyph, never the colour-emoji fallback. */
+		font-variant-emoji: text;
+	}
+
+	a.row:hover,
+	a.row:focus-visible {
+		border-top-color: var(--color-accent);
+	}
+
+	a.row:hover .row__title,
+	a.row:focus-visible .row__title {
+		background-size: 100% var(--rule-hairline);
+	}
+
+	a.row:active {
+		background-color: var(--color-paper-2);
+	}
+
+	a.row[aria-disabled='true'] {
+		opacity: 0.5;
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+
+	/* ── The page's one dark beat. Full-bleed graphite, Ft5 statement. ──── */
+	/* Full-bleed: the band sits OUTSIDE the centred column in BaseLayout and
+	   re-centres its own inner container, so there is no 100vw / scrollbar
+	   arithmetic and nothing can overflow the root. */
+	.band {
+		background: var(--color-band);
+		color: var(--color-band-muted);
+	}
+
+	.band__statement {
+		max-width: 38ch;
+		overflow-wrap: anywhere; /* display-size text needs the last-resort break */
+		min-width: 0;
+		font-family: var(--font-display);
+		font-weight: 500;
+		font-size: var(--text-xl);
+		line-height: 1.18;
+		letter-spacing: -0.025em;
+		color: var(--color-band-ink);
+	}
+
+	.band__link {
+		color: var(--color-band-accent);
+		background-image: linear-gradient(var(--color-band-accent), var(--color-band-accent));
+		background-repeat: no-repeat;
+		background-position: 0 calc(100% - 0.08em);
+		background-size: 100% var(--rule-hairline);
+		transition: background-size var(--dur-short) var(--ease-out);
+	}
+
+	.band__link:hover,
+	.band__link:focus-visible {
+		background-size: 0% var(--rule-hairline);
+	}
+
+	.band__link:active {
+		color: var(--color-band-ink);
+	}
+
+	.band__link[aria-disabled='true'],
+	.band__nav-link[aria-disabled='true'] {
+		opacity: 0.5;
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+
+	.band__nav-link:active {
+		color: var(--color-band-accent);
+	}
+
+	.band__meta {
+		border-top: var(--rule-hairline) solid var(--color-band-rule);
+		color: var(--color-band-muted);
+	}
+
+	/* Mono labels inherit the page's muted ink; on the band they need the
+	   band's own. Declared here so no rule re-states a colour value. */
+	.band .mono-label {
+		color: var(--color-band-muted);
+	}
+
+	.band__nav-link {
+		color: var(--color-band-ink);
+		background-image: linear-gradient(var(--color-band-accent), var(--color-band-accent));
+		background-repeat: no-repeat;
+		background-position: 0 calc(100% - 0.08em);
+		background-size: 0% var(--rule-hairline);
+		transition: background-size var(--dur-short) var(--ease-out);
+	}
+
+	.band__nav-link:hover,
+	.band__nav-link:focus-visible {
+		background-size: 100% var(--rule-hairline);
+	}
+
+	.band :focus-visible {
+		outline-color: var(--color-band-accent);
 	}
 }
 
 @layer utilities {
+	/* One orchestrated entrance, on load. Nothing animates on scroll. */
+	.reveal {
+		opacity: 0;
+		transform: translateY(8px);
+		animation: reveal var(--dur-long) var(--ease-out) forwards;
+		animation-delay: calc(var(--i, 0) * 70ms);
+	}
+
 	.animate-fade-in {
-		animation: fadeIn 0.6s ease-out forwards;
+		animation: reveal var(--dur-long) var(--ease-out) forwards;
+	}
+}
+
+@keyframes reveal {
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
 	}
 
-	.animate-fade-in-up {
-		animation: fadeInUp 0.6s ease-out forwards;
+	*,
+	*::before,
+	*::after {
+		animation-duration: 150ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 150ms !important;
 	}
 
-	.animate-slide-in-left {
-		animation: slideInLeft 0.5s ease-out forwards;
+	.reveal {
+		transform: none;
+		animation: reveal-reduced 150ms linear forwards;
+		animation-delay: 0ms;
 	}
 
-	.animate-scale-in {
-		animation: scaleIn 0.4s ease-out forwards;
+	.btn--primary:active {
+		transform: none;
+	}
+}
+
+@keyframes reveal-reduced {
+	to {
+		opacity: 1;
+	}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Interior pages · Blog, tags, tools, work, 404.
+   Everything below reuses the index's vocabulary — hairlines, the mono
+   readout, .row, the drawn cobalt underline — so a visitor who clicks Blog
+   or Herramientas stays inside the same system instead of landing on a
+   different site. No new colour, no new shape, no card.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer components {
+	/* ── Interior page head. A back link, the title, an optional readout.
+	      Deliberately NOT the index's diptych: interior pages are a single
+	      column, and the head is the only thing above the rule. ─────────── */
+	.page-head {
+		padding-bottom: var(--space-lg);
+		border-bottom: var(--rule-hairline) solid var(--color-rule-2);
 	}
 
-	.glass {
-		background: rgba(255, 255, 255, 0.1);
+	.page-head__title {
+		margin-top: var(--space-md);
+		font-family: var(--font-display);
+		font-weight: 600;
+		font-size: var(--text-2xl);
+		line-height: 1.08;
+		letter-spacing: -0.03em;
+		color: var(--color-ink);
+	}
+
+	.page-head__lede {
+		margin-top: var(--space-sm);
+		max-width: 60ch;
+		font-size: var(--text-sm);
+		line-height: 1.65;
+		color: var(--color-muted);
+	}
+
+	/* The arrow leads, so the eye reads "← back" as one unit. Mirror of the
+	   ↗ on outbound rows: outbound points away, back points home. */
+	.backlink {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-xs);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		font-weight: 500;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		transition: color var(--dur-micro) var(--ease-out);
+	}
+
+	.backlink__arrow {
+		display: inline-block;
+		transition: transform var(--dur-short) var(--ease-out);
+	}
+
+	.backlink:hover,
+	.backlink:focus-visible {
+		color: var(--color-accent-ink);
+	}
+
+	.backlink:hover .backlink__arrow,
+	.backlink:focus-visible .backlink__arrow {
+		transform: translateX(-3px);
+	}
+
+	/* ── Empty state. A sentence, not an illustration. ──────────────────── */
+	.empty {
+		padding-block: var(--space-xl);
+		font-size: var(--text-sm);
+		color: var(--color-muted);
+	}
+
+	/* ── Tags. A mono readout with a tabular count, never a coloured pill.
+	      The # is part of the label, so it stays inside the mono voice. ─── */
+	.tag {
+		display: inline-flex;
+		align-items: baseline;
+		gap: var(--space-2xs);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		letter-spacing: 0.04em;
+		color: var(--color-ink-2);
+		font-variant-numeric: tabular-nums;
+		background-image: linear-gradient(var(--color-accent), var(--color-accent));
+		background-repeat: no-repeat;
+		background-position: 0 calc(100% - 0.08em);
+		background-size: 0% var(--rule-hairline);
+		transition:
+			background-size var(--dur-short) var(--ease-out),
+			color var(--dur-micro) var(--ease-out);
+	}
+
+	.tag:hover,
+	.tag:focus-visible {
+		color: var(--color-ink);
+		background-size: 100% var(--rule-hairline);
+	}
+
+	.tag__hash {
+		color: var(--color-accent);
+	}
+
+	.tag__count {
+		color: var(--color-muted);
+	}
+
+	.tag-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-xs) var(--space-md);
+	}
+
+	/* ── Pagination. Two typographic links on a hairline, tabular position
+	      readout between them. ──────────────────────────────────────────── */
+	.pager {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-md);
+		margin-top: var(--space-xl);
+		padding-top: var(--space-md);
+		border-top: var(--rule-hairline) solid var(--color-rule);
+	}
+
+	.pager__spacer {
+		margin-inline-start: auto;
+	}
+
+	/* ── Blog prose. The typography plugin reads these vars, so the article
+	      inherits Cobalt's ink, rules and families without a single
+	      hard-coded colour. ─────────────────────────────────────────────── */
+	.prose {
+		--tw-prose-body: var(--color-ink-2);
+		--tw-prose-headings: var(--color-ink);
+		--tw-prose-lead: var(--color-muted);
+		--tw-prose-links: var(--color-accent-ink);
+		--tw-prose-bold: var(--color-ink);
+		--tw-prose-counters: var(--color-muted);
+		--tw-prose-bullets: var(--color-rule-2);
+		--tw-prose-hr: var(--color-rule);
+		--tw-prose-quotes: var(--color-ink-2);
+		--tw-prose-quote-borders: var(--color-accent);
+		--tw-prose-captions: var(--color-muted);
+		--tw-prose-code: var(--color-ink);
+		--tw-prose-th-borders: var(--color-rule-2);
+		--tw-prose-td-borders: var(--color-rule);
+		/* .dark flips the tokens themselves, so the invert set points at the
+		   same names rather than a second palette. */
+		--tw-prose-invert-body: var(--color-ink-2);
+		--tw-prose-invert-headings: var(--color-ink);
+		--tw-prose-invert-lead: var(--color-muted);
+		--tw-prose-invert-links: var(--color-accent-ink);
+		--tw-prose-invert-bold: var(--color-ink);
+		--tw-prose-invert-counters: var(--color-muted);
+		--tw-prose-invert-bullets: var(--color-rule-2);
+		--tw-prose-invert-hr: var(--color-rule);
+		--tw-prose-invert-quotes: var(--color-ink-2);
+		--tw-prose-invert-quote-borders: var(--color-accent);
+		--tw-prose-invert-captions: var(--color-muted);
+		--tw-prose-invert-code: var(--color-ink);
+		--tw-prose-invert-th-borders: var(--color-rule-2);
+		--tw-prose-invert-td-borders: var(--color-rule);
+		max-width: 68ch;
+	}
+
+	.prose :where(h2, h3, h4) {
+		font-family: var(--font-display);
+		font-weight: 600;
+		letter-spacing: -0.02em;
+	}
+
+	/* The typography plugin renders a literal backtick before and after every
+	   inline <code>. Cobalt marks code with the mono face and an inset
+	   surface instead, so the punctuation is redundant — and it was showing
+	   up inside headings, where it read as a typo. */
+	.prose :where(code)::before,
+	.prose :where(code)::after {
+		content: none;
+	}
+
+	.prose :where(code):not(:where(pre code)) {
+		font-family: var(--font-mono);
+		font-size: 0.875em;
+		padding: 0.15em 0.35em;
+		border-radius: 3px;
+		background: var(--color-paper-2);
+		border: var(--rule-hairline) solid var(--color-rule);
+	}
+
+	.prose :where(blockquote) {
+		font-style: normal; /* quotes are roman here too */
+		border-inline-start-width: var(--rule-hairline);
+	}
+
+	/* ── Article head. Title, then a mono line of facts on a hairline. ──── */
+	.article-head {
+		padding-bottom: var(--space-lg);
+		border-bottom: var(--rule-hairline) solid var(--color-rule-2);
+	}
+
+	.article-head__title {
+		font-family: var(--font-display);
+		font-weight: 600;
+		font-size: var(--text-2xl);
+		line-height: 1.1;
+		letter-spacing: -0.03em;
+		color: var(--color-ink);
+	}
+
+	.article-head__desc {
+		margin-top: var(--space-sm);
+		max-width: 60ch;
+		font-size: var(--text-md);
+		line-height: 1.6;
+		color: var(--color-ink-2);
+	}
+
+	.article-head__meta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-2xs) var(--space-md);
+		margin-top: var(--space-md);
+	}
+
+	.article-head__cover {
+		margin-top: var(--space-lg);
+		width: 100%;
+		height: auto;
+		border-radius: var(--radius);
+		border: var(--rule-hairline) solid var(--color-rule);
+	}
+
+	/* ── Table of contents. Same sticky-aside mechanics as the index's
+	      section head, so the two pinned things on this site behave alike. ─ */
+	.toc {
+		display: none;
+	}
+
+	@media (min-width: 1024px) {
+		.toc {
+			display: block;
+			position: sticky;
+			top: calc(var(--nav-h) + var(--space-xl));
+			z-index: var(--z-sticky);
+			align-self: start;
+			flex: 0 0 13rem;
+			max-height: calc(100vh - var(--nav-h) - var(--space-3xl));
+			overflow-y: auto;
+			padding-inline-end: var(--space-md);
+			border-inline-end: var(--rule-hairline) solid var(--color-rule);
+		}
+	}
+
+	.toc__list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xs);
+		margin-top: var(--space-sm);
+	}
+
+	.toc__link {
+		display: block;
+		font-size: var(--text-xs);
+		line-height: 1.5;
+		color: var(--color-muted);
+		transition: color var(--dur-micro) var(--ease-out);
+	}
+
+	.toc__link:hover,
+	.toc__link:focus-visible {
+		color: var(--color-accent-ink);
+	}
+
+	.toc__link[data-depth='3'] {
+		padding-inline-start: var(--space-sm);
+	}
+
+	/* ── Back to top. A hairline square, not a floating circle. ─────────── */
+	.to-top {
+		position: fixed;
+		inset-block-end: var(--space-lg);
+		inset-inline-end: var(--space-lg);
+		z-index: var(--z-sticky);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		border-radius: var(--radius);
+		border: var(--rule-hairline) solid var(--color-rule-2);
+		background: var(--color-paper-blur);
 		backdrop-filter: blur(10px);
 		-webkit-backdrop-filter: blur(10px);
-	}
-
-	.dark .glass {
-		background: rgba(0, 0, 0, 0.2);
-	}
-
-	.gradient-text {
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-	}
-
-	.hover-lift {
+		color: var(--color-muted);
+		opacity: 0;
+		transform: translateY(0.5rem);
+		pointer-events: none;
 		transition:
-			transform 0.3s ease,
-			box-shadow 0.3s ease;
+			opacity var(--dur-short) var(--ease-out),
+			transform var(--dur-short) var(--ease-out),
+			color var(--dur-micro) var(--ease-out),
+			border-color var(--dur-micro) var(--ease-out);
 	}
 
-	.hover-lift:hover {
-		transform: translateY(-4px);
-		box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.15);
+	.to-top[data-show='true'] {
+		opacity: 1;
+		transform: none;
+		pointer-events: auto;
 	}
 
-	.dark .hover-lift:hover {
-		box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.4);
+	.to-top:hover {
+		color: var(--color-accent-ink);
+		border-color: var(--color-accent);
+	}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Index additions · The human signal.
+   A portrait, a dated "now" note, a copyable address, a colophon. Facts a
+   template cannot carry. Same vocabulary as everything above.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer components {
+	/* ── Portrait. Small, square-ish, hairline-bordered — an identifying
+	      mark next to the facts, not a hero image. Desaturated at rest so it
+	      sits inside the cool palette; full colour on hover, which is the
+	      only reward-for-curiosity on the page. ─────────────────────────── */
+	.portrait {
+		flex: 0 0 auto;
+		width: 3rem;
+		height: 3rem;
+		object-fit: cover;
+		border-radius: var(--radius);
+		border: var(--rule-hairline) solid var(--color-rule-2);
+		filter: grayscale(1) contrast(1.05);
+		transition: filter var(--dur-long) var(--ease-out);
 	}
 
-	.card-shine {
+	.portrait:hover {
+		filter: none;
+	}
+
+	.spec__identity {
+		display: flex;
+		align-items: center;
+		gap: var(--space-sm);
+	}
+
+	.spec__identity-text {
+		min-width: 0;
+	}
+
+	/* ── The availability dot, now breathing. One ring, 3s, and it is the
+	      only looping motion on the page — reduced-motion kills it below. ── */
+	.spec__dot {
 		position: relative;
-		overflow: hidden;
 	}
 
-	.card-shine::before {
+	.spec__dot::after {
 		content: '';
 		position: absolute;
-		top: 0;
-		left: -100%;
-		width: 100%;
-		height: 100%;
-		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-		transition: left 0.5s ease;
+		inset: 0;
+		border-radius: 999px;
+		background: var(--color-accent);
+		animation: dot-pulse 3s var(--ease-out) infinite;
 	}
 
-	.card-shine:hover::before {
-		left: 100%;
+	/* ── Copy-to-clipboard address. Reads as a link until you click it, then
+	      the label swaps to a confirmation for a beat. No toast, no icon. ── */
+	.copy {
+		display: inline-flex;
+		align-items: baseline;
+		gap: var(--space-xs);
+		font-family: inherit;
+		font-size: inherit;
+		color: var(--color-ink-2);
+		cursor: pointer;
+		background-image: linear-gradient(var(--color-accent), var(--color-accent));
+		background-repeat: no-repeat;
+		background-position: 0 calc(100% - 0.08em);
+		background-size: 0% var(--rule-hairline);
+		transition:
+			background-size var(--dur-short) var(--ease-out),
+			color var(--dur-micro) var(--ease-out);
 	}
 
-	.section-divider {
-		height: 1px;
-		background: linear-gradient(90deg, transparent, hsl(var(--border)), transparent);
+	.copy:hover,
+	.copy:focus-visible {
+		color: var(--color-ink);
+		background-size: 100% var(--rule-hairline);
+	}
+
+	.copy__hint {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		transition: color var(--dur-micro) var(--ease-out);
+	}
+
+	.copy[data-copied='true'] .copy__hint {
+		color: var(--color-accent-ink);
+	}
+
+	/* ── "Now". A dated note, set as one indented paragraph under a mono
+	      heading. The date is the whole point — an undated now-note is a
+	      claim, a dated one is a fact. ──────────────────────────────────── */
+	.now__note {
+		max-width: 60ch;
+		font-size: var(--text-sm);
+		line-height: 1.7;
+		color: var(--color-ink-2);
+	}
+
+	.now__list {
+		display: flex;
+		flex-direction: column;
+		margin-top: var(--space-md);
+	}
+
+	.now__item {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--space-3xs);
+		padding-block: var(--space-sm);
+		border-top: var(--rule-hairline) solid var(--color-rule);
+		font-size: var(--text-sm);
+		line-height: 1.6;
+		color: var(--color-ink-2);
+	}
+
+	@media (min-width: 480px) {
+		.now__item {
+			grid-template-columns: minmax(0, 7rem) minmax(0, 1fr);
+			gap: var(--space-md);
+			align-items: baseline;
+		}
+	}
+
+	.now__stamp {
+		margin-top: var(--space-lg);
+		display: block;
+	}
+
+	/* ── Section head, active. The aside is already pinned; when its rows own
+	      the viewport the label takes the cobalt and the rule under it goes
+	      solid. The reader always knows which block they are standing in. ── */
+	.section__aside {
+		transition: border-color var(--dur-short) var(--ease-out);
+	}
+
+	.section__label {
+		transition: color var(--dur-short) var(--ease-out);
+	}
+
+	@media (min-width: 768px) {
+		.section[data-active='true'] .section__aside {
+			border-bottom-color: var(--color-accent);
+		}
+
+		.section[data-active='true'] .section__label {
+			color: var(--color-accent-ink);
+		}
+	}
+
+	/* ── Row status. A project that is live and a project that is archived
+	      are not the same claim, so they do not look the same. ──────────── */
+	.row__facts {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-2xs) var(--space-sm);
+		margin-top: var(--space-xs);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--color-muted);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.row__sep {
+		color: var(--color-rule-2);
+	}
+
+	.row__status {
+		display: inline-flex;
+		align-items: baseline;
+		gap: var(--space-2xs);
+	}
+
+	.row__status::before {
+		content: '';
+		align-self: center;
+		width: 0.3125rem;
+		height: 0.3125rem;
+		border-radius: 999px;
+		background: var(--color-rule-2);
+	}
+
+	.row__status[data-status='live']::before {
+		background: var(--color-accent);
+	}
+
+	/* ── Colophon. What the page is made of, stated plainly on the band.
+	      The most honest thing a developer's site can print. ────────────── */
+	.colophon {
+		margin-top: var(--space-sm);
+		max-width: 60ch;
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: 1.7;
+		color: var(--color-band-muted);
 	}
 }
 
-@keyframes fadeIn {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
-
-@keyframes fadeInUp {
-	from {
-		opacity: 0;
-		transform: translateY(20px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-@keyframes slideInLeft {
-	from {
-		opacity: 0;
-		transform: translateX(-20px);
-	}
-	to {
-		opacity: 1;
-		transform: translateX(0);
-	}
-}
-
-@keyframes scaleIn {
-	from {
-		opacity: 0;
-		transform: scale(0.95);
-	}
-	to {
-		opacity: 1;
+@keyframes dot-pulse {
+	0% {
+		opacity: 0.55;
 		transform: scale(1);
+	}
+	70%,
+	100% {
+		opacity: 0;
+		transform: scale(2.6);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	/* The dot is the page's only loop. Reduced motion removes the loop, not
+	   the dot — the state stays legible, the movement goes. */
+	.spec__dot::after {
+		animation: none;
+		display: none;
+	}
+
+	.backlink:hover .backlink__arrow,
+	.backlink:focus-visible .backlink__arrow {
+		transform: none;
+	}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Work detail · One project, told properly.
+   Problem, decision, outcome — the three things a client actually wants to
+   read. Built from the spec sheet and the section head, nothing new.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer components {
+	.case__shot {
+		margin-block: var(--space-xl);
+		width: 100%;
+		height: auto;
+		border-radius: var(--radius);
+		border: var(--rule-hairline) solid var(--color-rule);
+		background: var(--color-paper-2);
+	}
+
+	.case__block {
+		display: grid;
+		gap: var(--space-sm);
+		grid-template-columns: minmax(0, 1fr);
+		padding-block: var(--space-xl);
+		border-top: var(--rule-hairline) solid var(--color-rule);
+	}
+
+	@media (min-width: 768px) {
+		.case__block {
+			grid-template-columns: minmax(0, 11rem) minmax(0, 1fr);
+			gap: var(--space-2xl);
+			align-items: start;
+		}
+	}
+
+	.case__body {
+		max-width: 64ch;
+		font-size: var(--text-sm);
+		line-height: 1.7;
+		color: var(--color-ink-2);
+	}
+
+	.case__body + .case__body {
+		margin-top: var(--space-md);
+	}
+
+	/* The outbound link to the live site, given its own weight at the end —
+	   the visitor reads the story first, then leaves on purpose. */
+	.case__visit {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-sm) var(--space-lg);
+		padding-block: var(--space-lg);
+		border-top: var(--rule-hairline) solid var(--color-rule-2);
 	}
 }

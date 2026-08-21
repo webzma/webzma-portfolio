@@ -1,0 +1,23 @@
+[
+	{
+		"date": "2026-08-14",
+		"macrostructure": "Split Studio",
+		"theme": "Cobalt",
+		"theme_axes": "light-cool / grotesk-sans / electric-cobalt 256",
+		"genre": "modern-minimal",
+		"enrichment": "none",
+		"nav": "N9",
+		"footer": "Ft5",
+		"brief": "webzma portfolio · redesign to a second minimal register — cool technical diptych; genre switched editorial → modern-minimal at user request"
+	},
+	{
+		"date": "2026-08-13",
+		"macrostructure": "Index-First",
+		"theme": "Almanac",
+		"theme_axes": "light / roman-serif / warm",
+		"enrichment": "none",
+		"nav": "N1a",
+		"footer": "Ft2",
+		"brief": "webzma portfolio · redesign to minimal index; dropped certifications, skills, profile photo"
+	}
+]

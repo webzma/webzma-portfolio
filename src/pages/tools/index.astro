@@ -1,205 +1,130 @@
 ---
+import PageHead from '@/components/PageHead.astro'
 import PageLayout from '@/layouts/BaseLayout.astro'
-import ToolSection from '@/components/ToolSection.astro'
-import Button from '@/components/Button.astro'
+import Section from '@/components/Section.astro'
+import IndexRow from '@/components/IndexRow.astro'
+import { getLangFromUrl, useTranslations } from '@/i18n/utils'
 
-const DESIGN = [
-	{
-		name: 'Figma',
-		description: 'Diseño de interfaces',
-		href: 'https://www.figma.com/',
-		iconPath: 'figma',
-		iconBgColour: '#F24E1E'
-	}
-]
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
 
-const PRODUCTIVITY = [
-	{
-		name: 'Notion',
-		description: 'Organización y notas',
-		href: 'https://www.notion.so/product',
-		iconPath: 'notion',
-		iconBgColour: '#EFEFEE'
-	},
-	{
-		name: 'Slack',
-		description: 'Comunicación en equipo',
-		href: 'https://slack.com/',
-		iconPath: 'slack',
-		iconBgColour: '#4A154B'
-	}
-]
+/*
+	The coloured icon tiles are gone on purpose. The index contains no icons at
+	all — its whole containment vocabulary is hairlines — so a grid of brand
+	colours here was the loudest thing on the site and belonged to a different
+	one. A tool is a row, like a project and a role.
+*/
+interface Tool {
+	name: string
+	description: string
+	href: string
+	host: string
+}
 
-const DEVELOPMENT = [
+const GROUPS: { title: string; unit: string; tools: Tool[] }[] = [
 	{
-		name: 'VS Code',
-		description: 'Editor de código',
-		href: 'https://code.visualstudio.com/',
-		iconPath: 'vscode',
-		iconBgColour: '#007ACC'
+		title: 'Desarrollo',
+		unit: 'herramientas',
+		tools: [
+			{
+				name: 'VS Code',
+				description: 'Editor de código',
+				href: 'https://code.visualstudio.com/',
+				host: 'code.visualstudio.com'
+			},
+			{
+				name: 'GitHub',
+				description: 'Control de versiones y CI',
+				href: 'https://github.com/',
+				host: 'github.com'
+			},
+			{
+				name: 'Payload',
+				description: 'CMS sobre Node, para contenido que el cliente administra',
+				href: 'https://payloadcms.com/',
+				host: 'payloadcms.com'
+			},
+			{
+				name: 'Strapi',
+				description: 'CMS headless',
+				href: 'https://strapi.io/',
+				host: 'strapi.io'
+			},
+			{
+				name: 'Postman',
+				description: 'Pruebas de API',
+				href: 'https://www.postman.com/',
+				host: 'postman.com'
+			},
+			{
+				name: 'Docker',
+				description: 'Entornos reproducibles',
+				href: 'https://www.docker.com/',
+				host: 'docker.com'
+			},
+			{
+				name: 'Vercel',
+				description: 'Despliegue — incluido este sitio',
+				href: 'https://vercel.com/',
+				host: 'vercel.com'
+			}
+		]
 	},
 	{
-		name: 'GitHub',
-		description: 'Control de versiones',
-		href: 'https://github.com/',
-		iconPath: 'github',
-		iconBgColour: '#181717'
+		title: 'Diseño',
+		unit: 'herramientas',
+		tools: [
+			{
+				name: 'Figma',
+				description: 'Diseño de interfaces',
+				href: 'https://www.figma.com/',
+				host: 'figma.com'
+			}
+		]
 	},
 	{
-		name: 'Payload',
-		description: 'CMS',
-		href: 'https://payloadcms.com/',
-		iconPath: 'payload',
-		iconBgColour: '#000000'
-	},
-	{
-		name: 'Strapi',
-		description: 'CMS',
-		href: 'https://strapi.io/',
-		iconPath: 'strapi',
-		iconBgColour: '#2F2E88'
-	},
-	{
-		name: 'Postman',
-		description: 'Testing APIs',
-		href: 'https://www.postman.com/',
-		iconPath: 'postman',
-		iconBgColour: '#FF6C37'
-	},
-	{
-		name: 'Shopify',
-		description: 'CMS',
-		href: 'https://www.shopify.com/',
-		iconPath: 'shopify',
-		iconBgColour: '#95BF46'
-	},
-	{
-		name: 'Docker',
-		description: 'Contenedores',
-		href: 'https://www.docker.com/',
-		iconPath: 'docker',
-		iconBgColour: '#2496ED'
-	},
-	{
-		name: 'Vite',
-		description: 'Vite',
-		href: 'https://vitejs.dev/',
-		iconPath: 'vite',
-		iconBgColour: '#646CFF'
-	},
-	{
-		name: 'FastAPI',
-		description: 'FastAPI',
-		href: 'https://fastapi.tiangolo.com/',
-		iconPath: 'fastapi',
-		iconBgColour: '#009688'
-	},
-	{
-		name: 'Turborepo',
-		description: 'Turborepo',
-		href: 'https://turborepo.com/',
-		iconPath: 'turborepo',
-		iconBgColour: '#000000'
-	},
-	{
-		name: 'Vercel',
-		description: 'Deploy frontend',
-		href: 'https://vercel.com/',
-		iconPath: 'vercel',
-		iconBgColour: '#000000'
-	},
-
-	{
-		name: 'ChatGPT',
-		description: 'Asistente IA',
-		href: 'https://chat.openai.com/',
-		iconPath: 'chatgpt',
-		iconBgColour: '#06A67F'
-	},
-
-	{
-		name: 'Git',
-		description: 'Control de versiones',
-		href: 'https://git-scm.com/',
-		iconPath: 'git',
-		iconBgColour: '#F05032'
-	}
-]
-
-const FRAMEWORKS = [
-	{
-		name: 'React',
-		description: 'Librería UI',
-		href: 'https://react.dev/',
-		iconPath: 'react',
-		iconBgColour: '#61DAFB'
-	},
-	{
-		name: 'Next.js',
-		description: 'Framework React',
-		href: 'https://nextjs.org/',
-		iconPath: 'nextjs',
-		iconBgColour: '#000000'
-	},
-	{
-		name: 'Astro',
-		description: 'Framework web',
-		href: 'https://astro.build/',
-		iconPath: 'astro',
-		iconBgColour: '#FF5D01'
-	},
-	{
-		name: 'TailwindCSS',
-		description: 'Framework CSS',
-		href: 'https://tailwindcss.com/',
-		iconPath: 'tailwindcss',
-		iconBgColour: '#06B6D4'
-	},
-	{
-		name: 'TypeScript',
-		description: 'JavaScript tipado',
-		href: 'https://www.typescriptlang.org/',
-		iconPath: 'typescript',
-		iconBgColour: '#3178C6'
-	},
-	{
-		name: 'Node.js',
-		description: 'Runtime JavaScript',
-		href: 'https://nodejs.org/',
-		iconPath: 'nodejs',
-		iconBgColour: '#339933'
+		title: 'Productividad',
+		unit: 'herramientas',
+		tools: [
+			{
+				name: 'Notion',
+				description: 'Organización y notas',
+				href: 'https://www.notion.so/product',
+				host: 'notion.so'
+			},
+			{
+				name: 'Slack',
+				description: 'Comunicación con equipos y clientes',
+				href: 'https://slack.com/',
+				host: 'slack.com'
+			}
+		]
 	}
 ]
 ---
 
-<PageLayout meta={{ title: 'Home' }}>
-	<div class='w-full'>
-		<Button title='Back' href='/' style='button'>
-			<svg
-				xmlns='http://www.w3.org/2000/svg'
-				width='14'
-				height='14'
-				viewBox='0 0 24 24'
-				slot='icon-before'
+<PageLayout meta={{ title: t('nav.tools'), description: t('tools.lede') }}>
+	<PageHead title={t('nav.tools')} lede={t('tools.lede')} backHref='/' backLabel={t('back.home')} />
+
+	{
+		GROUPS.map((group, i) => (
+			<Section
+				class='mt-16 sm:mt-20'
+				title={group.title}
+				count={group.tools.length}
+				unit={group.unit}
+				style={`--i: ${i + 2}`}
 			>
-				<path
-					fill='currentColor'
-					d='m6.921 12.5l5.792 5.792L12 19l-7-7l7-7l.713.708L6.921 11.5H19v1z'
-				>
-				</path>
-			</svg>
-		</Button>
-
-		<div class='mt-5 flex w-full flex-col gap-y-10'>
-			<div>
-				<h1 class='mb-1 text-2xl font-bold'>Tools</h1>
-				<p>Software y herraminetas que utilizo en mi día a día</p>
-			</div>
-
-			<ToolSection title='Frameworks y Lenguajes' tools={FRAMEWORKS} />
-			<ToolSection title='Desarrollo' tools={DEVELOPMENT} />
-			<ToolSection title='Diseño' tools={DESIGN} />
-			<ToolSection title='Productividad' tools={PRODUCTIVITY} />
-		</div>
-	</div>
+				{group.tools.map((tool) => (
+					<IndexRow
+						title={tool.name}
+						meta={tool.host}
+						description={tool.description}
+						href={tool.href}
+						external
+					/>
+				))}
+			</Section>
+		))
+	}
 </PageLayout>

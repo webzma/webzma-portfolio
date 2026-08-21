@@ -9,19 +9,27 @@ interface Props {
 const { nextUrl, prevUrl } = Astro.props
 ---
 
-{
+<!--
+	Two typographic links on a hairline. The arrow leads on the way back and
+	trails on the way forward, so direction reads before the word does.
+-->{
 	(prevUrl || nextUrl) && (
-		<nav class='mt-8 flex items-center gap-x-4'>
+		<nav class='pager'>
 			{prevUrl && (
-				<a class='me-auto py-2' data-astro-prefetch href={prevUrl.url}>
+				<a class='backlink' href={prevUrl.url} data-astro-prefetch>
+					<span class='backlink__arrow' aria-hidden='true'>
+						&#8592;
+					</span>
 					{prevUrl.srLabel && <span class='sr-only'>{prevUrl.srLabel}</span>}
-					{prevUrl.text ? prevUrl.text : 'Previous'}
+					{prevUrl.text ?? 'Previous'}
 				</a>
 			)}
+
 			{nextUrl && (
-				<a class='ms-auto py-2' data-astro-prefetch href={nextUrl.url}>
+				<a class='backlink pager__spacer' href={nextUrl.url} data-astro-prefetch>
 					{nextUrl.srLabel && <span class='sr-only'>{nextUrl.srLabel}</span>}
-					{nextUrl.text ? nextUrl.text : 'Next'}
+					{nextUrl.text ?? 'Next'}
+					<span aria-hidden='true'>&#8594;</span>
 				</a>
 			)}
 		</nav>

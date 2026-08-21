@@ -10,15 +10,11 @@ const {
 } = Astro.props
 ---
 
-<li class={`${depth > 2 ? 'ms-2' : ''}`}>
-	<a
-		aria-label={`Scroll to section: ${text}`}
-		class={`block line-clamp-2  ${depth <= 2 ? 'mt-2' : 'mt-1 text-sm'} text-foreground/75 transition-all hover:text-foreground`}
-		href={`#${slug}`}>{text}</a
-	>
+<li>
+	<a class='toc__link' data-depth={depth} href={`#${slug}`}>{text}</a>
 	{
 		!!subheadings.length && (
-			<ul>
+			<ul class='toc__list'>
 				{subheadings.map((subheading) => (
 					<Astro.self heading={subheading} />
 				))}

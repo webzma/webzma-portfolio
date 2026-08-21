@@ -1,0 +1,309 @@
+---
+import { Image } from 'astro:assets'
+
+import Section from '@/components/Section.astro'
+import IndexRow from '@/components/IndexRow.astro'
+import portrait from '@/assets/webzma-profile.jpeg'
+
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '@/i18n/utils'
+import { projects, experience, education, socials, now, contact } from '@/i18n/ui'
+
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
+const translatePath = useTranslatedPath(lang)
+
+const work = projects[lang]
+const roles = experience[lang]
+const study = education[lang]
+const nowEntry = now[lang]
+
+/* The stamp is stored as YYYY-MM so it stays sortable; it only becomes prose
+   here. Day 1 at noon UTC keeps the month from slipping a timezone backwards. */
+const nowDate = new Date(`${nowEntry.stamp}-01T12:00:00Z`)
+const nowLabel = new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : 'es-ES', {
+	month: 'long',
+	year: 'numeric',
+	timeZone: 'UTC'
+}).format(nowDate)
+---
+
+<!--
+	Split Studio. Every block below divides the page: a pinned label on the
+	left, the content on the right. The hero is the same diptych inverted —
+	the writing takes the wide half, the facts take the narrow one.
+-->
+<section class='diptych reveal mb-24 sm:mb-32' style='--i: 1'>
+	<div>
+		<p class='hero__eyebrow'>
+			<span class='hero__tick' aria-hidden='true'></span>
+			<span class='mono-label'>{t('hero.role')}</span>
+		</p>
+
+		<h1 class='hero__title'>{t('hero.name')}</h1>
+
+		<p class='hero__lede'>{t('hero.intro')}</p>
+		<p class='hero__sub'>{t('hero.intro2')}</p>
+	</div>
+
+	<!--
+		The proof column. Every line is a fact already stated elsewhere on the
+		page or in the CV — nothing here is a metric, a badge or a claim. The
+		portrait is an identifying mark, not a hero image: 48px, hairline,
+		desaturated until you hover it.
+	-->
+	<dl class='spec'>
+		<div class='spec__row'>
+			<dt class='mono-label'>{t('meta.location')}</dt>
+			<dd class='spec__value'>
+				<span class='spec__identity'>
+					<Image
+						class='portrait'
+						src={portrait}
+						alt=''
+						aria-hidden='true'
+						width={96}
+						height={96}
+						densities={[1, 2]}
+						loading='eager'
+					/>
+					<span class='spec__identity-text'>{t('hero.base')}</span>
+				</span>
+			</dd>
+		</div>
+
+		<div class='spec__row'>
+			<dt class='mono-label'>{t('meta.status')}</dt>
+			<dd class='spec__value'>
+				<span class='spec__dot' aria-hidden='true'></span>{t('hero.status')}
+			</dd>
+		</div>
+
+		<!--
+			The address is copyable rather than a mailto: — a mailto opens
+			whatever client the machine happens to have registered, which on a
+			work laptop is usually the wrong one. Copying always works.
+		-->
+		<div class='spec__row'>
+			<dt class='mono-label'>{t('meta.email')}</dt>
+			<dd class='spec__value'>
+				<button
+					class='copy'
+					type='button'
+					data-copy={contact.email}
+					data-label-idle={t('copy.hint')}
+					data-label-done={t('copy.done')}
+				>
+					<span>{contact.email}</span>
+					<span class='copy__hint' aria-hidden='true'>{t('copy.hint')}</span>
+				</button>
+				<span class='sr-only' role='status' data-copy-status></span>
+			</dd>
+		</div>
+
+		<div class='spec__row'>
+			<dt class='mono-label'>{t('meta.links')}</dt>
+			<dd class='spec__value spec__links'>
+				{
+					socials.map((social) => (
+						<a
+							class='link whitespace-nowrap'
+							href={social.href}
+							target='_blank'
+							rel='noopener noreferrer'
+						>
+							{social.label}
+							<span class='row__arrow' aria-hidden='true'>
+								&nbsp;&#8599;&#xFE0E;
+							</span>
+						</a>
+					))
+				}
+			</dd>
+		</div>
+	</dl>
+</section>
+
+<Section
+	title={t('work.title')}
+	count={work.length}
+	unit={t('work.unit')}
+	id='trabajo'
+	style='--i: 2'
+>
+	{
+		work.map((project) => (
+			<IndexRow
+				title={project.name}
+				meta={project.host}
+				description={project.description}
+				detail={project.stack}
+				href={project.study ? translatePath(`/work/${project.slug}/`) : project.href}
+				external={!project.study}
+				status={
+					/* Only the exception earns the chip. Five rows all stamped
+					   "en producción" is noise — the live link already says it.
+					   An archived project is the claim worth marking. */
+					project.status === 'archived'
+						? { label: t('status.archived'), kind: 'archived' }
+						: undefined
+				}
+				facts={[project.year, project.role]}
+			/>
+		))
+	}
+</Section>
+
+<!--
+	"Ahora". A dated note, and the only block on the page that goes stale on
+	its own — which is exactly why it is worth having: a visitor can tell at a
+	glance whether anyone is home.
+-->
+<Section
+	class='mt-20 sm:mt-28'
+	title={t('now.title')}
+	count={nowEntry.items.length}
+	unit={t('now.unit')}
+	id='ahora'
+	style='--i: 3'
+>
+	<div class='row'>
+		<p class='now__note'>{nowEntry.note}</p>
+
+		<div class='now__list'>
+			{
+				nowEntry.items.map((item) => (
+					<p class='now__item'>
+						<span class='mono-label'>{item.label}</span>
+						<span>{item.value}</span>
+					</p>
+				))
+			}
+		</div>
+
+		<span class='mono-label now__stamp'>
+			{t('now.stamp')} · <time datetime={nowEntry.stamp}>{nowLabel}</time>
+		</span>
+	</div>
+</Section>
+
+<Section
+	class='mt-20 sm:mt-28'
+	title={t('experience.title')}
+	count={roles.length}
+	unit={t('experience.unit')}
+	id='experiencia'
+	style='--i: 4'
+>
+	{
+		roles.map((role) => (
+			<IndexRow
+				title={role.title}
+				meta={role.date}
+				subtitle={role.company}
+				description={role.description}
+			/>
+		))
+	}
+</Section>
+
+<Section
+	class='mt-20 sm:mt-28'
+	title={t('education.title')}
+	count={1}
+	unit={t('education.unit')}
+	id='educacion'
+	style='--i: 5'
+>
+	<IndexRow title={study.degree} meta={study.date} subtitle={study.school} />
+</Section>
+
+<script>
+	/* ── Copy-to-clipboard ───────────────────────────────────────────────── */
+	function bindCopy() {
+		document.querySelectorAll<HTMLButtonElement>('button[data-copy]').forEach((btn) => {
+			if (btn.dataset.bound === 'true') return
+			btn.dataset.bound = 'true'
+
+			const hint = btn.querySelector<HTMLElement>('.copy__hint')
+			const status = btn.parentElement?.querySelector<HTMLElement>('[data-copy-status]')
+			let timer: number | undefined
+
+			btn.addEventListener('click', async () => {
+				const value = btn.dataset.copy
+				if (!value) return
+
+				try {
+					await navigator.clipboard.writeText(value)
+				} catch {
+					/* Insecure context or a denied permission — select the text so
+					   the visitor can still copy it by hand instead of nothing
+					   happening at all. */
+					const range = document.createRange()
+					range.selectNodeContents(btn)
+					const sel = window.getSelection()
+					sel?.removeAllRanges()
+					sel?.addRange(range)
+					return
+				}
+
+				const done = btn.dataset.labelDone ?? 'Copied'
+				const idle = btn.dataset.labelIdle ?? 'Copy'
+				btn.dataset.copied = 'true'
+				if (hint) hint.textContent = done
+				if (status) status.textContent = `${done}: ${value}`
+
+				window.clearTimeout(timer)
+				timer = window.setTimeout(() => {
+					btn.dataset.copied = 'false'
+					if (hint) hint.textContent = idle
+					if (status) status.textContent = ''
+				}, 2000)
+			})
+		})
+	}
+
+	/* ── Which section am I standing in? ─────────────────────────────────
+	   The aside is already pinned at md+; this only tells it when its own
+	   rows own the viewport, so the pinned label matches what is on screen.
+	   Purely decorative — nothing depends on it, and it is skipped entirely
+	   when the observer is unavailable. */
+	let sectionObserver: IntersectionObserver | undefined
+
+	function bindSectionSpy() {
+		sectionObserver?.disconnect()
+
+		const sections = Array.from(document.querySelectorAll<HTMLElement>('.section[id]'))
+		if (!sections.length || !('IntersectionObserver' in window)) return
+
+		/* Annotated rather than `new Set<Element>()`: astro-eslint-parser
+		   reads that generic as JSX and fails to parse the script. */
+		const visible: Set<Element> = new Set()
+
+		sectionObserver = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) visible.add(entry.target)
+					else visible.delete(entry.target)
+				})
+
+				/* Several sections can straddle the viewport at once. The active
+				   one is the highest of them, matching the reading direction. */
+				const active = sections.find((section) => visible.has(section))
+				sections.forEach((section) => {
+					section.dataset.active = String(section === active)
+				})
+			},
+			{ rootMargin: '-25% 0px -55% 0px' }
+		)
+
+		sections.forEach((section) => sectionObserver!.observe(section))
+	}
+
+	function init() {
+		bindCopy()
+		bindSectionSpy()
+	}
+
+	init()
+	document.addEventListener('astro:after-swap', init)
+</script>

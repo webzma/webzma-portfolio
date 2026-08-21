@@ -3,6 +3,22 @@
 // all pages through the use of the <BaseHead /> component.
 import '../styles/app.css'
 
+/* Type · self-hosted. Three variable faces served from our own origin, so the
+   first paint never waits on a third-party DNS lookup + connect + CSS round
+   trip. `wght.css` is the weight-axis-only cut (Inter's optical-size axis is
+   dead weight at these sizes); each family ships per-subset @font-face rules,
+   so a browser only ever downloads the latin file it needs. */
+import '@fontsource-variable/space-grotesk'
+import '@fontsource-variable/inter/wght.css'
+import '@fontsource-variable/jetbrains-mono/wght.css'
+
+/* The three latin cuts are all above the fold — display in the title, body in
+   the lede, mono in the eyebrow — so they are preloaded rather than
+   discovered a stylesheet late. Hashed URLs come from the bundler. */
+import displayFont from '@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2?url'
+import bodyFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url'
+import monoFont from '@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url'
+
 import type { SiteMeta } from '@/types'
 import { siteConfig } from '@/site-config'
 
@@ -31,16 +47,14 @@ const socialImageURL = new URL(ogImage ? ogImage : '/social-card.png', Astro.sit
 <link rel='icon' type='image/png' sizes='32x32' href='/favicon/favicon.svg' />
 <link rel='icon' type='image/png' sizes='16x16' href='/favicon/favicon.svg' />
 
-{/* Font preloads */}
-<!-- <link rel='preload' href='/fonts/Satoshi-Variable.ttf' as='font' type='font/ttf' crossorigin />
-<link
-	rel='preload'
-	href='/fonts/Satoshi-VariableItalic.ttf'
-	as='font'
-	type='font/ttf'
-	crossorigin
-/>
-<link rel='preload' href='/fonts/ClashDisplay-Variable.ttf' as='font' type='font/ttf' crossorigin /> -->
+{
+	/* Fonts — Space Grotesk (display) + Inter (body) + JetBrains Mono (labels,
+	   meta, stacks). Self-hosted; the @font-face rules ride in the bundled
+	   stylesheet, these three preloads start the latin cuts immediately. */
+}
+<link rel='preload' as='font' type='font/woff2' href={displayFont} crossorigin />
+<link rel='preload' as='font' type='font/woff2' href={bodyFont} crossorigin />
+<link rel='preload' as='font' type='font/woff2' href={monoFont} crossorigin />
 
 {/* Canonical URL */}
 <link rel='canonical' href={canonicalURL} />
@@ -51,7 +65,11 @@ const socialImageURL = new URL(ogImage ? ogImage : '/social-card.png', Astro.sit
 <meta content={siteConfig.author} name='author' />
 
 {/* Theme Colour */}
-<meta content='' name='theme-color' />
+{
+	/* Literal sRGB of --color-paper (light) and --color-paper in .dark — meta tags cannot read CSS vars */
+}
+<meta content='#f9fafd' media='(prefers-color-scheme: light)' name='theme-color' />
+<meta content='#101318' media='(prefers-color-scheme: dark)' name='theme-color' />
 
 {/* Open Graph / Facebook */}
 <meta content={articleDate ? 'article' : 'website'} property='og:type' />

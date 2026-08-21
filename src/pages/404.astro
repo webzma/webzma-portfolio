@@ -1,46 +1,57 @@
 ---
 import PageLayout from '@/layouts/BaseLayout.astro'
-import Button from '@/components/Button.astro'
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '@/i18n/utils'
 
-const meta = {
-	description: 'Not found',
-	title: '404'
-}
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
+const translatePath = useTranslatedPath(lang)
+
+/*
+	The template's "Get free template" badge and its pinging green dot lived
+	here. A 404 is the page a stranger is most likely to hit by accident, so it
+	is the last place to advertise the theme somebody else wrote.
+*/
 ---
 
-<PageLayout meta={meta}>
-	<a
-		href='https://github.com/srleom/astro-theme-resume.git'
-		class='flex flex-row items-center gap-x-3 rounded-3xl border border-input px-4 py-2 text-sm shadow-sm transition-all hover:shadow-md'
-	>
-		<span class='relative flex items-center justify-center'>
-			<span
-				class='absolute inline-flex h-2 w-2 animate-ping rounded-full border border-green-400 bg-green-400 opacity-75'
-			></span>
-			<span class='relative inline-flex h-2 w-2 rounded-full bg-green-400'></span>
-		</span>
+<PageLayout meta={{ title: '404', description: t('nf.lede') }}>
+	<section class='diptych reveal' style='--i: 1'>
+		<div>
+			<p class='hero__eyebrow'>
+				<span class='hero__tick' aria-hidden='true'></span>
+				<span class='mono-label'>Error 404</span>
+			</p>
 
-		<p class='font-medium'>Get free template</p>
-	</a>
-	<div class='px-4 py-10 text-center sm:px-6 lg:px-8'>
-		<h1 class='block text-7xl font-bold sm:text-9xl'>404</h1>
-		<p class='mt-3 text-muted-foreground'>Oops, something went wrong.</p>
-		<p class=''>Sorry, we couldn't find your page.</p>
-		<Button title='Back to home' href='/' style='button' class='mt-5'>
-			<svg
-				xmlns='http://www.w3.org/2000/svg'
-				width='14'
-				height='14'
-				viewBox='0 0 24 24'
-				slot='icon-after'
-				class='-scale-x-100'
-			>
-				<path
-					fill='currentColor'
-					d='m6.921 12.5l5.792 5.792L12 19l-7-7l7-7l.713.708L6.921 11.5H19v1z'
-				>
-				</path>
-			</svg>
-		</Button>
-	</div>
+			<h1 class='hero__title'>{t('nf.title')}</h1>
+			<p class='hero__lede'>{t('nf.lede')}</p>
+
+			<p class='mt-8'>
+				<a class='backlink' href={translatePath('/')} data-astro-prefetch>
+					<span class='backlink__arrow' aria-hidden='true'>&#8592;</span>
+					{t('nf.back')}
+				</a>
+			</p>
+		</div>
+
+		<!--
+			One row, three links — the same shape as the index's "Enlaces" row.
+			A label column that just repeats each destination's name in both
+			cells is a table pretending to be information.
+		-->
+		<dl class='spec'>
+			<div class='spec__row'>
+				<dt class='mono-label'>{t('nf.goto')}</dt>
+				<dd class='spec__value spec__links'>
+					<a
+						class='link whitespace-nowrap'
+						href={`${translatePath('/')}#trabajo`}
+						data-astro-prefetch
+					>
+						{t('work.title')}
+					</a>
+					<a class='link whitespace-nowrap' href='/blog/' data-astro-prefetch>{t('nav.blog')}</a>
+					<a class='link whitespace-nowrap' href='/tools/' data-astro-prefetch>{t('nav.tools')}</a>
+				</dd>
+			</div>
+		</dl>
+	</section>
 </PageLayout>

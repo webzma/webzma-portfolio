@@ -1,0 +1,28 @@
+---
+export const prerender = true
+
+import type { GetStaticPaths } from 'astro'
+
+import PageLayout from '@/layouts/BaseLayout.astro'
+import WorkDetail from '@/components/WorkDetail.astro'
+import { projects } from '@/i18n/ui'
+
+export const getStaticPaths = (() =>
+	projects.es
+		.filter((project) => project.study)
+		.map((project) => ({
+			params: { slug: project.slug },
+			props: {
+				name: project.name,
+				description: project.description,
+				ogImage: `/og-image/work/${project.slug}.png`
+			}
+		}))) satisfies GetStaticPaths
+
+const { slug } = Astro.params
+const { name, description, ogImage } = Astro.props
+---
+
+<PageLayout meta={{ title: name, description, ogImage }}>
+	<WorkDetail slug={slug!} />
+</PageLayout>

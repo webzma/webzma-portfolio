@@ -1,58 +1,54 @@
 ---
-import Button from '@/components/Button.astro'
+import PageHead from '@/components/PageHead.astro'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import { getAllPosts, getUniqueTagsWithCount } from '@/utils'
+import { getLangFromUrl, useTranslations } from '@/i18n/utils'
 
 const allPosts = await getAllPosts()
 const allTags = getUniqueTagsWithCount(allPosts)
 
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
+
 const meta = {
-	description: "A list of all the topics I've written about in my posts",
-	title: 'All Tags'
+	description: t('tags.lede'),
+	title: t('tags.title')
 }
 ---
 
 <PageLayout meta={meta}>
-	<div class='w-full'>
-		<Button title='Back' href='/blog' style='button'>
-			<svg
-				xmlns='http://www.w3.org/2000/svg'
-				width='14'
-				height='14'
-				viewBox='0 0 24 24'
-				slot='icon-before'
-			>
-				<path
-					fill='currentColor'
-					d='m6.921 12.5l5.792 5.792L12 19l-7-7l7-7l.713.708L6.921 11.5H19v1z'
-				>
-				</path>
-			</svg>
-		</Button>
+	<PageHead
+		title={t('tags.title')}
+		lede={t('tags.lede')}
+		backHref='/blog/'
+		backLabel={t('blog.back')}
+	/>
 
-		<h1 class='mb-6 mt-5 text-2xl font-bold'>Tags</h1>
-		{allTags.length === 0 && <p>No posts yet.</p>}
+	{allTags.length === 0 && <p class='empty'>{t('tags.empty')}</p>}
 
-		{
-			allTags.length > 0 && (
-				<ul class='flex flex-col gap-y-3'>
-					{allTags.map(([tag, val]) => (
-						<li class='flex items-center gap-x-2 '>
-							<a
-								class='inline-block underline underline-offset-4 hover:text-foreground/75'
-								data-astro-prefetch
-								href={`/tags/${tag}/`}
-								title={`View posts with the tag: ${tag}`}
-							>
-								&#35;{tag}
+	{
+		/* A tag with its count is a spec row: key left, tabular number right.
+		   Same shape as the index's proof column. */
+		allTags.length > 0 && (
+			<dl class='spec reveal mt-10' style='--i: 2'>
+				{allTags.map(([tag, count]) => (
+					<div class='spec__row'>
+						<dt>
+							<a class='tag' href={`/tags/${tag}/`} data-astro-prefetch>
+								<span class='tag__hash' aria-hidden='true'>
+									#
+								</span>
+								{tag}
 							</a>
-							<span class='inline-block'>
-								- {val} post{val > 1 && 's'}
+						</dt>
+						<dd class='spec__value'>
+							<span class='mono-label'>
+								{String(count).padStart(2, '0')} {count === 1 ? t('tags.post') : t('tags.posts')}
 							</span>
-						</li>
-					))}
-				</ul>
-			)
-		}
-	</div>
+						</dd>
+					</div>
+				))}
+			</dl>
+		)
+	}
 </PageLayout>

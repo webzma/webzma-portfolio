@@ -1,21 +1,23 @@
 ---
 import { cn } from '@/utils'
+
+// Cobalt voice: 6px radius drawn with a ruler, never a pill, never a gradient.
+// `style` is kept for the blog / tools / 404 call sites; `pill` now resolves to
+// the same tight radius rather than a rounded capsule.
 const { as: Tag = 'a', class: className, title, href, style = 'button' } = Astro.props
 ---
 
 <Tag
 	class={cn(
 		className,
-		'inline-flex items-center gap-x-1.5 rounded-lg bg-primary-foreground border border-border px-3 py-1.5 text-sm font-medium transition-all duration-200',
-		!href && 'cursor-default',
-		style === 'pill' &&
-			'rounded-full bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/20 hover:border-purple-500/40 hover:from-purple-500/20 hover:to-pink-500/20',
-		style !== 'pill' && 'hover:bg-muted hover:border-foreground/20'
+		'btn',
+		style === 'primary' ? 'btn--primary' : 'btn--ghost',
+		!href && 'cursor-default'
 	)}
 	href={href}
 	data-astro-prefetch
 >
 	<slot name='icon-before' />
-	<p>{title}</p>
+	<span>{title}</span>
 	<slot name='icon-after' />
 </Tag>

@@ -1,0 +1,93 @@
+---
+interface Props {
+	title: string
+	meta?: string
+	subtitle?: string
+	description?: string
+	detail?: string
+	href?: string
+	/* Outbound rows get the ↗ and a new tab; inbound ones (a case study, a
+	   post) navigate in place. Defaulting to `false` means a plain internal
+	   link is the normal case and leaving the site is the marked one. */
+	external?: boolean
+	/* The mono fact line under the body. Every entry is optional so a role
+	   and a degree keep using the same row without inventing fields. */
+	facts?: (string | undefined)[]
+	status?: { label: string; kind: 'live' | 'archived' }
+}
+
+const {
+	title,
+	meta,
+	subtitle,
+	description,
+	detail,
+	href,
+	external = false,
+	facts = [],
+	status
+} = Astro.props
+
+const Tag = href ? 'a' : 'div'
+const shownFacts = facts.filter(Boolean) as string[]
+const hasFactLine = shownFacts.length > 0 || status !== undefined
+---
+
+<!--
+	F3 · One row of the spec sheet. A project, a role, a degree and a post are
+	the same shape, distinguished by which optional lines they fill in. Hairline
+	rules do all the containment — no card, no shadow, no coloured side stripe.
+	The title's cobalt underline is drawn on hover; the top rule turns cobalt
+	with it, so the whole row reads as one target.
+-->
+<Tag
+	class='row'
+	href={href}
+	target={href && external ? '_blank' : undefined}
+	rel={href && external ? 'noopener noreferrer' : undefined}
+	data-astro-prefetch={href && !external ? true : undefined}
+>
+	<div class='row__head'>
+		<h3 class='row__title'>
+			{title}{
+				/* U+FE0E forces the text presentation of ↗ — without it the
+				   glyph falls through to the colour-emoji font. */
+				href && external && (
+					<span class='row__arrow' aria-hidden='true'>
+						&nbsp;&#8599;&#xFE0E;
+					</span>
+				)
+			}
+		</h3>
+		{meta && <span class='row__meta'>{meta}</span>}
+	</div>
+
+	{subtitle && <p class='row__sub'>{subtitle}</p>}
+	{description && <p class='row__body'>{description}</p>}
+
+	{
+		/* Year · role · status. A separated mono line, so the facts never get
+		   mistaken for the prose above them. */
+		hasFactLine && (
+			<p class='row__facts'>
+				{status && (
+					<span class='row__status' data-status={status.kind}>
+						{status.label}
+					</span>
+				)}
+				{shownFacts.map((fact, i) => (
+					<>
+						{(i > 0 || status) && (
+							<span class='row__sep' aria-hidden='true'>
+								/
+							</span>
+						)}
+						<span>{fact}</span>
+					</>
+				))}
+			</p>
+		)
+	}
+
+	{detail && <p class='row__stack'>{detail}</p>}
+</Tag>

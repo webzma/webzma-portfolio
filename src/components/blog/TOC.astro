@@ -1,6 +1,7 @@
 ---
 import type { MarkdownHeading } from 'astro'
 import { generateToc } from '@/utils'
+import { getLangFromUrl, useTranslations } from '@/i18n/utils'
 
 import TOCHeading from './TOCHeading.astro'
 
@@ -10,12 +11,26 @@ interface Props {
 
 const { headings } = Astro.props
 
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
+
 const toc = generateToc(headings)
 ---
 
-<aside class='sticky top-20 order-2 -me-28 hidden basis-60 lg:flex lg:flex-col'>
-	<h2 class='font-semibold'>TABLE OF CONTENTS</h2>
-	<ul class='text-card-foreground'>
-		{toc.map((heading) => <TOCHeading heading={heading} />)}
-	</ul>
-</aside>
+<!--
+	Same pinning mechanics as the index's section head — docked beneath the nav,
+	never alongside it — so the two sticky things on this site behave alike.
+	Hidden under 1024px rather than collapsed into an accordion: on a phone the
+	article itself is the table of contents.
+-->{
+	!!toc.length && (
+		<nav class='toc' aria-label={t('blog.toc')}>
+			<span class='mono-label'>{t('blog.toc')}</span>
+			<ul class='toc__list'>
+				{toc.map((heading) => (
+					<TOCHeading heading={heading} />
+				))}
+			</ul>
+		</nav>
+	)
+}

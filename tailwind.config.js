@@ -18,49 +18,73 @@ const config = {
 			}
 		},
 		extend: {
+			// Hallmark tokens (src/styles/app.css) are the source of truth. The
+			// legacy shadcn names below are aliases onto them so the blog, tools
+			// and 404 routes keep rendering without a rewrite.
 			colors: {
-				border: 'hsl(var(--border) / <alpha-value>)',
-				input: 'hsl(var(--input) / <alpha-value>)',
-				ring: 'hsl(var(--ring) / <alpha-value>)',
-				background: 'hsl(var(--background) / <alpha-value>)',
-				foreground: 'hsl(var(--foreground) / <alpha-value>)',
+				paper: 'oklch(var(--ok-paper) / <alpha-value>)',
+				'paper-2': 'oklch(var(--ok-paper-2) / <alpha-value>)',
+				rule: 'oklch(var(--ok-rule) / <alpha-value>)',
+				'rule-2': 'oklch(var(--ok-rule-2) / <alpha-value>)',
+				ink: 'oklch(var(--ok-ink) / <alpha-value>)',
+				'ink-2': 'oklch(var(--ok-ink-2) / <alpha-value>)',
+				'accent-ink': 'oklch(var(--ok-accent-ink) / <alpha-value>)',
+				'accent-fg': 'oklch(var(--ok-accent-fg) / <alpha-value>)',
+				focus: 'oklch(var(--ok-focus) / <alpha-value>)',
+				band: 'oklch(var(--ok-band) / <alpha-value>)',
+				'band-2': 'oklch(var(--ok-band-2) / <alpha-value>)',
+				'band-rule': 'oklch(var(--ok-band-rule) / <alpha-value>)',
+				'band-ink': 'oklch(var(--ok-band-ink) / <alpha-value>)',
+				'band-muted': 'oklch(var(--ok-band-muted) / <alpha-value>)',
+				'band-accent': 'oklch(var(--ok-band-accent) / <alpha-value>)',
+
+				border: 'oklch(var(--ok-rule) / <alpha-value>)',
+				input: 'oklch(var(--ok-rule) / <alpha-value>)',
+				ring: 'oklch(var(--ok-focus) / <alpha-value>)',
+				background: 'oklch(var(--ok-paper) / <alpha-value>)',
+				foreground: 'oklch(var(--ok-ink) / <alpha-value>)',
 				primary: {
-					DEFAULT: 'hsl(var(--primary) / <alpha-value>)',
-					foreground: 'hsl(var(--primary-foreground) / <alpha-value>)'
+					DEFAULT: 'oklch(var(--ok-ink) / <alpha-value>)',
+					foreground: 'oklch(var(--ok-paper-2) / <alpha-value>)'
 				},
 				secondary: {
-					DEFAULT: 'hsl(var(--secondary) / <alpha-value>)',
-					foreground: 'hsl(var(--secondary-foreground) / <alpha-value>)'
+					DEFAULT: 'oklch(var(--ok-paper-2) / <alpha-value>)',
+					foreground: 'oklch(var(--ok-ink) / <alpha-value>)'
 				},
 				destructive: {
-					DEFAULT: 'hsl(var(--destructive) / <alpha-value>)',
-					foreground: 'hsl(var(--destructive-foreground) / <alpha-value>)'
+					DEFAULT: 'oklch(var(--ok-destructive) / <alpha-value>)',
+					foreground: 'oklch(var(--ok-paper) / <alpha-value>)'
 				},
 				muted: {
-					DEFAULT: 'hsl(var(--muted) / <alpha-value>)',
-					foreground: 'hsl(var(--muted-foreground) / <alpha-value>)'
+					DEFAULT: 'oklch(var(--ok-paper-2) / <alpha-value>)',
+					foreground: 'oklch(var(--ok-muted) / <alpha-value>)'
 				},
 				accent: {
-					DEFAULT: 'hsl(var(--accent) / <alpha-value>)',
-					foreground: 'hsl(var(--accent-foreground) / <alpha-value>)'
+					DEFAULT: 'oklch(var(--ok-accent) / <alpha-value>)',
+					foreground: 'oklch(var(--ok-paper) / <alpha-value>)'
 				},
 				popover: {
-					DEFAULT: 'hsl(var(--popover) / <alpha-value>)',
-					foreground: 'hsl(var(--popover-foreground) / <alpha-value>)'
+					DEFAULT: 'oklch(var(--ok-paper) / <alpha-value>)',
+					foreground: 'oklch(var(--ok-ink) / <alpha-value>)'
 				},
 				card: {
-					DEFAULT: 'hsl(var(--card) / <alpha-value>)',
-					foreground: 'hsl(var(--card-foreground) / <alpha-value>)'
+					DEFAULT: 'oklch(var(--ok-paper-2) / <alpha-value>)',
+					foreground: 'oklch(var(--ok-ink) / <alpha-value>)'
 				}
 			},
 			borderRadius: {
-				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				lg: 'var(--radius-lg)',
+				md: 'var(--radius)',
+				sm: 'var(--radius)'
 			},
 			fontFamily: {
-				sans: [...fontFamily.sans],
-				satoshi: ['Satoshi', 'sans']
+				// Cobalt's 3 families. `satoshi` stays as an alias onto the body
+				// face so the blog / tools / 404 routes keep rendering unchanged.
+				sans: ['Inter', ...fontFamily.sans],
+				body: ['Inter', ...fontFamily.sans],
+				satoshi: ['Inter', ...fontFamily.sans],
+				display: ['Space Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+				mono: ['JetBrains Mono', ...fontFamily.mono]
 			}
 		}
 	}

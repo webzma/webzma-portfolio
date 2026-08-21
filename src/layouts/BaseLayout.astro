@@ -1,4 +1,6 @@
 ---
+import { ClientRouter } from 'astro:transitions'
+
 import type { SiteMeta } from '@/types'
 
 import BaseHead from '@/components/BaseHead.astro'
@@ -20,21 +22,31 @@ const {
 const lang = getLangFromUrl(Astro.url)
 ---
 
-<html lang={lang} class=''>
+<html lang={lang}>
 	<head>
 		<BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
+
+		<!--
+			Cross-page navigation without the white flash. ThemeProvider already
+			re-applies the stored theme on `astro:after-swap`, so the band and
+			the paper never blink between routes.
+		-->
+		<ClientRouter />
 	</head>
 
-	<body class='font-GeistPixelSquare flex justify-center bg-background'>
+	<!--
+		Split Studio needs width for the diptych, so the measure opens up to
+		68rem. The nav and the closing band run full-bleed and re-centre on
+		`.shell`; only `main` is padded, so the dark band can touch both edges.
+	-->
+	<body class='bg-background font-body text-foreground'>
 		<ThemeProvider />
-		<main
-			class='flex min-h-screen w-screen max-w-[65rem] flex-col items-center px-6 pb-10 pt-7 font-satoshi text-[0.92rem] leading-relaxed sm:px-10 lg:px-10'
-		>
-			<div class='relative h-full w-full'>
-				<Header />
+		<div class='flex min-h-screen flex-col'>
+			<Header />
+			<main class='shell flex-1 pb-24 pt-14 sm:pt-20'>
 				<slot />
-				<Footer />
-			</div>
-		</main>
+			</main>
+			<Footer />
+		</div>
 	</body>
 </html>

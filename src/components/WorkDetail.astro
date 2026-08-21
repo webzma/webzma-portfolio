@@ -1,0 +1,104 @@
+---
+import PageHead from '@/components/PageHead.astro'
+
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '@/i18n/utils'
+import { projects } from '@/i18n/ui'
+
+interface Props {
+	slug: string
+}
+
+const { slug } = Astro.props
+
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
+const translatePath = useTranslatedPath(lang)
+
+const project = projects[lang].find((p) => p.slug === slug)
+if (!project || !project.study) {
+	/* The route only generates slugs that have a study, so reaching this means
+	   the two locales have drifted apart. Fail loudly at build rather than
+	   render an empty page. */
+	throw new Error(`No case study for "${slug}" in locale "${lang}".`)
+}
+
+const { study } = project
+
+/* Same three-column spec sheet as the index's proof column. A case study is
+   still a spec sheet — it just has prose attached. */
+const facts = [
+	project.year && { label: t('work.year'), value: project.year },
+	project.role && { label: t('work.role'), value: project.role },
+	{
+		label: t('work.status'),
+		value: t(project.status === 'live' ? 'status.live' : 'status.archived')
+	},
+	{ label: t('work.stack'), value: project.stack }
+].filter(Boolean) as { label: string; value: string }[]
+---
+
+<PageHead
+	title={project.name}
+	lede={project.description}
+	backHref={`${translatePath('/')}#trabajo`}
+	backLabel={t('work.back')}
+/>
+
+<div class='reveal' style='--i: 2'>
+	<dl class='spec mt-10'>
+		{
+			facts.map((fact) => (
+				<div class='spec__row'>
+					<dt class='mono-label'>{fact.label}</dt>
+					<dd class='spec__value'>{fact.value}</dd>
+				</div>
+			))
+		}
+	</dl>
+
+	{
+		project.shot && (
+			<img
+				class='case__shot'
+				src={project.shot}
+				alt={`${project.name} — ${project.host}`}
+				loading='lazy'
+				decoding='async'
+			/>
+		)
+	}
+
+	<!--
+		Brief → decisions → outcome. The three things a client reads, in the
+		order they ask about them. Each one is the index's section head shape:
+		a pinned mono label on the left, the prose on the right.
+	-->
+	<section class='case__block'>
+		<h2 class='section__label'>{t('work.brief')}</h2>
+		<p class='case__body'>{study.brief}</p>
+	</section>
+
+	<section class='case__block'>
+		<h2 class='section__label'>{t('work.decisions')}</h2>
+		<div>
+			{study.decisions.map((decision) => <p class='case__body'>{decision}</p>)}
+		</div>
+	</section>
+
+	<section class='case__block'>
+		<h2 class='section__label'>{t('work.outcome')}</h2>
+		<p class='case__body'>{study.outcome}</p>
+	</section>
+
+	<!--
+		The live site, at the end. The visitor reads the story first and then
+		leaves on purpose, instead of bouncing off the index.
+	-->
+	<div class='case__visit'>
+		<span class='mono-label'>{project.host}</span>
+		<a class='link whitespace-nowrap' href={project.href} target='_blank' rel='noopener noreferrer'>
+			{t('work.visit')}
+			<span class='row__arrow' aria-hidden='true'>&nbsp;&#8599;&#xFE0E;</span>
+		</a>
+	</div>
+</div>

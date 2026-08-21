@@ -5,10 +5,11 @@ import type { GetStaticPaths, Page } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 
 import Pagination from '@/components/Paginator.astro'
+import PageHead from '@/components/PageHead.astro'
 import PostPreview from '@/components/blog/PostPreview.astro'
 import PageLayout from '@/layouts/BaseLayout.astro'
-import Button from '@/components/Button.astro'
 import { getAllPosts, getUniqueTags, sortMDByDate } from '@/utils'
+import { getLangFromUrl, useTranslations } from '@/i18n/utils'
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
 	const allPosts = await getAllPosts()
@@ -17,10 +18,7 @@ export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
 
 	return uniqueTags.flatMap((tag) => {
 		const filterPosts = allPostsByDate.filter((post) => post.data.tags.includes(tag))
-		return paginate(filterPosts, {
-			pageSize: 10,
-			params: { tag }
-		})
+		return paginate(filterPosts, { pageSize: 10, params: { tag } })
 	})
 }
 
@@ -31,66 +29,36 @@ interface Props {
 const { page } = Astro.props
 const { tag } = Astro.params
 
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
+
 const meta = {
-	description: `View all posts with the tag - ${tag}`,
-	title: `Tag: ${tag}`
+	description: `${t('tags.lede')} #${tag}`,
+	title: `#${tag}`
 }
 
 const paginationProps = {
 	...(page.url.prev && {
-		prevUrl: {
-			text: `← Previous Tags`,
-			url: page.url.prev
-		}
+		prevUrl: { text: t('pager.prev'), url: page.url.prev }
 	}),
 	...(page.url.next && {
-		nextUrl: {
-			text: `Next Tags →`,
-			url: page.url.next
-		}
+		nextUrl: { text: t('pager.next'), url: page.url.next }
 	})
 }
 ---
 
 <PageLayout meta={meta}>
-	<div class='w-full'>
-		<Button title='Back' href='/blog' style='button'>
-			<svg
-				xmlns='http://www.w3.org/2000/svg'
-				width='14'
-				height='14'
-				viewBox='0 0 24 24'
-				slot='icon-before'
-			>
-				<path
-					fill='currentColor'
-					d='m6.921 12.5l5.792 5.792L12 19l-7-7l7-7l.713.708L6.921 11.5H19v1z'
-				>
-				</path>
-			</svg>
-		</Button>
-		<h1 class='mb-6 mt-5 flex items-end gap-x-2 text-2xl font-bold'>
-			Tags:
-			<span class='text-xl'>#{tag}</span>
-		</h1>
-		<section aria-label='Blog post list'>
-			<ul class='flex flex-col gap-y-3 text-start'>
-				{page.data.map((p) => <PostPreview as='h2' post={p} withDesc />)}
-			</ul>
-			<Pagination {...paginationProps} />
-		</section>
-		<a
-			href='https://github.com/srleom/astro-theme-resume.git'
-			class='mt-16 inline-flex flex-row items-center gap-x-3 rounded-3xl border border-input px-4 py-2 text-sm shadow-sm transition-all hover:shadow-md'
-		>
-			<span class='relative flex items-center justify-center'>
-				<span
-					class='absolute inline-flex h-2 w-2 animate-ping rounded-full border border-green-400 bg-green-400 opacity-75'
-				></span>
-				<span class='relative inline-flex h-2 w-2 rounded-full bg-green-400'></span>
-			</span>
+	<PageHead title={`#${tag}`} backHref='/tags/' backLabel={t('tags.title')}>
+		<p class='mono-label mt-3 block'>
+			{String(page.total).padStart(2, '0')}{' '}
+			{page.total === 1 ? t('tags.post') : t('tags.posts')}
+		</p>
+	</PageHead>
 
-			<p class='font-medium'>Get free template</p>
-		</a>
-	</div>
+	<section class='reveal mt-10' style='--i: 2' aria-label={`#${tag}`}>
+		<ul>
+			{page.data.map((p) => <PostPreview post={p} withDesc />)}
+		</ul>
+		<Pagination {...paginationProps} />
+	</section>
 </PageLayout>

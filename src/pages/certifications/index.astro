@@ -1,8 +1,25 @@
 ---
+import PageHead from '@/components/PageHead.astro'
 import PageLayout from '@/layouts/BaseLayout.astro'
+import { getLangFromUrl, useTranslations } from '@/i18n/utils'
+
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
+
+/*
+	No entries yet, and an empty page says so in a sentence rather than
+	pretending with placeholder cards. When there are certificates, they are
+	rows: name, issuer, date, link to the verifiable credential.
+*/
 ---
 
-<PageLayout meta={{ title: 'Certificaciones' }}>
-	<h1>Certifications</h1>
-	<p>Coming soon...</p>
+<PageLayout meta={{ title: 'Certificaciones', description: t('certs.lede') }}>
+	<PageHead
+		title='Certificaciones'
+		lede={t('certs.lede')}
+		backHref='/'
+		backLabel={t('back.home')}
+	/>
+
+	<p class='empty'>{t('certs.empty')}</p>
 </PageLayout>

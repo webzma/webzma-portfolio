@@ -1,45 +1,32 @@
 ---
 import LanguagePicker from '../LanguagePicker.astro'
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '@/i18n/utils'
+
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
+const translatePath = useTranslatedPath(lang)
+
+// N9 · Edge-aligned minimal. Wordmark hard-left, controls hard-right, nothing
+// in between — the empty middle is the design. Deliberately NOT the wordmark +
+// inline-link-row + button-right bar: that shape is genre-blind and reads the
+// same on a bakery and a B2B SaaS. Blog and Herramientas live in the closing
+// band, where a portfolio's secondary destinations belong.
 ---
 
-<header
-	class='animate-fade-in mb-12 flex w-full flex-wrap pb-3 text-sm sm:flex-nowrap sm:justify-start'
->
-	<nav
-		class='relative mx-auto flex w-full items-center justify-between sm:flex sm:items-center'
-		aria-label='global'
-	>
-		<a
-			class='flex-none bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-xl font-bold text-transparent transition-all duration-300 hover:from-purple-500 hover:to-pink-400'
-			href='/'
-			aria-label='Brand'>webzma</a
-		>
+<header class='nav'>
+	<nav class='shell nav__inner' aria-label={t('nav.label')}>
+		<a href={translatePath('/')} class='nav__mark' aria-label={t('nav.home')}>webzma</a>
 
-		<div class='hidden flex-row items-center justify-center gap-x-6 sm:gap-x-8 md:flex'>
-			<a
-				href='/blog'
-				class='relative flex-none text-[1rem] font-medium text-foreground/80 transition-colors after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-purple-500 after:to-pink-500 after:transition-all after:duration-300 hover:text-foreground hover:after:w-full'
-				aria-label='Nav Menu Item'
-				>Blog
-			</a>
-			<a
-				href='/tools'
-				class='relative flex-none text-[1rem] font-medium text-foreground/80 transition-colors after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-purple-500 after:to-pink-500 after:transition-all after:duration-300 hover:text-foreground hover:after:w-full'
-				aria-label='Nav Menu Item'
-				>Herramientas
-			</a>
+		<div class='nav__side'>
 			<LanguagePicker />
-			<button
-				id='toggleDarkMode'
-				class='relative rounded-full border border-border p-2 transition-all hover:border-purple-500/30 hover:bg-muted hover:shadow-md hover:shadow-purple-500/10'
-			>
-				<span class='sr-only'>Dark Theme</span>
+
+			<button id='toggleDarkMode' class='icon-btn' type='button'>
+				<span class='sr-only'>{t('nav.theme')}</span>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
-					width='32'
-					height='32'
 					viewBox='0 0 24 24'
-					class='h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:hidden dark:-rotate-90 dark:scale-0'
+					class='h-4 w-4 dark:hidden'
+					aria-hidden='true'
 					><path
 						fill='currentColor'
 						d='M12 15q1.25 0 2.125-.875T15 12q0-1.25-.875-2.125T12 9q-1.25 0-2.125.875T9 12q0 1.25.875 2.125T12 15m0 1q-1.671 0-2.836-1.164T8 12q0-1.671 1.164-2.836T12 8q1.671 0 2.836 1.164T16 12q0 1.671-1.164 2.836T12 16m-7-3.5H1.5v-1H5zm17.5 0H19v-1h3.5zM11.5 5V1.5h1V5zm0 17.5V19h1v3.5zM6.746 7.404l-2.16-2.098l.695-.744l2.111 2.134zM18.72 19.438l-2.117-2.14l.652-.702l2.16 2.098zM16.596 6.746l2.098-2.16l.744.695l-2.134 2.111zM4.562 18.72l2.14-2.117l.663.652l-2.078 2.179zM12 12'
@@ -47,149 +34,37 @@ import LanguagePicker from '../LanguagePicker.astro'
 				>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
-					width='32'
-					height='32'
 					viewBox='0 0 24 24'
-					class='hidden h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:block dark:rotate-0 dark:scale-100'
+					class='hidden h-4 w-4 dark:block'
+					aria-hidden='true'
 					><path
 						fill='currentColor'
 						d='M12.058 20q-3.334 0-5.667-2.333Q4.058 15.333 4.058 12q0-3.038 1.98-5.27Q8.02 4.5 10.942 4.097q.081 0 .159.006t.153.017q-.506.706-.801 1.57q-.295.865-.295 1.811q0 2.667 1.866 4.533q1.867 1.867 4.534 1.867q.952 0 1.813-.295q.862-.295 1.548-.801q.012.075.018.153q.005.078.005.158q-.384 2.923-2.615 4.904T12.057 20'
 					></path></svg
 				>
 			</button>
-		</div>
 
-		<!-- CREAR MENU DESPLEGABLE PARA MOBILE -->
-		<button class='cursor-pointer sm:hidden' id='mobileMenuButton'>
-			<svg
-				xmlns='http://www.w3.org/2000/svg'
-				width='24'
-				height='24'
-				viewBox='0 0 24 24'
-				fill='none'
-				stroke='currentColor'
-				stroke-width='2'
-				stroke-linecap='round'
-				stroke-linejoin='round'
-				class='lucide lucide-menu'
-				><line x1='4' x2='20' y1='12' y2='12'></line><line x1='4' x2='20' y1='6' y2='6'></line><line
-					x1='4'
-					x2='20'
-					y1='18'
-					y2='18'></line></svg
-			>
-		</button>
-
-		<div
-			id='menuMobile'
-			class='absolute right-0 top-[50px] z-20 flex hidden w-44 flex-col gap-y-4 rounded-md bg-primary-foreground p-6'
-		>
+			<!--
+				The single CTA, and the page's only solid cobalt fill. The label
+				drops to "CV" under 640px so it can never wrap to two lines.
+			-->
 			<a
-				href='/blog'
-				class='flex-none text-[1.05rem] font-medium hover:text-foreground/75'
-				aria-label='Nav Menu Item'
-				>Blog
-			</a>
-			<a
-				href='/tools'
-				class='flex-none text-[1.05rem] font-medium hover:text-foreground/75'
-				aria-label='Nav Menu Item'
+				class='btn btn--primary'
+				href='/cv-2026.pdf'
+				download='Wilberk_Ledezma_CV.pdf'
+				aria-label={t('nav.cv')}
 			>
-				Herramientas
+				<span class='hidden sm:inline'>{t('nav.cv')}</span>
+				<span class='sm:hidden'>CV</span>
+				<span aria-hidden='true'>↓</span>
 			</a>
-			<a
-				href='#proyectos'
-				class='flex-none text-[1.05rem] font-medium hover:text-foreground/75'
-				aria-label='Nav Menu Item'
-			>
-				Proyectos
-			</a>
-			<a
-				href='#certificaciones'
-				class='flex-none text-[1.05rem] font-medium hover:text-foreground/75'
-				aria-label='Nav Menu Item'
-			>
-				Certificaciones
-			</a>
-
-			<div class='flex items-center gap-2'>
-				<LanguagePicker />
-				<button
-					id='toggleDarkModeMobile'
-					class='relative flex max-w-10 items-center justify-center rounded-md border border-border p-1.5 transition-all hover:bg-border'
-				>
-					<span class='sr-only'>Dark Theme</span>
-					<svg
-						xmlns='http://www.w3.org/2000/svg'
-						width='32'
-						height='32'
-						viewBox='0 0 24 24'
-						class='h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:hidden dark:-rotate-90 dark:scale-0'
-						><path
-							fill='currentColor'
-							d='M12 15q1.25 0 2.125-.875T15 12q0-1.25-.875-2.125T12 9q-1.25 0-2.125.875T9 12q0 1.25.875 2.125T12 15m0 1q-1.671 0-2.836-1.164T8 12q0-1.671 1.164-2.836T12 8q1.671 0 2.836 1.164T16 12q0 1.671-1.164 2.836T12 16m-7-3.5H1.5v-1H5zm17.5 0H19v-1h3.5zM11.5 5V1.5h1V5zm0 17.5V19h1v3.5zM6.746 7.404l-2.16-2.098l.695-.744l2.111 2.134zM18.72 19.438l-2.117-2.14l.652-.702l2.16 2.098zM16.596 6.746l2.098-2.16l.744.695l-2.134 2.111zM4.562 18.72l2.14-2.117l.663.652l-2.078 2.179zM12 12'
-						></path></svg
-					>
-					<svg
-						xmlns='http://www.w3.org/2000/svg'
-						width='32'
-						height='32'
-						viewBox='0 0 24 24'
-						class='hidden h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:block dark:rotate-0 dark:scale-100'
-						><path
-							fill='currentColor'
-							d='M12.058 20q-3.334 0-5.667-2.333Q4.058 15.333 4.058 12q0-3.038 1.98-5.27Q8.02 4.5 10.942 4.097q.081 0 .159.006t.153.017q-.506.706-.801 1.57q-.295.865-.295 1.811q0 2.667 1.866 4.533q1.867 1.867 4.534 1.867q.952 0 1.813-.295q.862-.295 1.548-.801q.012.075.018.153q.005.078.005.158q-.384 2.923-2.615 4.904T12.057 20'
-						></path></svg
-					>
-				</button>
-			</div>
 		</div>
 	</nav>
 </header>
 
 <script>
-	function getCurrentTheme() {
-		return localStorage.getItem('theme')
-	}
-
-	const toggleDarkModeButton = document.getElementById('toggleDarkMode')
-	const toggleDarkModeButtonMobile = document.getElementById('toggleDarkModeMobile')
-	const mobileMenuButton = document.getElementById('mobileMenuButton')
-
-	toggleDarkModeButton?.addEventListener('click', () => {
-		const toggleDarkModeEvent = new CustomEvent('theme-change', {
-			detail: { theme: getCurrentTheme() === 'light' ? 'dark' : 'light' }
-		})
-		document.dispatchEvent(toggleDarkModeEvent)
-	})
-
-	toggleDarkModeButtonMobile?.addEventListener('click', () => {
-		const toggleDarkModeEvent = new CustomEvent('theme-change', {
-			detail: { theme: getCurrentTheme() === 'light' ? 'dark' : 'light' }
-		})
-		document.dispatchEvent(toggleDarkModeEvent)
-	})
-
-	mobileMenuButton?.addEventListener('click', () => {
-		toggleMobileMenu()
-	})
-
-	function toggleMobileMenu() {
-		const menuMobile = document.getElementById('menuMobile')
-		menuMobile?.classList.toggle('hidden')
-	}
-
-	document.addEventListener('click', (event) => {
-		const menuMobile = document.getElementById('menuMobile')
-		const isClickInsideMenuButton = mobileMenuButton?.contains(event.target as Node)
-		const isClickInsideMenu = menuMobile?.contains(event.target as Node)
-
-		if (
-			!isClickInsideMenuButton &&
-			!isClickInsideMenu &&
-			!menuMobile?.classList.contains('hidden')
-		) {
-			menuMobile?.classList.add('hidden')
-		}
+	document.getElementById('toggleDarkMode')?.addEventListener('click', () => {
+		const next = localStorage.getItem('theme') === 'light' ? 'dark' : 'light'
+		document.dispatchEvent(new CustomEvent('theme-change', { detail: { theme: next } }))
 	})
 </script>

@@ -1,0 +1,30 @@
+---
+interface Props {
+	title: string
+	lede?: string
+	/* Where "back" goes. Interior pages are one level deep, so there is
+	   always exactly one way out and it is always named. */
+	backHref: string
+	backLabel: string
+	class?: string
+}
+
+const { title, lede, backHref, backLabel, class: className } = Astro.props
+---
+
+<!--
+	The interior head. Deliberately NOT the index's diptych — an interior page
+	is a single column, and the only thing above the rule is: how to get out,
+	what this is, what it's for. Same mono / display / hairline vocabulary as
+	the index, so clicking Blog never feels like leaving the site.
+-->
+<header class:list={['page-head reveal', className]} style='--i: 1'>
+	<a class='backlink' href={backHref} data-astro-prefetch>
+		<span class='backlink__arrow' aria-hidden='true'>&#8592;</span>
+		{backLabel}
+	</a>
+
+	<h1 class='page-head__title'>{title}</h1>
+	{lede && <p class='page-head__lede'>{lede}</p>}
+	<slot />
+</header>

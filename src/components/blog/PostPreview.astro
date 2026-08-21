@@ -1,36 +1,54 @@
 ---
-import type { HTMLTag, Polymorphic } from 'astro/types'
 import type { CollectionEntry } from 'astro:content'
 
 import FormattedDate from '../FormattedDate.astro'
+import { getLangFromUrl, useTranslations } from '@/i18n/utils'
 
-type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
+interface Props {
 	post: CollectionEntry<'post'>
 	withDesc?: boolean
 }
 
-const { as: Tag = 'div', post, withDesc = false } = Astro.props
+const { post, withDesc = false } = Astro.props
+
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
+
 const postDate = post.data.updatedDate ?? post.data.publishDate
+const isUpdated = Boolean(post.data.updatedDate)
 ---
 
-<li class='flex flex-col gap-2 sm:flex-row sm:gap-x-4 [&_q]:basis-full'>
-	<FormattedDate class='min-w-[120px]' date={postDate} />
+<!--
+	A post is the same row as a project or a role: title left, tabular date
+	right, description under. The list needs no separate visual language.
+-->
+<li>
+	<a class='row' href={`/blog/${post.slug}/`} data-astro-prefetch>
+		<div class='row__head'>
+			<h3 class='row__title'>{post.data.title}</h3>
+			<span class='row__meta'>
+				{isUpdated && `${t('blog.updated')} · `}<FormattedDate date={postDate} />
+			</span>
+		</div>
 
-	<Tag>
-		{post.data.draft && <span class='text-red-500'>(Draft) </span>}
-		<a
-			data-astro-prefetch
-			href={`/blog/${post.slug}/`}
-			class='transition-all hover:text-muted-foreground'
-		>
-			{post.data.title}
-		</a>
+		{withDesc && <p class='row__body'>{post.data.description}</p>}
+
 		{
-			withDesc && (
-				<p class='line-clamp-3 block text-sm italic text-muted-foreground'>
-					{post.data.description}
+			(post.data.draft || post.data.tags.length > 0) && (
+				<p class='row__facts'>
+					{post.data.draft && <span class='row__status'>{t('blog.draft')}</span>}
+					{post.data.tags.map((tag, i) => (
+						<>
+							{(i > 0 || post.data.draft) && (
+								<span class='row__sep' aria-hidden='true'>
+									/
+								</span>
+							)}
+							<span>{tag}</span>
+						</>
+					))}
 				</p>
 			)
 		}
-	</Tag>
+	</a>
 </li>
