@@ -320,6 +320,26 @@ export const projects: Record<keyof typeof ui, ProjectEntry[]> = {
 				outcome:
 					'Programación publicada y editable por el equipo, con cada concierto como página propia.'
 			}
+		},
+		{
+			slug: 'yosneidy-designer',
+			name: 'Yosneidy Designer',
+			href: 'https://yosneidydesigner.vercel.app/',
+			host: 'yosneidydesigner.vercel.app',
+			status: 'live',
+			description:
+				'Landing page para diseñadora española que ofrece servicios de diseño y creación de marca',
+			stack: 'Next.js · TailwindCSS · Sanity · Framer motion',
+			study: {
+				brief:
+					'Una landing page que cambia con frecuencia y tiene que estar publicada y correcta el mismo día en que se confirma.',
+				decisions: [
+					'Los proyectos de la artista se encuentra mostrados con la información personal de @yosneidydesigner manteniendo la el saber del diseño en la UI de la página.',
+					'Next.js para que cada proyecto tenga su propia URL compartible con sus metadatos.'
+				],
+				outcome:
+					'Programación publicada y editable por la diseñadora/diseñador, con cada proyecto como página propia.'
+			}
 		}
 	],
 	en: [
@@ -420,6 +440,25 @@ export const projects: Record<keyof typeof ui, ProjectEntry[]> = {
 				],
 				outcome:
 					'Schedule published and editable by the team, with every concert as a page of its own.'
+			}
+		},
+		{
+			slug: 'yosneidy-designer',
+			name: 'Yosneidy Designer',
+			href: 'https://yosneidydesigner.vercel.app/',
+			host: 'yosneidydesigner.vercel.app',
+			status: 'live',
+			description: 'Landing page for a Spanish designer offering branding and design services.',
+			stack: 'Next.js · TailwindCSS · Sanity · Framer motion',
+			study: {
+				brief:
+					'A landing page that changes frequently and needs to be published and verified on the same day it is confirmed.',
+				decisions: [
+					'The artist’s projects are displayed alongside @yosneidydesigner’s personal branding, preserving design expertise throughout the page UI.',
+					'Next.js was chosen so each project has its own shareable URL with dedicated metadata.'
+				],
+				outcome:
+					'A live workflow editable by the designer, featuring each project as its own individual page.'
 			}
 		}
 	]
