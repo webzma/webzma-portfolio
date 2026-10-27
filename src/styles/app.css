@@ -1,17 +1,9 @@
-/* Hallmark · genre: modern-minimal · macrostructure: Split Studio · theme: Cobalt
- * enrichment: none (typography only) · nav: N9 edge-aligned · footer: Ft5 statement
- * H2 diptych knobs: ratio=7/5, right=proof column, divider=negative space
- * F3 spec-sheet knobs: columns=3, rules=every row, numbers=tabular
- * S3 section-head knobs: sticky at md+, aside=label + tabular count
- * C3 link knobs: underline=drawn-on-hover, hover=grow, arrow=↗
- * N9 knobs: wordmark=monospace, CTA=filled 6px, padding-block=tight
- * Ft5 knobs: sentence=38ch, wordmark=under, rule-above-meta=hairline
- * tone: precise-engineered · anchor hue: 250–258 (cool) · accent: cobalt 256, < 5% per view
- * pre-emit critique: P5 H5 E5 S4 R5 V5
- * contrast: pass (40–41) · slop: pass (42–45) · honest: pass (46) · chrome: pass (47)
- * tokens: pass (48) · responsive: pass (49) · mobile: pass (34, 50–57) · icons: pass (30)
- * typography: pass (37, 38a) · gate 38 waived — mono is Cobalt's declared label
- * register (theme signature 7), not an outlier flourish.
+/* Changelog · dark-first · the home reads as a release log of a career.
+ * Palette: green-black terminal ground, warm phosphor ink, ONE amber signal
+ * (versions, the status dot, drawn underlines) and a diff-green for "+" lines.
+ * Type: Martian Mono for display, labels and the log itself; Inter only for
+ * long-form running text (blog, case studies) where a mono would tire the eye.
+ * Every colour is a token below; component rules never use a raw value.
  */
 
 @tailwind base;
@@ -21,29 +13,30 @@
 @layer base {
 	:root {
 		/* ── Colour · OKLCH components (Tailwind reads these for <alpha-value>) ──
-		   Cobalt: a cool engineered near-white, cool charcoal ink, and exactly
-		   ONE electric cobalt signal. Never #fff, never #000. */
-		--ok-paper: 98.5% 0.004 250;
-		--ok-paper-2: 96.4% 0.005 252; /* row hover / inset surface */
-		--ok-rule: 91% 0.006 252; /* the hairline that does all the work */
-		--ok-rule-2: 85% 0.008 253; /* a hairline that needs to be seen */
-		--ok-muted: 45% 0.016 257; /* 5.1:1 on paper */
-		--ok-ink-2: 34% 0.018 257; /* running body — 8.0:1 on paper */
-		--ok-ink: 24% 0.02 258; /* display + titles — 11.7:1 on paper */
+		   Light is the secondary theme here: a grey-green paper that keeps the
+		   terminal's hue family, with the amber darkened to ochre for text. */
+		--ok-paper: 97.5% 0.008 125;
+		--ok-paper-2: 94.8% 0.01 125; /* row hover / inset surface */
+		--ok-rule: 88.5% 0.012 135; /* the hairline that does all the work */
+		--ok-rule-2: 81% 0.014 140; /* a hairline that needs to be seen */
+		--ok-muted: 46% 0.03 150; /* 5.6:1 on paper */
+		--ok-ink-2: 32% 0.025 155; /* running body */
+		--ok-ink: 21% 0.02 155; /* display + titles */
 
-		--ok-accent: 58% 0.2 256; /* signal only: ticks, dots, drawn underlines */
-		--ok-accent-ink: 46% 0.19 257; /* accent as TEXT + as button fill — 4.95:1 */
-		--ok-accent-fg: 99% 0.004 250; /* ink on the cobalt fill — 5.1:1 */
-		--ok-focus: 46% 0.19 257;
+		--ok-accent: 72% 0.15 75; /* signal only: dots, ticks, drawn underlines */
+		--ok-accent-ink: 50% 0.12 65; /* accent as TEXT + as button fill */
+		--ok-accent-fg: 98% 0.008 125; /* ink on the ochre fill */
+		--ok-add: 48% 0.13 150; /* the "+" of a changelog line */
+		--ok-focus: 50% 0.12 65;
 		--ok-destructive: 51% 0.19 27;
 
-		/* The page's one dark beat. Fixed in light mode, re-cut in dark. */
-		--ok-band: 20% 0.016 260;
-		--ok-band-2: 26% 0.016 259;
-		--ok-band-rule: 32% 0.014 258;
-		--ok-band-muted: 72% 0.012 253; /* 6.6:1 on band */
-		--ok-band-ink: 96% 0.005 250; /* 12.5:1 on band */
-		--ok-band-accent: 72% 0.15 253; /* 6.6:1 on band */
+		/* The closing band. Fixed dark in light mode, re-cut in dark. */
+		--ok-band: 17% 0.014 155;
+		--ok-band-2: 22% 0.014 155;
+		--ok-band-rule: 30% 0.016 155;
+		--ok-band-muted: 70% 0.03 145;
+		--ok-band-ink: 95% 0.012 130;
+		--ok-band-accent: 83% 0.14 85;
 
 		/* Full values — every hand-written rule references these, never a raw colour */
 		--color-paper: oklch(var(--ok-paper));
@@ -56,6 +49,7 @@
 		--color-accent: oklch(var(--ok-accent));
 		--color-accent-ink: oklch(var(--ok-accent-ink));
 		--color-accent-fg: oklch(var(--ok-accent-fg));
+		--color-add: oklch(var(--ok-add));
 		--color-focus: oklch(var(--ok-focus));
 		--color-band: oklch(var(--ok-band));
 		--color-band-2: oklch(var(--ok-band-2));
@@ -67,10 +61,10 @@
 		   .dark automatically because --ok-paper does. (gate 48) */
 		--color-paper-blur: oklch(var(--ok-paper) / 0.82);
 
-		/* ── Type · 3 families. Grotesk display, neutral body, mono readout ── */
-		--font-display: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+		/* ── Type · 2 families. Martian Mono carries the voice, Inter the prose ── */
+		--font-display: 'Martian Mono Variable', ui-monospace, SFMono-Regular, monospace;
 		--font-body: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
-		--font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, monospace;
+		--font-mono: 'Martian Mono Variable', ui-monospace, SFMono-Regular, monospace;
 
 		--text-xs: 0.75rem;
 		--text-sm: 0.875rem;
@@ -113,30 +107,32 @@
 	}
 
 	.dark {
-		/* The same cool hue family, inverted. Paper stays chromatic — never #000. */
-		--ok-paper: 16% 0.014 258;
-		--ok-paper-2: 20% 0.014 258;
-		--ok-rule: 27% 0.014 258;
-		--ok-rule-2: 34% 0.014 258;
-		--ok-muted: 70% 0.012 253; /* 7.3:1 on paper */
-		--ok-ink-2: 87% 0.008 252;
-		--ok-ink: 96% 0.005 250;
+		/* The primary theme. Paper stays chromatic — never #000. */
+		--ok-paper: 16% 0.012 155;
+		--ok-paper-2: 19.5% 0.014 155;
+		--ok-rule: 26.5% 0.016 155;
+		--ok-rule-2: 34% 0.016 155;
+		--ok-muted: 67% 0.03 145; /* dim phosphor, 6.4:1 on paper */
+		--ok-ink-2: 87% 0.022 135;
+		--ok-ink: 96% 0.012 130;
 
-		--ok-accent: 70% 0.16 254;
-		--ok-accent-ink: 74% 0.15 253; /* 7.7:1 on paper; also the fill */
-		--ok-accent-fg: 14% 0.014 258; /* ink on the fill — 8.0:1 */
-		--ok-focus: 74% 0.15 253;
-		--ok-destructive: 62% 0.16 27;
+		--ok-accent: 82% 0.15 82; /* amber */
+		--ok-accent-ink: 84% 0.14 85; /* also the fill */
+		--ok-accent-fg: 16% 0.012 155; /* ink on the amber fill */
+		--ok-add: 80% 0.13 145;
+		--ok-focus: 84% 0.14 85;
+		--ok-destructive: 65% 0.17 27;
 
-		/* Inverted: on a dark canvas a *darker* band disappears, so the closing
-		   beat elevates by lightness instead — the rhythm survives the flip. */
-		--ok-band: 21% 0.014 258;
-		--ok-band-2: 26% 0.014 258;
-		--ok-band-rule: 32% 0.014 258;
-		--ok-band-muted: 72% 0.012 253;
-		--ok-band-ink: 96% 0.005 250;
-		--ok-band-accent: 74% 0.15 253;
+		/* On a dark canvas a darker band disappears, so the closing beat
+		   elevates by lightness instead. */
+		--ok-band: 20% 0.014 155;
+		--ok-band-2: 24% 0.014 155;
+		--ok-band-rule: 31% 0.016 155;
+		--ok-band-muted: 70% 0.03 145;
+		--ok-band-ink: 96% 0.012 130;
+		--ok-band-accent: 84% 0.14 85;
 	}
+
 }
 
 @layer base {
@@ -1092,40 +1088,11 @@
 
 /* ═══════════════════════════════════════════════════════════════════════════
    Index additions · The human signal.
-   A portrait, a dated "now" note, a copyable address, a colophon. Facts a
+   A copyable address, the live dot, a colophon. Facts a
    template cannot carry. Same vocabulary as everything above.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @layer components {
-	/* ── Portrait. Small, square-ish, hairline-bordered — an identifying
-	      mark next to the facts, not a hero image. Desaturated at rest so it
-	      sits inside the cool palette; full colour on hover, which is the
-	      only reward-for-curiosity on the page. ─────────────────────────── */
-	.portrait {
-		flex: 0 0 auto;
-		width: 3rem;
-		height: 3rem;
-		object-fit: cover;
-		border-radius: var(--radius);
-		border: var(--rule-hairline) solid var(--color-rule-2);
-		filter: grayscale(1) contrast(1.05);
-		transition: filter var(--dur-long) var(--ease-out);
-	}
-
-	.portrait:hover {
-		filter: none;
-	}
-
-	.spec__identity {
-		display: flex;
-		align-items: center;
-		gap: var(--space-sm);
-	}
-
-	.spec__identity-text {
-		min-width: 0;
-	}
-
 	/* ── The availability dot, now breathing. One ring, 3s, and it is the
 	      only looping motion on the page — reduced-motion kills it below. ── */
 	.spec__dot {
@@ -1177,46 +1144,6 @@
 
 	.copy[data-copied='true'] .copy__hint {
 		color: var(--color-accent-ink);
-	}
-
-	/* ── "Now". A dated note, set as one indented paragraph under a mono
-	      heading. The date is the whole point — an undated now-note is a
-	      claim, a dated one is a fact. ──────────────────────────────────── */
-	.now__note {
-		max-width: 60ch;
-		font-size: var(--text-sm);
-		line-height: 1.7;
-		color: var(--color-ink-2);
-	}
-
-	.now__list {
-		display: flex;
-		flex-direction: column;
-		margin-top: var(--space-md);
-	}
-
-	.now__item {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr);
-		gap: var(--space-3xs);
-		padding-block: var(--space-sm);
-		border-top: var(--rule-hairline) solid var(--color-rule);
-		font-size: var(--text-sm);
-		line-height: 1.6;
-		color: var(--color-ink-2);
-	}
-
-	@media (min-width: 480px) {
-		.now__item {
-			grid-template-columns: minmax(0, 7rem) minmax(0, 1fr);
-			gap: var(--space-md);
-			align-items: baseline;
-		}
-	}
-
-	.now__stamp {
-		margin-top: var(--space-lg);
-		display: block;
 	}
 
 	/* ── Section head, active. The aside is already pinned; when its rows own
@@ -1314,6 +1241,344 @@
 	.backlink:hover .backlink__arrow,
 	.backlink:focus-visible .backlink__arrow {
 		transform: none;
+	}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Changelog · the home.
+   whoami → ls ./trabajo → git log. One mono voice, dashed rules between
+   versions, amber only on version numbers, the live dot and underlines.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer components {
+	.prompt {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-muted);
+	}
+
+	.prompt__sign {
+		color: var(--color-accent-ink);
+	}
+
+	/* ── whoami ── */
+	.whoami {
+		display: grid;
+		gap: var(--space-sm);
+		margin-bottom: var(--space-3xl);
+	}
+
+	.whoami__name {
+		margin-top: var(--space-xs);
+		font-family: var(--font-display);
+		font-weight: 650;
+		font-size: clamp(1.625rem, 4vw + 0.5rem, 3.25rem);
+		line-height: 1.05;
+		letter-spacing: -0.045em;
+		color: var(--color-ink);
+		text-wrap: balance;
+	}
+
+	.whoami__role {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		color: var(--color-accent-ink);
+	}
+
+	.whoami__lede,
+	.whoami__sub {
+		max-width: 62ch;
+		font-family: var(--font-mono);
+		font-weight: 350;
+		line-height: 1.75;
+	}
+
+	.whoami__lede {
+		margin-top: var(--space-md);
+		font-size: var(--text-sm);
+		color: var(--color-ink-2);
+	}
+
+	.whoami__sub {
+		font-size: var(--text-xs);
+		color: var(--color-muted);
+	}
+
+	/* key: value, the way a config file reads */
+	.facts {
+		display: grid;
+		margin-top: var(--space-lg);
+		max-width: 44rem;
+		border-top: var(--rule-hairline) dashed var(--color-rule-2);
+	}
+
+	.facts__row {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--space-3xs);
+		padding-block: var(--space-xs);
+		border-bottom: var(--rule-hairline) dashed var(--color-rule);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+	}
+
+	@media (min-width: 480px) {
+		.facts__row {
+			grid-template-columns: minmax(0, 9rem) minmax(0, 1fr);
+			gap: var(--space-md);
+			align-items: baseline;
+		}
+	}
+
+	.facts__key {
+		color: var(--color-muted);
+		text-transform: lowercase;
+	}
+
+	.facts__key::after {
+		content: ':';
+	}
+
+	.facts__value {
+		min-width: 0;
+		color: var(--color-ink-2);
+		overflow-wrap: anywhere;
+	}
+
+	.facts__value--live {
+		color: var(--color-accent-ink);
+	}
+
+	.facts__links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2xs) var(--space-md);
+	}
+
+	/* ── A block: prompt, title, one-line lede ── */
+	.block {
+		display: grid;
+		gap: var(--space-lg);
+	}
+
+	.block + .block {
+		margin-top: var(--space-3xl);
+	}
+
+	.block__head {
+		display: grid;
+		gap: var(--space-2xs);
+	}
+
+	.block__title {
+		font-family: var(--font-display);
+		font-weight: 600;
+		font-size: var(--text-lg);
+		letter-spacing: -0.03em;
+		color: var(--color-ink);
+	}
+
+	.block__lede {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-muted);
+	}
+
+	.block__count {
+		color: var(--color-ink-2);
+		font-variant-numeric: tabular-nums;
+	}
+
+	/* ── ls ./trabajo ── */
+	.ls {
+		display: grid;
+		border-top: var(--rule-hairline) dashed var(--color-rule-2);
+	}
+
+	.ls__row {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--space-3xs) var(--space-lg);
+		padding: var(--space-md) var(--space-xs);
+		margin-inline: calc(var(--space-xs) * -1);
+		border-bottom: var(--rule-hairline) dashed var(--color-rule);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: 1.7;
+		transition: background-color var(--dur-short) var(--ease-out);
+	}
+
+	@media (min-width: 768px) {
+		.ls__row {
+			grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+		}
+
+		.ls__host {
+			grid-column: 1;
+			grid-row: 2;
+		}
+
+		.ls__desc {
+			grid-column: 2;
+			grid-row: 1;
+		}
+
+		.ls__stack {
+			grid-column: 2;
+			grid-row: 2;
+		}
+	}
+
+	.ls__name {
+		font-weight: 600;
+		font-size: var(--text-sm);
+		color: var(--color-ink);
+		background-image: linear-gradient(var(--color-accent), var(--color-accent));
+		background-repeat: no-repeat;
+		background-position: 0 calc(100% - 0.05em);
+		background-size: 0% var(--rule-hairline);
+		transition: background-size var(--dur-short) var(--ease-out);
+		justify-self: start;
+	}
+
+	.ls__host,
+	.ls__stack {
+		color: var(--color-muted);
+	}
+
+	.ls__host {
+		overflow-wrap: anywhere;
+	}
+
+	.ls__desc {
+		color: var(--color-ink-2);
+		max-width: 60ch;
+	}
+
+	.ls__archived {
+		color: var(--color-accent-ink);
+	}
+
+	.ls__row:hover,
+	.ls__row:focus-visible {
+		background-color: var(--color-paper-2);
+	}
+
+	.ls__row:hover .ls__name,
+	.ls__row:focus-visible .ls__name {
+		background-size: 100% var(--rule-hairline);
+	}
+
+	/* ── git log ── */
+	.log {
+		display: grid;
+		border-top: var(--rule-hairline) dashed var(--color-rule-2);
+	}
+
+	.log__entry {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--space-xs) var(--space-lg);
+		padding-block: var(--space-lg);
+		border-bottom: var(--rule-hairline) dashed var(--color-rule);
+		scroll-margin-top: calc(var(--nav-h) + var(--space-lg));
+	}
+
+	@media (min-width: 640px) {
+		.log__entry {
+			grid-template-columns: minmax(0, 9.5rem) minmax(0, 1fr);
+		}
+	}
+
+	.log__ver {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-3xs) var(--space-sm);
+		font-family: var(--font-mono);
+		font-variant-numeric: tabular-nums;
+	}
+
+	@media (min-width: 640px) {
+		.log__ver {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+	}
+
+	.log__num {
+		font-size: var(--text-sm);
+		font-weight: 600;
+		color: var(--color-accent-ink);
+	}
+
+	.log__when {
+		font-size: 0.6875rem;
+		color: var(--color-muted);
+	}
+
+	.log__body {
+		display: grid;
+		gap: var(--space-xs);
+		min-width: 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: 1.75;
+	}
+
+	.log__title {
+		font-family: var(--font-display);
+		font-weight: 600;
+		font-size: var(--text-base);
+		letter-spacing: -0.02em;
+		line-height: 1.3;
+		color: var(--color-ink);
+	}
+
+	.log__sub {
+		color: var(--color-muted);
+	}
+
+	.log__text {
+		max-width: 62ch;
+		font-weight: 350;
+		color: var(--color-ink-2);
+	}
+
+	.log__changes {
+		display: grid;
+		gap: var(--space-2xs);
+		margin-top: var(--space-2xs);
+	}
+
+	.log__changes li {
+		display: grid;
+		grid-template-columns: 1.25rem minmax(0, 1fr);
+		color: var(--color-ink-2);
+	}
+
+	.log__plus {
+		color: var(--color-add);
+		font-weight: 600;
+	}
+
+	.log__key {
+		color: var(--color-ink);
+		font-weight: 500;
+	}
+
+	.log__key::after {
+		content: ':';
+	}
+
+	.log__dim {
+		color: var(--color-muted);
+	}
+
+	.log__stamp {
+		margin-top: var(--space-2xs);
+		font-size: 0.6875rem;
+		color: var(--color-muted);
 	}
 }
 

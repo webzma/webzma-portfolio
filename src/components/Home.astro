@@ -1,12 +1,7 @@
 ---
-import { Image } from 'astro:assets'
-
-import Section from '@/components/Section.astro'
-import IndexRow from '@/components/IndexRow.astro'
-import portrait from '@/assets/webzma-profile.jpeg'
-
 import { getLangFromUrl, useTranslations, useTranslatedPath } from '@/i18n/utils'
 import { projects, experience, education, socials, now, contact } from '@/i18n/ui'
+import type { ProjectEntry } from '@/i18n/ui'
 
 const lang = getLangFromUrl(Astro.url)
 const t = useTranslations(lang)
@@ -17,65 +12,64 @@ const roles = experience[lang]
 const study = education[lang]
 const nowEntry = now[lang]
 
-/* The stamp is stored as YYYY-MM so it stays sortable; it only becomes prose
-   here. Day 1 at noon UTC keeps the month from slipping a timezone backwards. */
-const nowDate = new Date(`${nowEntry.stamp}-01T12:00:00Z`)
+/* Stamps are stored as YYYY-MM so they stay sortable; the changelog prints
+   them as calendar versions (2025-10 → v2025.10). */
+const version = (stamp: string) => `v${stamp.replace('-', '.')}`
+
+/* Day 1 at noon UTC keeps the month from slipping a timezone backwards. */
 const nowLabel = new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : 'es-ES', {
 	month: 'long',
 	year: 'numeric',
 	timeZone: 'UTC'
-}).format(nowDate)
+}).format(new Date(`${nowEntry.stamp}-01T12:00:00Z`))
+
+/* A project tied to a role ships inside that version of the log; the rest
+   keep their own list above it, so nothing is ever dropped from the page. */
+const loose = work.filter((project) => !project.at)
+const shippedUnder = (id: string) => work.filter((project) => project.at === id)
+
+const projectLink = (project: ProjectEntry) => ({
+	href: project.study ? translatePath(`/work/${project.slug}/`) : project.href,
+	external: !project.study
+})
 ---
 
 <!--
-	Split Studio. Every block below divides the page: a pinned label on the
-	left, the content on the right. The hero is the same diptych inverted —
-	the writing takes the wide half, the facts take the narrow one.
+	Changelog. The page is a release log of a career: `whoami` up top, an
+	optional `ls` of client work, then `git log` from HEAD (the dated "Ahora"
+	note) back to the first commit (the degree). Every version number is a
+	real start date, never decoration.
 -->
-<section class='diptych reveal mb-24 sm:mb-32' style='--i: 1'>
-	<div>
-		<p class='hero__eyebrow'>
-			<span class='hero__tick' aria-hidden='true'></span>
-			<span class='mono-label'>{t('hero.role')}</span>
-		</p>
+<section class='whoami reveal' style='--i: 1'>
+	<p class='prompt'><span class='prompt__sign' aria-hidden='true'>$</span> whoami</p>
 
-		<h1 class='hero__title'>{t('hero.name')}</h1>
+	<h1 class='whoami__name'>{t('hero.name')}</h1>
+	<p class='whoami__role'>{t('hero.role')}</p>
 
-		<p class='hero__lede'>{t('hero.intro')}</p>
-		<p class='hero__sub'>{t('hero.intro2')}</p>
-	</div>
+	<p class='whoami__lede'>{t('hero.intro')}</p>
+	<p class='whoami__sub'>{t('hero.intro2')}</p>
 
 	<!--
-		The proof column. Every line is a fact already stated elsewhere on the
-		page or in the CV — nothing here is a metric, a badge or a claim. The
-		portrait is an identifying mark, not a hero image: 48px, hairline,
-		desaturated until you hover it.
+		The address is copyable rather than a mailto: — a mailto opens
+		whatever client the machine happens to have registered, which on a
+		work laptop is usually the wrong one. Copying always works.
 	-->
-	<dl class='spec'>
-		<div class='spec__row'>
-			<dt class='mono-label'>{t('meta.location')}</dt>
-			<dd class='spec__value'>
-				<span class='spec__identity'>
-					<span class='spec__identity-text'>{t('hero.base')}</span>
-				</span>
-			</dd>
-		</div>
-
-		<div class='spec__row'>
-			<dt class='mono-label'>{t('meta.status')}</dt>
-			<dd class='spec__value'>
+	<dl class='facts'>
+		<div class='facts__row'>
+			<dt class='facts__key'>{t('meta.status')}</dt>
+			<dd class='facts__value facts__value--live'>
 				<span class='spec__dot' aria-hidden='true'></span>{t('hero.status')}
 			</dd>
 		</div>
 
-		<!--
-			The address is copyable rather than a mailto: — a mailto opens
-			whatever client the machine happens to have registered, which on a
-			work laptop is usually the wrong one. Copying always works.
-		-->
-		<div class='spec__row'>
-			<dt class='mono-label'>{t('meta.email')}</dt>
-			<dd class='spec__value'>
+		<div class='facts__row'>
+			<dt class='facts__key'>{t('meta.location')}</dt>
+			<dd class='facts__value'>{t('hero.base')}</dd>
+		</div>
+
+		<div class='facts__row'>
+			<dt class='facts__key'>{t('meta.email')}</dt>
+			<dd class='facts__value'>
 				<button
 					class='copy'
 					type='button'
@@ -90,9 +84,9 @@ const nowLabel = new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : 'es-ES', {
 			</dd>
 		</div>
 
-		<div class='spec__row'>
-			<dt class='mono-label'>{t('meta.links')}</dt>
-			<dd class='spec__value spec__links'>
+		<div class='facts__row'>
+			<dt class='facts__key'>{t('meta.links')}</dt>
+			<dd class='facts__value facts__links'>
 				{
 					socials.map((social) => (
 						<a
@@ -113,99 +107,160 @@ const nowLabel = new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : 'es-ES', {
 	</dl>
 </section>
 
-<Section
-	title={t('work.title')}
-	count={work.length}
-	unit={t('work.unit')}
-	id='trabajo'
-	style='--i: 2'
->
-	{
-		work.map((project) => (
-			<IndexRow
-				title={project.name}
-				meta={project.host}
-				description={project.description}
-				detail={project.stack}
-				href={project.study ? translatePath(`/work/${project.slug}/`) : project.href}
-				external={!project.study}
-				status={
-					/* Only the exception earns the chip. Five rows all stamped
-					   "en producción" is noise — the live link already says it.
-					   An archived project is the claim worth marking. */
-					project.status === 'archived'
-						? { label: t('status.archived'), kind: 'archived' }
-						: undefined
-				}
-				facts={[project.year, project.role]}
-			/>
-		))
-	}
-</Section>
+{
+	loose.length > 0 && (
+		<section class='reveal block' id='trabajo' style='--i: 2'>
+			<header class='block__head'>
+				<p class='prompt'>
+					<span class='prompt__sign' aria-hidden='true'>
+						$
+					</span>{' '}
+					ls ./{t('work.title').toLowerCase()}
+				</p>
+				<h2 class='block__title'>{t('work.title')}</h2>
+				<p class='block__lede'>
+					{t('work.lede')}{' '}
+					<span class='block__count'>
+						{String(loose.length).padStart(2, '0')} {t('work.unit')}
+					</span>
+				</p>
+			</header>
 
-<!--
-	"Ahora". A dated note, and the only block on the page that goes stale on
-	its own — which is exactly why it is worth having: a visitor can tell at a
-	glance whether anyone is home.
--->
-<Section
-	class='mt-20 sm:mt-28'
-	title={t('now.title')}
-	count={nowEntry.items.length}
-	unit={t('now.unit')}
-	id='ahora'
-	style='--i: 3'
->
-	<div class='row'>
-		<p class='now__note'>{nowEntry.note}</p>
+			<ul class='ls'>
+				{loose.map((project) => {
+					const { href, external } = projectLink(project)
+					return (
+						<li>
+							<a
+								class='ls__row'
+								href={href}
+								target={external ? '_blank' : undefined}
+								rel={external ? 'noopener noreferrer' : undefined}
+								data-astro-prefetch={external ? undefined : true}
+							>
+								<span class='ls__name'>
+									{project.name}
+									{external && (
+										<span class='row__arrow' aria-hidden='true'>
+											&nbsp;&#8599;&#xFE0E;
+										</span>
+									)}
+								</span>
+								<span class='ls__host'>{project.host}</span>
+								<span class='ls__desc'>{project.description}</span>
+								<span class='ls__stack'>
+									{project.status === 'archived' && (
+										<span class='ls__archived'>{t('status.archived')} · </span>
+									)}
+									{project.stack}
+								</span>
+							</a>
+						</li>
+					)
+				})}
+			</ul>
+		</section>
+	)
+}
 
-		<div class='now__list'>
-			{
-				nowEntry.items.map((item) => (
-					<p class='now__item'>
-						<span class='mono-label'>{item.label}</span>
-						<span>{item.value}</span>
-					</p>
-				))
-			}
-		</div>
+<section class='reveal block' id='changelog' style='--i: 3'>
+	<header class='block__head'>
+		<p class='prompt'><span class='prompt__sign' aria-hidden='true'>$</span> git log</p>
+		<h2 class='block__title'>{t('log.title')}</h2>
+		<p class='block__lede'>{t('log.lede')}</p>
+	</header>
 
-		<span class='mono-label now__stamp'>
-			{t('now.stamp')} · <time datetime={nowEntry.stamp}>{nowLabel}</time>
-		</span>
-	</div>
-</Section>
+	<ol class='log'>
+		<!--
+			HEAD is the "Ahora" note: the only entry that goes stale on its own,
+			which is why it carries its own date stamp.
+		-->
+		<li class='log__entry log__entry--head' id='ahora'>
+			<div class='log__ver'>
+				<span class='log__num'>{version(nowEntry.stamp)}</span>
+				<span class='log__when'>HEAD · {t('log.head')}</span>
+			</div>
+			<div class='log__body'>
+				<h3 class='log__title'>{t('now.title')}</h3>
+				<p class='log__text'>{nowEntry.note}</p>
+				<ul class='log__changes'>
+					{
+						nowEntry.items.map((item) => (
+							<li>
+								<span class='log__plus' aria-hidden='true'>
+									+
+								</span>
+								<span>
+									<span class='log__key'>{item.label}</span> {item.value}
+								</span>
+							</li>
+						))
+					}
+				</ul>
+				<p class='log__stamp'>
+					{t('now.stamp')} · <time datetime={nowEntry.stamp}>{nowLabel}</time>
+				</p>
+			</div>
+		</li>
 
-<Section
-	class='mt-20 sm:mt-28'
-	title={t('experience.title')}
-	count={roles.length}
-	unit={t('experience.unit')}
-	id='experiencia'
-	style='--i: 4'
->
-	{
-		roles.map((role) => (
-			<IndexRow
-				title={role.title}
-				meta={role.date}
-				subtitle={role.company}
-				description={role.description}
-			/>
-		))
-	}
-</Section>
+		{
+			roles.map((role) => {
+				const shipped = shippedUnder(role.id)
+				return (
+					<li class='log__entry' id={role.id}>
+						<div class='log__ver'>
+							<span class='log__num'>{version(role.start)}</span>
+							<span class='log__when'>{role.date}</span>
+						</div>
+						<div class='log__body'>
+							<h3 class='log__title'>{role.title}</h3>
+							<p class='log__sub'>{role.company}</p>
+							<p class='log__text'>{role.description}</p>
+							{shipped.length > 0 && (
+								<ul class='log__changes' aria-label={t('log.shipped')}>
+									{shipped.map((project) => {
+										const { href, external } = projectLink(project)
+										return (
+											<li>
+												<span class='log__plus' aria-hidden='true'>
+													+
+												</span>
+												<span>
+													<a
+														class='link'
+														href={href}
+														target={external ? '_blank' : undefined}
+														rel={external ? 'noopener noreferrer' : undefined}
+													>
+														{project.name}
+													</a>{' '}
+													<span class='log__dim'>
+														{project.host} · {project.stack}
+													</span>
+												</span>
+											</li>
+										)
+									})}
+								</ul>
+							)}
+						</div>
+					</li>
+				)
+			})
+		}
 
-<Section
-	class='mt-20 sm:mt-28'
-	title={t('education.title')}
-	count={1}
-	unit={t('education.unit')}
-	id='educacion'
-	style='--i: 5'
->
-	<IndexRow title={study.degree} meta={study.date} subtitle={study.school} />
-</Section>
+		<li class='log__entry' id='educacion'>
+			<div class='log__ver'>
+				<span class='log__num'>{version(study.start)}</span>
+				<span class='log__when'>{study.date}</span>
+			</div>
+			<div class='log__body'>
+				<h3 class='log__title'>{study.degree}</h3>
+				<p class='log__sub'>{study.school}</p>
+			</div>
+		</li>
+	</ol>
+</section>
 
 <script>
 	/* ── Copy-to-clipboard ───────────────────────────────────────────────── */
@@ -252,48 +307,6 @@ const nowLabel = new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : 'es-ES', {
 		})
 	}
 
-	/* ── Which section am I standing in? ─────────────────────────────────
-	   The aside is already pinned at md+; this only tells it when its own
-	   rows own the viewport, so the pinned label matches what is on screen.
-	   Purely decorative — nothing depends on it, and it is skipped entirely
-	   when the observer is unavailable. */
-	let sectionObserver: IntersectionObserver | undefined
-
-	function bindSectionSpy() {
-		sectionObserver?.disconnect()
-
-		const sections = Array.from(document.querySelectorAll<HTMLElement>('.section[id]'))
-		if (!sections.length || !('IntersectionObserver' in window)) return
-
-		/* Annotated rather than `new Set<Element>()`: astro-eslint-parser
-		   reads that generic as JSX and fails to parse the script. */
-		const visible: Set<Element> = new Set()
-
-		sectionObserver = new IntersectionObserver(
-			(entries) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) visible.add(entry.target)
-					else visible.delete(entry.target)
-				})
-
-				/* Several sections can straddle the viewport at once. The active
-				   one is the highest of them, matching the reading direction. */
-				const active = sections.find((section) => visible.has(section))
-				sections.forEach((section) => {
-					section.dataset.active = String(section === active)
-				})
-			},
-			{ rootMargin: '-25% 0px -55% 0px' }
-		)
-
-		sections.forEach((section) => sectionObserver!.observe(section))
-	}
-
-	function init() {
-		bindCopy()
-		bindSectionSpy()
-	}
-
-	init()
-	document.addEventListener('astro:after-swap', init)
+	bindCopy()
+	document.addEventListener('astro:after-swap', bindCopy)
 </script>

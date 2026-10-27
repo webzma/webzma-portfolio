@@ -1,10 +1,9 @@
 <script is:inline>
-	const lightModePref = window.matchMedia('(prefers-color-scheme: light)')
-
-	// Get user preference from local storage or from browser preference
+	// Dark-first: the changelog is designed on the terminal ground, so a
+	// visitor who has never pressed the toggle gets it. Light stays one click
+	// away and is remembered once chosen.
 	function getUserPref() {
-		const storedTheme = localStorage.getItem('theme') ?? undefined
-		return storedTheme || (lightModePref.matches ? 'light' : 'dark')
+		return localStorage.getItem('theme') ?? 'dark'
 	}
 
 	function setTheme(newTheme) {
@@ -36,7 +35,4 @@
 	document.addEventListener('theme-change', (e) => {
 		setTheme(e.detail.theme)
 	})
-
-	// Listen for prefers-color-scheme change
-	lightModePref.addEventListener('change', (e) => setTheme(e.matches ? 'light' : 'dark'))
 </script>

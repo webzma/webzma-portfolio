@@ -31,12 +31,18 @@ export const ui = {
 		'experience.unit': 'roles',
 		'education.title': 'Educación',
 		'education.unit': 'título',
+		'log.title': 'Changelog',
+		'log.lede': 'Mi trayectoria, de la versión más reciente a la primera.',
+		'log.head': 'ahora',
+		'log.open': 'en curso',
+		'log.shipped': 'Entregado',
+		'work.lede': 'Sitios en producción para clientes.',
 		'footer.statement': 'Disponible para nuevos proyectos. Escríbeme y lo hablamos.',
 		'footer.cta': 'Escribir por LinkedIn',
 		'footer.elsewhere': 'También aquí',
 		'footer.rights': 'Todos los derechos reservados',
 		'footer.colophon':
-			'Hecho con Astro y desplegado en Vercel. Space Grotesk, Inter y JetBrains Mono, servidas desde este dominio. Sin analíticas de terceros, sin cookies.',
+			'Hecho con Astro y desplegado en Vercel. Martian Mono e Inter, servidas desde este dominio. Sin analíticas de terceros, sin cookies.',
 		'footer.source': 'Código en GitHub',
 		'back.home': 'Inicio',
 		'nf.goto': 'Ir a',
@@ -110,12 +116,18 @@ export const ui = {
 		'experience.unit': 'roles',
 		'education.title': 'Education',
 		'education.unit': 'degree',
+		'log.title': 'Changelog',
+		'log.lede': 'My track record, from the latest version back to the first.',
+		'log.head': 'now',
+		'log.open': 'ongoing',
+		'log.shipped': 'Shipped',
+		'work.lede': 'Client sites running in production.',
 		'footer.statement': "Available for new projects. Send me a note and let's talk.",
 		'footer.cta': 'Message on LinkedIn',
 		'footer.elsewhere': 'Also here',
 		'footer.rights': 'All rights reserved',
 		'footer.colophon':
-			'Built with Astro, deployed on Vercel. Space Grotesk, Inter and JetBrains Mono, served from this domain. No third-party analytics, no cookies.',
+			'Built with Astro, deployed on Vercel. Martian Mono and Inter, served from this domain. No third-party analytics, no cookies.',
 		'footer.source': 'Source on GitHub',
 		'back.home': 'Home',
 		'nf.goto': 'Go to',
@@ -180,6 +192,10 @@ export interface ProjectEntry {
 	role?: string
 	description: string
 	stack: string
+	/* The `id` of the role (see `experience`) this project shipped under.
+	   Set ⇒ it is listed inside that version of the changelog. Absent ⇒ it
+	   stays in the standalone "Trabajo" list above the log. */
+	at?: string
 	/* Optional screenshot for the case study, as a path under public/ —
 	   e.g. '/images/zellarotile.png'. Drop a file in and it appears. */
 	shot?: string
@@ -193,6 +209,10 @@ export interface ProjectEntry {
 }
 
 export interface RoleEntry {
+	/* Language-independent key that projects point at through `at`. */
+	id: string
+	/* YYYY-MM. Becomes the version number in the changelog (v2025.10). */
+	start: string
 	title: string
 	company: string
 	date: string
@@ -200,6 +220,7 @@ export interface RoleEntry {
 }
 
 export interface StudyEntry {
+	start: string
 	school: string
 	degree: string
 	date: string
@@ -467,6 +488,8 @@ export const projects: Record<keyof typeof ui, ProjectEntry[]> = {
 export const experience: Record<keyof typeof ui, RoleEntry[]> = {
 	es: [
 		{
+			id: 'studioprime',
+			start: '2025-10',
 			title: 'Full Stack Engineer',
 			company: 'StudioPrime · Remoto',
 			date: 'Oct 2025 — Feb 2026',
@@ -474,6 +497,8 @@ export const experience: Record<keyof typeof ui, RoleEntry[]> = {
 				'Aplicaciones full stack con Next.js y Payload CMS: integración de APIs, sitios de marketing y arquitecturas mantenibles.'
 		},
 		{
+			id: 'houston-it',
+			start: '2025-05',
 			title: 'Frontend Developer',
 			company: 'Houston IT Developers · Remoto',
 			date: 'May 2025 — Nov 2025',
@@ -481,6 +506,8 @@ export const experience: Record<keyof typeof ui, RoleEntry[]> = {
 				'CRMs a medida y landing pages para instituciones y empresas privadas, con foco en la gestión de datos y la conversión.'
 		},
 		{
+			id: 'seriesly',
+			start: '2024-02',
 			title: 'Frontend Developer',
 			company: 'Seriesly',
 			date: 'Feb 2024 — Ago 2024',
@@ -490,6 +517,8 @@ export const experience: Record<keyof typeof ui, RoleEntry[]> = {
 	],
 	en: [
 		{
+			id: 'studioprime',
+			start: '2025-10',
 			title: 'Full Stack Engineer',
 			company: 'StudioPrime · Remote',
 			date: 'Oct 2025 — Feb 2026',
@@ -497,6 +526,8 @@ export const experience: Record<keyof typeof ui, RoleEntry[]> = {
 				'Full stack applications with Next.js and Payload CMS: API integration, marketing sites and maintainable architectures.'
 		},
 		{
+			id: 'houston-it',
+			start: '2025-05',
 			title: 'Frontend Developer',
 			company: 'Houston IT Developers · Remote',
 			date: 'May 2025 — Nov 2025',
@@ -504,6 +535,8 @@ export const experience: Record<keyof typeof ui, RoleEntry[]> = {
 				'Custom CRMs and landing pages for institutions and private companies, focused on data management and conversion.'
 		},
 		{
+			id: 'seriesly',
+			start: '2024-02',
 			title: 'Frontend Developer',
 			company: 'Seriesly',
 			date: 'Feb 2024 — Aug 2024',
@@ -515,11 +548,13 @@ export const experience: Record<keyof typeof ui, RoleEntry[]> = {
 
 export const education: Record<keyof typeof ui, StudyEntry> = {
 	es: {
+		start: '2022-02',
 		school: 'Universidad Politécnica Territorial “Aristides Bastidas”',
 		degree: 'Ingeniería en Informática',
 		date: 'Feb 2022 — Nov 2026'
 	},
 	en: {
+		start: '2022-02',
 		school: 'Universidad Politécnica Territorial “Aristides Bastidas”',
 		degree: 'Computer Engineering',
 		date: 'Feb 2022 — Nov 2026'

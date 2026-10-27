@@ -78,13 +78,13 @@ const config = {
 				sm: 'var(--radius)'
 			},
 			fontFamily: {
-				// Cobalt's 3 families. `satoshi` stays as an alias onto the body
+				// Martian Mono (display + mono) and Inter (body). `satoshi` stays as an alias onto the body
 				// face so the blog / tools / 404 routes keep rendering unchanged.
 				sans: ['Inter', ...fontFamily.sans],
 				body: ['Inter', ...fontFamily.sans],
 				satoshi: ['Inter', ...fontFamily.sans],
-				display: ['Space Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-				mono: ['JetBrains Mono', ...fontFamily.mono]
+				display: ['Martian Mono Variable', ...fontFamily.mono],
+				mono: ['Martian Mono Variable', ...fontFamily.mono]
 			}
 		}
 	}
