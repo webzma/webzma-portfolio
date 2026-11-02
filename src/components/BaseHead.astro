@@ -19,6 +19,7 @@ import monoFont from '@fontsource-variable/martian-mono/files/martian-mono-latin
 
 import type { SiteMeta } from '@/types'
 import { siteConfig } from '@/site-config'
+import { getLangFromUrl } from '@/i18n/utils'
 
 type Props = SiteMeta
 
@@ -27,7 +28,10 @@ const { articleDate, description, ogImage, title } = Astro.props
 const titleSeparator = '•'
 const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
-const socialImageURL = new URL(ogImage ? ogImage : '/social-card.png', Astro.site).href
+/* Pages without a card of their own (blog index, tools…) share the home's. */
+const defaultCard =
+	getLangFromUrl(Astro.url) === 'en' ? '/og-image/en-index.png' : '/og-image/index.png'
+const socialImageURL = new URL(ogImage ?? defaultCard, Astro.site).href
 ---
 
 <meta charset='utf-8' />
@@ -65,8 +69,8 @@ const socialImageURL = new URL(ogImage ? ogImage : '/social-card.png', Astro.sit
 {
 	/* Literal sRGB of --color-paper (light) and --color-paper in .dark — meta tags cannot read CSS vars */
 }
-<meta content='#f9fafd' media='(prefers-color-scheme: light)' name='theme-color' />
-<meta content='#101318' media='(prefers-color-scheme: dark)' name='theme-color' />
+<meta content='#f5f8f2' media='(prefers-color-scheme: light)' name='theme-color' />
+<meta content='#090f0b' media='(prefers-color-scheme: dark)' name='theme-color' />
 
 {/* Open Graph / Facebook */}
 <meta content={articleDate ? 'article' : 'website'} property='og:type' />
@@ -79,6 +83,7 @@ const socialImageURL = new URL(ogImage ? ogImage : '/social-card.png', Astro.sit
 <meta content='image/png' property='og:image:type' />
 <meta content='1200' property='og:image:width' />
 <meta content='630' property='og:image:height' />
+<meta content={title} property='og:image:alt' />
 {
 	articleDate && (
 		<>
@@ -87,6 +92,12 @@ const socialImageURL = new URL(ogImage ? ogImage : '/social-card.png', Astro.sit
 		</>
 	)
 }
+
+{/* X only shows the large image when it is asked for by name */}
+<meta content='summary_large_image' name='twitter:card' />
+<meta content={title} name='twitter:title' />
+<meta content={description} name='twitter:description' />
+<meta content={socialImageURL} name='twitter:image' />
 
 {/* LinkedIn */}
 <meta content='summary_large_image' property='linkedin:card' />
